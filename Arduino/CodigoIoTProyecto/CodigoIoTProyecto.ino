@@ -23,7 +23,7 @@ void setup(){
   if(!tsl.begin())
   {
     /* There was a problem detecting the ADXL345 ... check your connections */
-    Serial.print("Ooops, no TSL2561 detected ... Check your wiring or I2C ADDR!");
+    //Serial.print("Ooops, no TSL2561 detected ... Check your wiring or I2C ADDR!");
     while(1);
   }
   /* Setup the sensor gain and integration time */
@@ -41,14 +41,15 @@ void loop()
   tsl.getEvent(&event);
   if (event.light)
   {
-    Serial.print(event.light); Serial.println(" lux");
+   // Serial.print(event.light); Serial.println(" lux");
   }
   else
   {
     /* If event.light = 0 lux the sensor is probably saturated
        and no reliable data could be generated! */
-    Serial.println("Sensor overload");
+   // Serial.println("Sensor overload");
   }
+  delay(1000);
 }
 
 //Método que configura el sensor de iluminación
