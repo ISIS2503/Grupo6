@@ -17,6 +17,7 @@ Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 1234
 const int audioPin = A3;
 
 float audioIntensity = 0;
+float db=0;
 
 void setup() {
   //Inicialización del puerto serial para imprimir en monitor
@@ -54,13 +55,36 @@ void loop()
   {
     /* If event.light = 0 lux the sensor is probably saturated
        and no reliable data could be generated! */
-    Serial.println("Sensor overload");
+    //Serial.println("Sensor overload");
   }
-  audioIntensity = analogRead (audioPin) * (5.0 / 1023.0); 
+ // audioIntensity = analogRead (audioPin) * (5.0 / 1023.0);
+  float tt=millis();
+ // double promedio=0;
+//int i =0;
+double min=6;
+double max=-1;
+  while(millis()-tt<200){
+    
+    audioIntensity = analogRead (audioPin) * (5.0 / 1023.0);
+    //promedio=(promedio*(i++)+audioIntensity)/i;
+    if(audioIntensity>max){
+      max=audioIntensity;
+    }
+    else{
+      if(audioIntensity<min){
+        min=audioIntensity;
+      }
+    }
+    
+  }
+  db=20*log10((max-min)/(0.000031623));
   //Serial.print("Ruido: ");
-  Serial.println(audioIntensity*10);
+  Serial.println(max);
+  Serial.println(min);
+  Serial.print("DB: ");
+  Serial.println(db);
   
-  //delay(2000);
+  //delay(200);
 }
 
 //Método que configura el sensor de iluminación
