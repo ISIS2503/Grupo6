@@ -19,6 +19,11 @@ const int audioPin = A3;
 float audioIntensity = 0;
 float db=0;
 
+const int analogCO2InPin = A0;  // Analog input pin that the potentiometer is attached to
+const int ledPin = 13;                 // LED connected to digital pin 13
+
+int sensorCO2Value = 0;        // value read from the sensor
+
 void setup() {
   //Inicialización del puerto serial para imprimir en monitor
   Serial.begin(9600);
@@ -33,6 +38,8 @@ void setup() {
   }
   /* Setup the sensor gain and integration time */
   configureSensor();
+
+  pinMode(ledPin, OUTPUT);      // sets the digital pin as output CO2
 
 }
 
@@ -85,6 +92,31 @@ double max=-1;
   Serial.println(db);
   
   //delay(200);
+
+  //CO2 Sensor
+  sensorCO2Value = analogRead(analogCO2InPin); 
+  int ppm = map(sensorValue, 0, 1023, 20,20000); //Convierte datosAnalogos a PPM
+  
+           
+  // determine alarm status
+  if (sensorValue >= 750)
+  {
+    digitalWrite(ledPin, HIGH);   // sets the LED on
+  }
+  else
+  {
+  digitalWrite(ledPin, LOW);    // sets the LED off
+  }
+
+  // print the results to the serial monitor:
+  Serial.print("sensor = " );                       
+  Serial.println(ppm); 
+  Serial.println(" ppm \n");    
+
+  // wait 100 milliseconds before the next loop
+  // for the analog-to-digital converter to settle
+  // after the last reading:
+  delay(100);                     
 }
 
 //Método que configura el sensor de iluminación
