@@ -57,7 +57,7 @@ void loop()
   timeSpam = millis();
   intSpam = 0;
   float t = 0;
-  while (millis() - timeSpam < 14999) {
+  while (millis() - timeSpam < 1000) {
 
     t = (t * (intSpam++) + dht.readTemperature()) / intSpam;
 
@@ -69,15 +69,15 @@ void loop()
   if (biMinute) {
     timeSpam = millis();
     intSpam = 0;
-    double light = 0.0;
+    double light = 1.0;
 
-    while (millis() - timeSpam < 14999) {
+    while (millis() - timeSpam < 1000) {
       sensors_event_t event;
       tsl.getEvent(&event);
 
       if (event.light)
       {
-
+  
         light = light * ((intSpam++) + event.light) / intSpam;
 
       }
@@ -87,7 +87,7 @@ void loop()
            and no reliable data could be generated! */
 
 
-        //Serial.println("Sensor overload");
+        Serial.println("Sensor overload");
       }
 
     }
@@ -95,14 +95,14 @@ void loop()
     Serial.print(light);
     Serial.println(" lx");
   } else {
-    delay(14999);
+    delay(1000);
   }
 
   if (biMinute) {
     timeSpam = millis();
     intSpam = 0;
     double promedioRuido = 0;
-    while (millis() - timeSpam < 14999) {
+    while (millis() - timeSpam < 1000) {
 
       float tt = millis();
 
@@ -131,7 +131,7 @@ void loop()
     Serial.print(promedioRuido);
     Serial.println(" db");
   }else{
-    delay(14999);
+    delay(1000);
   }
 
 
@@ -142,7 +142,7 @@ void loop()
   intSpam = 0;
   double promedioGas = 0;
   int ppm;
-  while (millis() - timeSpam < 14999) {
+  while (millis() - timeSpam < 1000) {
 
     sensorCO2Value = analogRead(analogCO2InPin);
     ppm = map(sensorCO2Value, 0, 1023, 20, 20000); //Convierte datosAnalogos a PPM
