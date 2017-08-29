@@ -26,6 +26,8 @@ int sensorCO2Value = 0;        // value read from the sensor
 float timeSpam;
 int intSpam = 0;
 
+//Atributo que modela si se está en un minuto par para el envío de información
+boolean biMinute;
 
 void setup() {
   //Inicialización del puerto serial para imprimir en monitor
@@ -44,96 +46,106 @@ void setup() {
   /* Setup the sensor gain and integration time */
   configureSensor();
 
-  pinMode(ledPin, OUTPUT);      // sets the digital pin as output CO2
+  pinMode(ledPin, OUTPUT);// sets the digital pin as output CO2
 
+  biMinute = false;
 }
 
 void loop()
 {
   timeSpam = millis();
   intSpam = 0;
-  float t=0;
+  float t = 0;
   while (millis() - timeSpam < 14999) {
-   
-     t = (t*(intSpam++)+dht.readTemperature())/intSpam;
-   
+
+    t = (t * (intSpam++) + dht.readTemperature()) / intSpam;
+
   }
-   Serial.print("T: ");
-    Serial.print(t);
-    Serial.println(" *C ");
+  Serial.print("T: ");
+  Serial.print(t);
+  Serial.println(" *C ");
 
-  timeSpam = millis();
-  intSpam=0;
-  double light=0.0;
-  while (millis() - timeSpam < 14999) {
-    sensors_event_t event;
-    tsl.getEvent(&event);
-    
-    if (event.light)
-    {
+  if (biMinute) {
+    timeSpam = millis();
+    intSpam = 0;
+    double light = 0.0;
 
-     light=light*((intSpam++)+ event.light)/intSpam;
+    while (millis() - timeSpam < 14999) {
+      sensors_event_t event;
+      tsl.getEvent(&event);
 
-    }
-    else
-    {
-      /* If event.light = 0 lux the sensor is probably saturated
-         and no reliable data could be generated! */
+      if (event.light)
+      {
 
+        light = light * ((intSpam++) + event.light) / intSpam;
 
-      //Serial.println("Sensor overload");
-    }
-    
-  }
-  Serial.print("L: ");
-      Serial.print(light);
-      Serial.println(" lx");
-  timeSpam = millis();
-  intSpam=0;
-  double promedioRuido=0;
-  while (millis() - timeSpam < 14999) {
-    
-    float tt = millis();
-     
-    
-    double min = 6;
-    double max = -1;
-    while (millis() - tt < 200) {
-
-      audioIntensity = analogRead (audioPin) * (5.0 / 1023.0);
-      
-      if (audioIntensity > max) {
-        max = audioIntensity;
       }
-      else {
-        if (audioIntensity < min) {
-          min = audioIntensity;
+      else
+      {
+        /* If event.light = 0 lux the sensor is probably saturated
+           and no reliable data could be generated! */
+
+
+        //Serial.println("Sensor overload");
+      }
+
+    }
+    Serial.print("L: ");
+    Serial.print(light);
+    Serial.println(" lx");
+  } else {
+    delay(14999);
+  }
+
+  if (biMinute) {
+    timeSpam = millis();
+    intSpam = 0;
+    double promedioRuido = 0;
+    while (millis() - timeSpam < 14999) {
+
+      float tt = millis();
+
+
+      double min = 6;
+      double max = -1;
+      while (millis() - tt < 200) {
+
+        audioIntensity = analogRead (audioPin) * (5.0 / 1023.0);
+
+        if (audioIntensity > max) {
+          max = audioIntensity;
         }
+        else {
+          if (audioIntensity < min) {
+            min = audioIntensity;
+          }
+        }
+
       }
+      db = 20 * log10((max - min) / (0.000031623));
+      promedioRuido = (promedioRuido * (intSpam++) + db) / intSpam;
 
     }
-    db = 20 * log10((max - min) / (0.000031623));
-    promedioRuido=(promedioRuido*(intSpam++)+db)/intSpam;
-   
+    Serial.print("R: ");
+    Serial.print(promedioRuido);
+    Serial.println(" db");
+  }else{
+    delay(14999);
   }
-  Serial.print("R: ");
-  Serial.print(promedioRuido);
-  Serial.println(" db");
 
- 
 
   /*
-  CO2 Sensor
+    CO2 Sensor
   */
   timeSpam = millis();
-  intSpam=0;
-  double promedioGas=0;
+  intSpam = 0;
+  double promedioGas = 0;
   int ppm;
   while (millis() - timeSpam < 14999) {
-    
-  sensorCO2Value = analogRead(analogCO2InPin);
-  ppm = map(sensorCO2Value, 0, 1023, 20, 20000); //Convierte datosAnalogos a PPM
-  promedioGas=(promedioGas*(intSpam++)+db)/intSpam;
+
+    sensorCO2Value = analogRead(analogCO2InPin);
+    ppm = map(sensorCO2Value, 0, 1023, 20, 20000); //Convierte datosAnalogos a PPM
+    promedioGas = (promedioGas * (intSpam++) + db) / intSpam;
   }
 
 
@@ -152,7 +164,7 @@ void loop()
   Serial.print (promedioGas);
   Serial.println(" ppm \n");
 
-  
+  biMinute = !biMinute;
 
 }
 
