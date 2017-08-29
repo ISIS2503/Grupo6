@@ -14,13 +14,16 @@ DHT dht(DHTPIN, DHTTYPE);
 //Definición del sensor de luminosidad
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
+//Audio pin definition
 const int audioPin = A3;
 
+//Audio variables defined
 float audioIntensity = 0;
 float db = 0;
 
-const int analogCO2InPin = A0;  // Analog input pin that the potentiometer is attached to
-const int ledPin = 13;                 // LED connected to digital pin 13
+//CO gas detector pin
+const int analogCO2InPin = A0;  // Analog input pin that the potentiometer is attached to             
+
 
 int sensorCO2Value = 0;        // value read from the sensor
 float timeSpam;
@@ -45,8 +48,6 @@ void setup() {
   }
   /* Setup the sensor gain and integration time */
   configureSensor();
-
-  pinMode(ledPin, OUTPUT);// sets the digital pin as output CO2
 
   biMinute = false;
 }
