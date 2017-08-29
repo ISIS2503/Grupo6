@@ -78,7 +78,7 @@ void loop()
       if (event.light)
       {
   
-        light = light * ((intSpam++) + event.light) / intSpam;
+        //light = light * ((intSpam++) + event.light) / intSpam;
 
       }
       else
