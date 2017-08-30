@@ -57,12 +57,12 @@ void loop()
   timeSpam = millis();
   intSpam = 0;
   float t = 0;
-  while (millis() - timeSpam < 1000) {
-
+  while (millis() - timeSpam < 15000) {
+    delay(10);
     t = (t * (intSpam++) + dht.readTemperature()) / intSpam;
 
   }
-  Serial.print("T: ");
+  Serial.print("0 ");
   Serial.print(t);
   Serial.println(" *C ");
 
@@ -71,14 +71,16 @@ void loop()
     intSpam = 0;
     double light = 1.0;
 
-    while (millis() - timeSpam < 1000) {
+    while (millis() - timeSpam < 15000) {
+          delay(10);
+
       sensors_event_t event;
       tsl.getEvent(&event);
 
       if (event.light)
       {
-  
-        //light = light * ((intSpam++) + event.light) / intSpam;
+    intSpam++;
+        light = (light * (intSpam-1) + event.light) / intSpam;
 
       }
       else
@@ -91,18 +93,19 @@ void loop()
       }
 
     }
-    Serial.print("L: ");
+    Serial.print("1 ");
     Serial.print(light);
     Serial.println(" lx");
   } else {
-    delay(1000);
+    delay(15000);
   }
 
   if (biMinute) {
     timeSpam = millis();
     intSpam = 0;
     double promedioRuido = 0;
-    while (millis() - timeSpam < 1000) {
+    while (millis() - timeSpam < 15000) {
+    delay(10);
 
       float tt = millis();
 
@@ -127,11 +130,11 @@ void loop()
       promedioRuido = (promedioRuido * (intSpam++) + db) / intSpam;
 
     }
-    Serial.print("R: ");
+    Serial.print("2 ");
     Serial.print(promedioRuido);
     Serial.println(" db");
   }else{
-    delay(1000);
+    delay(15000);
   }
 
 
@@ -142,7 +145,8 @@ void loop()
   intSpam = 0;
   double promedioGas = 0;
   int ppm;
-  while (millis() - timeSpam < 1000) {
+  while (millis() - timeSpam < 15000) {
+    delay(10);
 
     sensorCO2Value = analogRead(analogCO2InPin);
     ppm = map(sensorCO2Value, 0, 1023, 20, 20000); //Convierte datosAnalogos a PPM
@@ -161,9 +165,9 @@ void loop()
     }
   */
   // print the results to the serial monitor:
-  Serial.print("G: " );
+  Serial.print("3 " );
   Serial.print (promedioGas);
-  Serial.println(" ppm \n");
+  Serial.println(" ppm");
 
   biMinute = !biMinute;
 
