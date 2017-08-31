@@ -1,0 +1,183 @@
+[
+    {
+        "id": "1addfb5d.bc1275",
+        "type": "tab",
+        "label": "Flow 1"
+    },
+    {
+        "id": "dacf841.41f9378",
+        "type": "inject",
+        "z": "1addfb5d.bc1275",
+        "name": "Sensor Time",
+        "topic": "sensorTime",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "1",
+        "crontab": "",
+        "once": true,
+        "x": 220,
+        "y": 300,
+        "wires": [
+            [
+                "238e8492.7ef68c",
+                "2a16fdc3.43fd12"
+            ]
+        ]
+    },
+    {
+        "id": "450520d3.7c822",
+        "type": "debug",
+        "z": "1addfb5d.bc1275",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "before format",
+        "x": 390,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "238e8492.7ef68c",
+        "type": "debug",
+        "z": "1addfb5d.bc1275",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "before format",
+        "x": 450,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "66f8ab85.63c884",
+        "type": "function",
+        "z": "1addfb5d.bc1275",
+        "name": "Format data",
+        "func": "var res = {};\nvar dataArray = [];\nvar dataUnit = \"\";\nvar dataString= \"\";\n\ndataString = msg.payload;\n\n\ndataArray = dataString.split(\" \");\ndataUnit = dataArray[2];\nswitch(dataArray[0]%4){\n    case 0:\n        res.topic = \"Temperature\"\n        break;\n    case 1:\n        res.topic = \"Luminosity\"\n        break;\n    case 2:\n        res.topic = \"Sound\"\n        break;\n    case 3:\n        res.topic = \"Gas\"\n        break;\n}\n//res.topic = \"roomTemperature\";\nres.payload = {};\n\nres.payload = {\"data\": parseInt(dataArray[1]), \"unit\": dataUnit, \"idSensor\": dataArray[0]}\n\nreturn res;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 390,
+        "y": 180,
+        "wires": [
+            [
+                "9ff63933.46a038",
+                "502027.678b0fd8"
+            ]
+        ]
+    },
+    {
+        "id": "2a16fdc3.43fd12",
+        "type": "function",
+        "z": "1addfb5d.bc1275",
+        "name": "Format time",
+        "func": "var res= {};\nres.payload = new Date(msg.payload);\nres.topic = msg.topic;\nreturn res;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 470,
+        "y": 280,
+        "wires": [
+            [
+                "48d3e9d6.2400b8",
+                "502027.678b0fd8"
+            ]
+        ]
+    },
+    {
+        "id": "9ff63933.46a038",
+        "type": "debug",
+        "z": "1addfb5d.bc1275",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "payload",
+        "x": 660,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "48d3e9d6.2400b8",
+        "type": "debug",
+        "z": "1addfb5d.bc1275",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "after format",
+        "x": 600,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "502027.678b0fd8",
+        "type": "function",
+        "z": "1addfb5d.bc1275",
+        "name": "Merge 2 msgs ",
+        "func": "context.data = context.data || {};\nvar sense = null;\n\nswitch (msg.topic) {\n    case \"sensorTime\":\n        context.data.sensetime = msg.payload;\n        msg = null;\n        break;\n    default:\n        sense = msg.payload;\n         console.log(msg.payload);\n        msg = null;\n        break;\n}\n\nif(context.data.sensetime != null && sense != null ) {\n    var res = {};\n    \n    res.payload = JSON.stringify({\"data\": parseInt(sense.data), \"unit\": sense.unit, \"idSensor\": sense.idSensor, \"senseTime\":context.data.sensetime});\n    res.topic = \"sensorData\";\n    context.data = null;\n    sense = null;\n\tconsole.log(res);\n\treturn res;\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 200,
+        "wires": [
+            [
+                "725a947a.d550cc",
+                "a6874eb.9ed46b"
+            ]
+        ]
+    },
+    {
+        "id": "725a947a.d550cc",
+        "type": "debug",
+        "z": "1addfb5d.bc1275",
+        "name": "",
+        "active": true,
+        "console": "false",
+        "complete": "payload",
+        "x": 808.7499847412109,
+        "y": 273.1666717529297,
+        "wires": []
+    },
+    {
+        "id": "a6874eb.9ed46b",
+        "type": "udp out",
+        "z": "1addfb5d.bc1275",
+        "name": "Send Temperature",
+        "addr": "localhost",
+        "iface": "",
+        "port": "6000",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 1010,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "c1d90fa8.80dc",
+        "type": "serial in",
+        "z": "1addfb5d.bc1275",
+        "name": "",
+        "serial": "73d0bac3.51ee84",
+        "x": 179,
+        "y": 138,
+        "wires": [
+            [
+                "450520d3.7c822",
+                "66f8ab85.63c884"
+            ]
+        ]
+    },
+    {
+        "id": "73d0bac3.51ee84",
+        "type": "serial-port",
+        "z": "",
+        "serialport": "COM4",
+        "serialbaud": "9600",
+        "databits": "8",
+        "parity": "none",
+        "stopbits": "1",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": true
+    }
+]
