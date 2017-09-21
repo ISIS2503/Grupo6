@@ -81,8 +81,6 @@ void loop()
     //Serial.println("Sensor overload");
   }
 
-
-
   float tt = millis();
 
   double min = 6;
@@ -104,12 +102,9 @@ void loop()
   db = 20 * log10((max - min) / (0.000031623));
   promedioRuido = (promedioRuido * (intSpam - 1) + db) / intSpam;
 
-
   /*
     CO2 Sensor
   */
-  
-  
   int ppm;
 
   sensorCO2Value = analogRead(analogCO2InPin);
