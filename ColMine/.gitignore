@@ -1,0 +1,7 @@
+# python cache
+*.py[oc]
+__pycache__/
+
+# IDE files
+.idea/
+*.sublime-*
