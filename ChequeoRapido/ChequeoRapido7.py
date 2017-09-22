@@ -68,7 +68,7 @@ for message in consumer:
             valores[id].append(valor)
             promedio=valor
         else:
-            valores[id].remove(0)
+            valores[id].pop(0)
             valores[id].append(valor)
             promedio=sum(valores[id])/10
             #separación de casos para dictar la alerta    
