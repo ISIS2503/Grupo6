@@ -16,7 +16,7 @@ valores=[]
 tiempos=[]
 perdidos=[]
 inic=time.time()
-for i in range(totalSensores/numeroRangos):
+for i in range(int(totalSensores/numeroRangos)):
     valores.append([])
     tiempos.append(inic)
     perdidos.append(0)
@@ -60,7 +60,7 @@ for message in consumer:
     alerta=0   
 
     jsonVal=json.loads(message.value)
-    if (jsonVal!= None and "data" in jsonVal):
+    if (jsonVal!= None and jsonVal['data']!=None):
         valor=int(jsonVal['data'])
         id=int(jsonVal['idSensor'])
         tipo=id%4
@@ -68,7 +68,7 @@ for message in consumer:
             valores[id].append(valor)
             promedio=valor
         else:
-            valores[id].remove(0)
+            valores[id].pop(0)
             valores[id].append(valor)
             promedio=sum(valores[id])/10
             #separación de casos para dictar la alerta    
