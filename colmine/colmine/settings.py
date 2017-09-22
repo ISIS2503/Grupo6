@@ -20,7 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'n0+9*mqop@*go+fs=8@x+t#552&tf$&!8ps*8t5*%7_*#s7_x6'
+SECRET_KEY = '_+*pc&+-hzz9=sf(+6ss=a5fg53i8ct@d4^og7zw50vr$9nc8&'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,14 +32,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django-cassandra-engine',
+    'django.contrib.contenttypes',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+INSTALLED_APPS = ['django_cassandra_engine'] + INSTALLED_APPS
+
+import django
+django.setup()
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +83,7 @@ DATABASES = {
             'ENGINE': 'django_cassandra_engine',
             'NAME': 'db',
             'TEST_NAME': 'test_db',
-            'HOST': 'localhost:9042',
+            'HOST': 'localhost',
             'OPTIONS': {
                 'replication': {
                     'strategy_class': 'SimpleStrategy',
