@@ -34,7 +34,7 @@ class SubReporte (models.Model):
     valMaximo=models.DecimalField(max_digits=7,decimal_places=3)
     valPromedio = models.DecimalField(max_digits=7, decimal_places=3)
     variacion = models.DecimalField(max_digits=7, decimal_places=3)
-    sensor=models.OneToOneField(Sensors)
+    sensor=models.OneToOneField(Sensor)
     
 class Reporte(models.Model):
     dia= models.TimeField('dia')
@@ -45,4 +45,4 @@ class Usuarios(models.Model):
     rol = models.CharField('rol', null=False, max_length=1)
     contrasena= models.CharField('contraseña', null=False, max_length=128)
     access_token = models.CharField('access_token', null=False, max_length=256)
-    reportes = models.ManyToManyField('reportes')
+    reportes = models.ManyToManyField('reporte')
