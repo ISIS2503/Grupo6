@@ -1,10 +1,48 @@
 from django.db import models
+from unittest.util import _MAX_LENGTH
+
+class Ubicacion(models.Model):
+    id = models.BigIntegerField('id', primary_key = True)
+    zona = models.IntegerField('zona', null = False)
+    area = models.IntegerField('area', null = False)
+    nivel = models.IntegerField('nivel', null = False)
+    
+class Tipo(models.Model):
+    id = models.BigIntegerField('id', primary_key = True)
+    nombre = models.CharField('nombre tipo',max_length = 23, null = False)
+
+class Alerta(models.Model):
+    id = models.BigIntegerField('id', primary_key = True)
+    
+    
+class Rango(models.Model):
+    id = models.BigIntegerField('id', primary_key = True)    
+    valorMin = models.BigIntegerField('valorMin', null = False)
+    valorMax = models.BigIntegerField('valorMax', null = False)
 
 class Sensor(models.Model):
     id = models.BigIntegerField('id', primary_key = True)
+    time = models.TimeField('time', primary_key = True)
     valor= models.IntegerField('valor', null=False)
-    estado = models.CharField('estado', null = False)
-    time = models.TimeField('time', null = False)
-    tipo = models.OneToOneField(Tipo, related_name = 'tipo', blank=False)
-    ubicacion = models.ManyToOneRel(Ubicacion, related_name ='ubicacion', blank = False)
+    estado = models.CharField('estado', max_length = 1, null = False)
+    tipo = models.OneToOneField(Tipo, related_name = 'tipo')
+    ubicacion = models.ForeignKey(Ubicacion)
+
+
+class SubReporte (models.Model):
+    valMinimo=models.DecimalField(max_digits=7,decimal_places=3)
+    valMaximo=models.DecimalField(max_digits=7,decimal_places=3)
+    valPromedio = models.DecimalField(max_digits=7, decimal_places=3)
+    variacion = models.DecimalField(max_digits=7, decimal_places=3)
+    sensor=models.OneToOneField(Sensors)
     
+class Reporte(models.Model):
+    dia= models.TimeField('dia')
+    anotaciones = models.CharField('anotaciones', max_length=1000)
+    
+class Usuarios(models.Model):
+    usuario = models.CharField('usuario', null=False, unique=True, max_length=64)
+    rol = models.CharField('rol', null=False, max_length=1)
+    contrasena= models.CharField('contraseña', null=False, max_length=128)
+    access_token = models.CharField('access_token', null=False, max_length=256)
+    reportes = models.ManyToManyField('reportes')
