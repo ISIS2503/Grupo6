@@ -1,0 +1,5 @@
+env/
+disquaire_project/disquaire_project/__pycache__
+disquaire_project/store/__pycache__/
+disquaire_project/store/management/
+disquaire_project/store/migrations/__pycache__/
