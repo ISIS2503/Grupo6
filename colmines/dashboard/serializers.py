@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import Ubicacion, Tipo, Sensor
+from dashboard.models import Ubicacion, Tipo, Sensor, SensorUbicacion
 
 class UbicacionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,4 +13,9 @@ class TipoSerializer(serializers.ModelSerializer):
 class SensorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sensor
-        fields =  ('id','time', 'valor', 'estado', 'tipo', 'ubicacion')
+        fields =  ('idSensor','time', 'valor', 'estado')
+
+class SensorUbicacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SensorUbicacion
+        fields = ('idSensor','tipo','ubicacion')

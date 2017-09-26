@@ -1,5 +1,6 @@
 from django.db import models
 from unittest.util import _MAX_LENGTH
+from cassandra.cqlengine.connection import default
 
 class Ubicacion(models.Model):
     id = models.BigIntegerField('id', primary_key = True)
@@ -16,17 +17,20 @@ class Alerta(models.Model):
     
     
 class Rango(models.Model):
-    id = models.BigIntegerField('id', primary_key = True)    
+      
     valorMin = models.BigIntegerField('valorMin', null = False)
     valorMax = models.BigIntegerField('valorMax', null = False)
 
+class SensorUbicacion(models.Model):
+    idSensor = models.BigIntegerField(primary_key = True)
+    tipo = models.ForeignKey(Tipo, null = True)
+    ubicacion = models.ForeignKey(Ubicacion,null = True)   
+
 class Sensor(models.Model):
-    id = models.BigIntegerField('id', primary_key = True)
+    idSensor = models.ForeignKey(SensorUbicacion)
     time = models.TimeField('time')
     valor= models.IntegerField('valor', null=False)
-    estado = models.CharField('estado', max_length = 1, null = False)
-    tipo = models.ForeignKey(Tipo, null = True)
-    ubicacion = models.ForeignKey(Ubicacion,null = True)
+    estado = models.CharField('estado', max_length = 1, null = False) 
 
 
 class SubReporte (models.Model):
