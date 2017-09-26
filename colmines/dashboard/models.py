@@ -10,7 +10,7 @@ class Ubicacion(models.Model):
 class Tipo(models.Model):
     id = models.BigIntegerField('id', primary_key = True)
     nombre = models.CharField('nombre tipo',max_length = 23, null = False)
-
+   
 class Alerta(models.Model):
     id = models.BigIntegerField('id', primary_key = True)
     
@@ -22,11 +22,11 @@ class Rango(models.Model):
 
 class Sensor(models.Model):
     id = models.BigIntegerField('id', primary_key = True)
-    time = models.TimeField('time', primary_key = True)
+    time = models.TimeField('time')
     valor= models.IntegerField('valor', null=False)
     estado = models.CharField('estado', max_length = 1, null = False)
-    tipo = models.OneToOneField(Tipo, related_name = 'tipo')
-    ubicacion = models.ForeignKey(Ubicacion)
+    tipo = models.ForeignKey(Tipo, null = True)
+    ubicacion = models.ForeignKey(Ubicacion,null = True)
 
 
 class SubReporte (models.Model):

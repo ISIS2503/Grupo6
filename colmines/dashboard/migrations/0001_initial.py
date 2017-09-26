@@ -40,7 +40,7 @@ class Migration(migrations.Migration):
             name='Sensor',
             fields=[
                 ('id', models.BigIntegerField(primary_key=True, serialize=False, verbose_name='id')),
-                ('time', models.TimeField(primary_key=True, verbose_name='time')),
+                ('time', models.TimeField(verbose_name='time')),
                 ('valor', models.IntegerField(verbose_name='valor')),
                 ('estado', models.CharField(max_length=1, verbose_name='estado')),
             ],
