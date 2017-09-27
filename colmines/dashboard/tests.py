@@ -40,9 +40,9 @@ class TestTipo(TestCase):
 class TestAlerta(TestCase):
     
     def setUp(self):
-
+        self.ubicacion = Ubicacion.objects.create(id=10, zona= 10, area= 10, nivel=10)
         self.time=datetime.datetime.now()
-        self.alerta = Alerta.object.create(id=10, tipoAlerta="Temperatura fuera de rango", time=self.time)
+        self.alerta = Alerta.object.create(id=10, tipoAlerta="Temperatura fuera de rango", time=self.time, idUbicacion=10)
 
 
     # test that detail page returns a 200 if the item exists
@@ -51,7 +51,7 @@ class TestAlerta(TestCase):
         self.assertEqual(al.id, 10)
         self.assertEquals(al.tipoAlerta,"Temperatura fuera de rango")
         self.assertEqual(al.time, self.time)
-
+        self.assertEqual(al.idUbicacion, 10)
 
 class TestRango(TestCase):
     
