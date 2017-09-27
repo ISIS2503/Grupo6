@@ -24,7 +24,7 @@ for message in consumer:
             url = "http://localhost:8000/sensores/"
             payload={
                 "idSensor": id,
-                "time": str(datetime.datetime.now()),
+                "time": str(datetime.datetime.now()).split(" ")[1],
                # "time": str(int(datetime.time(time.time()-t))),
                 "valor": valor
           }
