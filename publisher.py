@@ -19,7 +19,7 @@ for message in consumer:
     if (jsonVal!= None and jsonVal['data']!=None):
         valor=int(jsonVal['data'])
         id=int(jsonVal['idSensor'])
-        time=jsonVal['time']
+        
         
         url = 'http://localhost:8080/sensors/' 
         payload={
