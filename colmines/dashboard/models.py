@@ -6,12 +6,15 @@ class Ubicacion(models.Model):
     zona = models.IntegerField('zona', null = False)
     area = models.IntegerField('area', null = False)
     nivel = models.IntegerField('nivel', null = False)
+    alertas= models.ManyToOneRel(Alerta)
     
 class Tipo(models.Model):
     nombre = models.CharField('nombre tipo',max_length = 23, null = False)
    
 class Alerta(models.Model):
     id = models.BigIntegerField('id', primary_key = True)
+    tipoAlerta = models.CharField('tipoAlerta', max_length=128)
+    time= models.TimeField('time')
     
     
 class Rango(models.Model):
