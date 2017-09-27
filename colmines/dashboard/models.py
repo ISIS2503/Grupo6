@@ -3,13 +3,11 @@ from unittest.util import _MAX_LENGTH
 from cassandra.cqlengine.connection import default
 
 class Ubicacion(models.Model):
-    id = models.BigIntegerField('id', primary_key = True)
     zona = models.IntegerField('zona', null = False)
     area = models.IntegerField('area', null = False)
     nivel = models.IntegerField('nivel', null = False)
     
 class Tipo(models.Model):
-    id = models.BigIntegerField('id', primary_key = True)
     nombre = models.CharField('nombre tipo',max_length = 23, null = False)
    
 class Alerta(models.Model):
