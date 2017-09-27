@@ -19,18 +19,15 @@ for message in consumer:
     if (jsonVal!= None and jsonVal['data']!=None):
         valor=int(jsonVal['data'])
         id=int(jsonVal['idSensor'])
-        
-        
-        url = 'http://localhost:8080/sensors/' 
+        url = 'http://localhost:8080/sensors/',
         payload={
-      'idSensor': id,
-      'time': datetime.datetime.now(),
-      'valor': valor
+            'idSensor': id,
+            'time': datetime.datetime.now(),
+            'valor': valor
       }
-	response = requests.post(url, data=json.dumps(payload),
-							 headers={'Content-type': 'application/json'})
-	print(message.topic)
-	print("Response Status Code: " + str(response.status_code))
+        response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+        print(message.topic)
+        print("Response Status Code: " + str(response.status_code))
     ## caso en el que el valor recibido esta mal formado
     else:
         print("null value received")
