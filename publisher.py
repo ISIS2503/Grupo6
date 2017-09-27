@@ -4,6 +4,7 @@ import json
 from kafka import KafkaProducer
 from kafka.errors import KafkaError
 import threading
+import datetime
 
 
 # To consume latest messages and auto-commit offsets
@@ -23,7 +24,7 @@ for message in consumer:
         url = 'http://localhost:8080/sensors/' 
         payload={
       'idSensor': id,
-      'time': time,
+      'time': datetime.datetime.now(),
       'valor': valor
       }
 	response = requests.post(url, data=json.dumps(payload),
