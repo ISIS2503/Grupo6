@@ -33,7 +33,7 @@ class Sensor(models.Model):
     idSensor = models.ForeignKey(SensorUbicacion)
     time = models.TimeField('time')
     valor= models.IntegerField('valor', null=False)
-    estado = models.CharField('estado', max_length = 1, null = False) 
+    estado = models.CharField('estado', max_length = 1, null = True)
 
 
 class SubReporte (models.Model):

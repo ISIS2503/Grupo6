@@ -28,7 +28,7 @@ class TestUbicacion(TestCase):
 class TestTipo(TestCase):
     
     def setUp(self):
-        self.tipo = Tipo.object.create(id=10, nombre="Temperatura")
+        self.tipo = Tipo.objects.create(id=10, nombre="Temperatura")
     
     # test that detail page returns a 200 if the item exists
     def testCreateTipo(self):
@@ -52,6 +52,10 @@ class TestAlerta(TestCase):
         self.assertEquals(al.tipoAlerta,"Temperatura fuera de rango")
         self.assertEqual(al.time, self.time)
         self.assertEqual(al.idUbicacion, 10)
+
+
+##hasta aqui esta bien
+##******************************************************************************************************
 
 class TestRango(TestCase):
     
