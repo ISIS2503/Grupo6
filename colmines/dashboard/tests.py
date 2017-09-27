@@ -15,7 +15,7 @@ class TestUbicacion(TestCase):
 
     # ran before each test.
     def setUp(self):
-        self.ubicacion = Ubicacion.objects.create(zona= 10, area= 10, nivel=10)
+        self.ubicacion = Ubicacion.objects.create(id=10, zona= 10, area= 10, nivel=10)
 
     # test that detail page returns a 200 if the item exists
     def testCreateUbicacion(self):
@@ -28,24 +28,29 @@ class TestUbicacion(TestCase):
 class TestTipo(TestCase):
     
     def setUp(self):
-        self.tipo = Tipo(10,"Temperatura")
+        self.tipo = Tipo.object.create(id=10, nombre="Temperatura")
     
     # test that detail page returns a 200 if the item exists
     def testCreateTipo(self):
-        self.assertEqual(self.tipo.id, 10)
-        self.assertEqual(self.tipo.nombre, "Temperatura")
+        tipo=Tipo.objects.get(id=10)
+        self.assertEqual(tipo.id, 10)
+        self.assertEqual(tipo.nombre, "Temperatura")
 
 #Falta arreglar de aquí para abajo
 class TestAlerta(TestCase):
     
     def setUp(self):
 
-        self.alerta = Alerta(10)
+        self.time=datetime.datetime.now()
+        self.alerta = Alerta.object.create(id=10, tipoAlerta="Temperatura fuera de rango", time=self.time)
 
 
     # test that detail page returns a 200 if the item exists
     def testCreateAlerta(self):
-        self.assertEqual(self.alerta.id, 10)
+        al=Alerta.objects.get(id=10)
+        self.assertEqual(al.id, 10)
+        self.assertEquals(al.tipoAlerta,"Temperatura fuera de rango")
+        self.assertEqual(al.time, self.time)
 
 
 class TestRango(TestCase):

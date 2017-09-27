@@ -19,6 +19,7 @@ class Rango(models.Model):
     valorMin = models.BigIntegerField('valorMin', null = False)
     valorMax = models.BigIntegerField('valorMax', null = False)
 
+
 class SensorUbicacion(models.Model):
     idSensor = models.BigIntegerField(primary_key = True)
     tipo = models.ForeignKey(Tipo, null = True)
