@@ -61,7 +61,7 @@ class TestRango(TestCase):
     
     def setUp(self):
 
-        self.rango = Rango(10,10,20);
+        self.rango = Rango.objetos.create(id=10,valMorMin=10, valorMaximo=20);
 
 
     # test that detail page returns a 200 if the item exists
