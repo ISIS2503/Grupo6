@@ -3,13 +3,13 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_TSL2561_U.h>
 #include <Wire.h>
-//#include <UnoWiFiDevEd.h>
+#include <UnoWiFiDevEd.h>
 
 //Definición de pines para los sensores
 #define DHTPIN 7
 
-//#define CONNECTOR "mqtt"
-//#define TOPIC "bajoNivel"
+#define CONNECTOR "mqtt"
+#define TOPIC "bajoNivel"
 //Definición del sensor de temperatura
 #define DHTTYPE DHT11
 DHT dht(DHTPIN, DHTTYPE);
@@ -41,10 +41,10 @@ double promedioGas = 0;
 
 void setup() {
   //Inicialización del puerto serial para imprimir en monitor
-  Serial.begin(9600);
+  //Serial.begin(9600);
   //Inicialización de la instancia del sensor de temperatura
   dht.begin();
-  //Ciao.begin();
+  Ciao.begin();
 
 
   if (!tsl.begin())
@@ -115,15 +115,15 @@ void loop()
   sensorCO2Value = analogRead(analogCO2InPin);
   ppm = map(sensorCO2Value, 0, 1023, 20, 20000); //Convierte datosAnalogos a PPM
   promedioGas = (promedioGas * (intSpam - 1) + db) / intSpam;
-  //String message;
+  String message;
   switch (intSpam) {
     case 15:
-      //message = "0 " + String(t) + " *C";
+      message = "0 " + String(t) + " *C";
       //Serial.print(message);
-      Serial.print("0 ");
-      Serial.print(t);
-      Serial.println(" *C ");
-      //Ciao.write(CONNECTOR, TOPIC, message);
+      //Serial.print("0 ");
+      //Serial.print(t);
+      //Serial.println(" *C ");
+      Ciao.write(CONNECTOR, TOPIC, message);
       t = 0;
       delay(445);
       break;
@@ -131,12 +131,12 @@ void loop()
     case 30:
 
       if (biMinute) {
-        //String message2 = "1 " + String(light) + " lx";
+        String message2 = "1 " + String(light) + " lx";
         //Serial.print(message);
-        Serial.print("1 ");
-        Serial.print(light);
-        Serial.println(" lx");
-        //Ciao.write(CONNECTOR, TOPIC, message2);
+        //Serial.print("1 ");
+        //Serial.print(light);
+        //Serial.println(" lx");
+        Ciao.write(CONNECTOR, TOPIC, message2);
         light = 1.0;
       }
       delay(445);
@@ -145,12 +145,12 @@ void loop()
     case 45:
 
       if (!biMinute) {
-        //String message3 = "2 " + String(promedioRuido) + " db";
+        String message3 = "2 " + String(promedioRuido) + " db";
         //Serial.print(message);
-        Serial.print("2 ");
-        Serial.print(promedioRuido);
-        Serial.println(" db");
-        //Ciao.write(CONNECTOR, TOPIC, message3);
+        //Serial.print("2 ");
+        //Serial.print(promedioRuido);
+        //Serial.println(" db");
+        Ciao.write(CONNECTOR, TOPIC, message3);
         promedioRuido = 0;
       }
       delay(445);
@@ -158,12 +158,12 @@ void loop()
 
     case 60:
       biMinute = !biMinute;
-      //message = "3 " + String(promedioGas) + " ppm";
+      message = "3 " + String(promedioGas) + " ppm";
       //Serial.print(message);
-      Serial.print("3 " );
-      Serial.print (promedioGas);
-      Serial.println(" ppm");
-      //Ciao.write(CONNECTOR, TOPIC, message);
+      //Serial.print("3 " );
+      //Serial.print (promedioGas);
+      //Serial.println(" ppm");
+      Ciao.write(CONNECTOR, TOPIC, message);
       promedioGas = 0;
       delay(445);
       break;
