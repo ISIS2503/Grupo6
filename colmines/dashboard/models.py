@@ -44,12 +44,14 @@ class SubReporte (models.Model):
     sensor=models.OneToOneField(Sensor)
     
 class Reporte(models.Model):
+    #dia debe ser DateTimeField
     dia= models.TimeField('dia')
     anotaciones = models.CharField('anotaciones', max_length=1000)
+    #faltan los suberportes
     
 class Usuarios(models.Model):
     usuario = models.CharField('usuario', null=False, unique=True, max_length=64)
     rol = models.CharField('rol', null=False, max_length=1)
     contrasena= models.CharField('contraseña', null=False, max_length=128)
     access_token = models.CharField('access_token', null=False, max_length=256)
-    reportes = models.ManyToManyField('reporte') 
+    reportes = models.ManyToManyField('reporte')

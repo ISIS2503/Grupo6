@@ -36,13 +36,13 @@ class TestTipo(TestCase):
         self.assertEqual(tipo.id, 10)
         self.assertEqual(tipo.nombre, "Temperatura")
 
-#Falta arreglar de aquí para abajo
+
 class TestAlerta(TestCase):
     
     def setUp(self):
         self.ubicacion = Ubicacion.objects.create(id=10, zona= 10, area= 10, nivel=10)
         self.time=datetime.datetime.now()
-        self.alerta = Alerta.object.create(id=10, tipoAlerta="Temperatura fuera de rango", time=self.time, idUbicacion=10)
+        self.alerta = Alerta.objects.create(id=10, tipoAlerta="Temperatura fuera de rango", time=self.time, idUbicacion=self.ubicacion)
 
 
     # test that detail page returns a 200 if the item exists
@@ -50,111 +50,107 @@ class TestAlerta(TestCase):
         al=Alerta.objects.get(id=10)
         self.assertEqual(al.id, 10)
         self.assertEquals(al.tipoAlerta,"Temperatura fuera de rango")
-        self.assertEqual(al.time, self.time)
-        self.assertEqual(al.idUbicacion, 10)
+       # self.assertEqual(al.time, self.time)
+        self.assertEqual(al.idUbicacion, self.ubicacion)
 
-
-##hasta aqui esta bien
-##******************************************************************************************************
 
 class TestRango(TestCase):
     
     def setUp(self):
 
-        self.rango = Rango.objetos.create(id=10,valMorMin=10, valorMaximo=20);
+        self.rango = Rango.objects.create(id=10,valorMin=10, valorMax=20);
 
-
-    # test that detail page returns a 200 if the item exists
+            
+        # test that detail page returns a 200 if the item exists
     def testCreateRango(self):
-        self.assertEqual(self.rango.id, 10)
-        self.assertEqual(self.rango.valorMin, 10)
-        self.assertEqual(self.rango.valorMax, 20)
+        ra=Rango.objects.get(id=10)
+        self.assertEqual(ra.id, 10)
+        self.assertEqual(ra.valorMin, 10)
+        self.assertEqual(ra.valorMax, 20)
 
 
 class TestSensor(TestCase):
     
     def setUp(self):
-
+        self.ubicacion = Ubicacion.objects.create(id=10, zona= 10, area= 10, nivel=10)
+        self.tipo = Tipo.objects.create(id=10, nombre="Temperatura")
         self.time=datetime.datetime.now()
-        self.sensor = Sensor(10, self.time, 10,'N')
+        self.sensUb= SensorUbicacion.objects.create( idSensor=0, tipo=self.tipo, ubicacion=self.ubicacion)
+
+        self.sensor = Sensor.objects.create(id=10,idSensor=self.sensUb, time= self.time, valor=10,estado='N')
 
 
     # test that detail page returns a 200 if the item exists
     def testCreate(self):
-        self.assertEqual(self.ubicacion.idSensor, 10)
-        self.assertEqual(self.ubicacion.time, self.time)
-        self.assertEqual(self.ubicacion.valor, 10)
-        self.assertEqual(self.ubicacion.estado, 'N')
+        sens=Sensor.objects.get(id=10)
+        self.assertEqual(sens.idSensor, self.sensUb)
+        #self.assertEqual(sens.time, self.time)
+        self.assertEqual(sens.valor, 10)
+        self.assertEqual(sens.estado, 'N')
+
 
 class TestSensorUb(TestCase):
 
     def setUp(self):
+        self.tipo = Tipo.objects.create(id=10, nombre="Temperatura")
 
-        self.time=datetime.datetime.now()
-        self.sensor = Sensor(10, self.time, 10,'N')
+        self.ubicacion = Ubicacion.objects.create(id=10, zona= 10, area= 10, nivel=10)
+        self.sensUb= SensorUbicacion.objects.create(idSensor=0, tipo=self.tipo)
+
 
 
     # test that detail page returns a 200 if the item exists
     def testCreate(self):
-        self.assertEqual(self.ubicacion.idSensor, 10)
-        self.assertEqual(self.ubicacion.time, self.time)
-        self.assertEqual(self.ubicacion.valor, 10)
-        self.assertEqual(self.ubicacion.estado, 'N')
+        sens=SensorUbicacion.objects.get(idSensor=0)
+        self.assertEqual(sens.idSensor, 0)
+        self.assertEqual(sens.tipo,self.tipo)
+        
+       
 
+
+##hasta aqui esta bien
+##******************************************************************************************************
 
 class TestSubReporte(TestCase):
     
     def setUp(self):
-        self.ubicacion = Ubicacion(10,10,10,10)
-        self.tipo = Tipo(10,"Temperatura")
-        self.alerta = Alerta(10)
-        self.rango = Rango(10,10,20);
-        self.sensor = Sensor(10,10,"ACTIVO")
-        self.subreporte = SubReporte(0,10,5,10,self.sensor)
+        self.ubicacion = Ubicacion.objects.create(id=10, zona= 10, area= 10, nivel=10)
+        self.tipo = Tipo.objects.create(id=10, nombre="Temperatura")
+        self.time=datetime.datetime.now()
+        self.sensUb= SensorUbicacion.objects.create(idSensor=0, tipo=self.tipo, ubicacion=self.ubicacion)
+        self.sensor = Sensor.objects.create(id=10,idSensor=self.sensUb, time= self.time, valor=10,estado='N')
+        self.subreporte = SubReporte.objects.create(id=0,valMinimo=10,valMaximo=50,valPromedio=10,variacion=0.2,sensor=self.sensor)
         self.reporte = Reporte("ANOTA")
         self.usuario = Usuarios("Juan","ADMIN","1234","AT11",self.reporte)
 
     # test that detail page returns a 200 if the item exists
-    def testCreateUbicacion(self):
-        self.assertEqual(self.ubicacion.id, 10)
-        self.assertEqual(self.ubicacion.zona, 10)
-        self.assertEqual(self.ubicacion.area, 10)
-        self.assertEqual(self.ubicacion.nivel, 10)
+    def testCreateSubReporte(self):
+        sub=SubReporte.objects.get(id=0)
+        self.assertEqual(sub.id, 0)
+        self.assertEqual(sub.valMinimo, 10)
+        self.assertEqual(sub.valMaximo, 50)
 
 class TestReporte(TestCase): 
     
     def setUp(self):
-        self.ubicacion = Ubicacion(10,10,10,10)
-        self.tipo = Tipo(10,"Temperatura")
-        self.alerta = Alerta(10)
-        self.rango = Rango(10,10,20);
-        self.sensor = Sensor(10,10,"ACTIVO")
-        self.subreporte = SubReporte(0,10,5,10,self.sensor)
-        self.reporte = Reporte("ANOTA")
-        self.usuario = Usuarios("Juan","ADMIN","1234","AT11",self.reporte)
-
+        Reporte.objects.create(id=10,dia=datetime.datetime.now(),anotaciones="jesus nos ilumino")
     # test that detail page returns a 200 if the item exists
-    def testCreateUbicacion(self):
-        self.assertEqual(self.ubicacion.id, 10)
-        self.assertEqual(self.ubicacion.zona, 10)
-        self.assertEqual(self.ubicacion.area, 10)
-        self.assertEqual(self.ubicacion.nivel, 10)
+    def testCreateReporte(self):
+        rep=Reporte.objects.get(id=10)
+        self.assertEqual(rep.id, 10)
+        
+        self.assertEqual(rep.anotaciones, "jesus nos ilumino")
     
 class TestUsuarios(TestCase):
     
     def setUp(self):
-        self.ubicacion = Ubicacion(10,10,10,10)
-        self.tipo = Tipo(10,"Temperatura")
-        self.alerta = Alerta(10)
-        self.rango = Rango(10,10,20);
-        self.sensor = Sensor(10,10,"ACTIVO")
-        self.subreporte = SubReporte(0,10,5,10,self.sensor)
-        self.reporte = Reporte("ANOTA")
-        self.usuario = Usuarios("Juan","ADMIN","1234","AT11",self.reporte)
+        self.reporte=Reporte.objects.create(id=10,dia=datetime.datetime.now(),anotaciones="jesus nos ilumino")
 
+        self.usuario = Usuarios.objects.create(id=10,usuario="Juan",rol="A",contrasena="1234",access_token="AT11")
     # test that detail page returns a 200 if the item exists
-    def testCreateUbicacion(self):
-        self.assertEqual(self.ubicacion.id, 10)
-        self.assertEqual(self.ubicacion.zona, 10)
-        self.assertEqual(self.ubicacion.area, 10)
-        self.assertEqual(self.ubicacion.nivel, 10)
+    def testCreateUsuario(self):
+        us=Usuarios.objects.get(id=10)
+        self.assertEqual(us.id, 10)
+        self.assertEqual(us.usuario, "Juan")
+        self.assertEqual(us.rol, "A")
+        self.assertEqual(us.contrasena, "1234")
