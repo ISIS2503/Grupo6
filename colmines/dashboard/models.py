@@ -30,7 +30,7 @@ class Sensor(models.Model):
     idSensor = models.ForeignKey(SensorUbicacion)
     time = models.TimeField('time')
     valor= models.IntegerField('valor', null=False)
-    estado = models.CharField('estado', max_length = 1, null = False) 
+    estado = models.CharField('estado', max_length = 1, null = True) 
 
 
 class SubReporte (models.Model):
@@ -49,4 +49,4 @@ class Usuarios(models.Model):
     rol = models.CharField('rol', null=False, max_length=1)
     contrasena= models.CharField('contraseña', null=False, max_length=128)
     access_token = models.CharField('access_token', null=False, max_length=256)
-    reportes = models.ManyToManyField('reporte')
+    reportes = models.ManyToManyField('reporte') 

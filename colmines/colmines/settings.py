@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -81,12 +82,27 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'arqui',
-        'USER': 'juan',
+       'USER': 'juan',
         'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '5434',
     }
 }
+
+#DATABASES = {
+##        'default': {
+#            'ENGINE': 'django_cassandra_engine',
+#            'NAME': 'db',
+#            'TEST_NAME': 'test_db',
+#           'HOST': '172.24.42.24',
+#            'OPTIONS': {
+#                'replication': {
+#                    'strategy_class': 'SimpleStrategy',
+#                    'replication_factor': 1
+#                }
+#            }
+#        }
+#    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
