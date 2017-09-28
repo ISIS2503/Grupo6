@@ -1,12 +1,13 @@
+#include <PubSubClient.h>
+
 #include "DHT.h"
 #include <YunClient.h>
-#include <PubSubClient.h>
 #include <Console.h>
 
 YunClient yunClient;
 PubSubClient client(yunClient);
 //IPAddress ip(157, 253, 204, 104);
-IPAddress server(157, 253, 204, 104);
+IPAddress server(157,253,204,104);
 
 //Definición de pines para los sensores
 #define DHTPIN 7
@@ -22,17 +23,27 @@ String topics[8] = {"normal.rango1", "normal.rango2", "normal.rango3", "normal.r
 void setup()
 {
   Serial.begin(9600);
+  Serial.print("1");
   Bridge.begin();
+  Serial.print("2");
   client.setServer(server, 8083);
+  Serial.print("3");
   client.setCallback(callback);
+  Serial.print("4");
   dht.begin();
+  Serial.print("5");
   idSensor = 0;
+  Serial.print("6");
   Serial.println("Camilo MK");
   String message = "{ \"data\":" + String(temp) + ", \"unit\":\"*C\", \"idSensor\":" + String(idSensor) + "}";
+  Serial.print("7");
   char buff[2000];
+  Serial.print("8");
   message.toCharArray(buff, 2000);
+  Serial.print("9");
   Serial.println(buff);
-  delay(1500);
+  Serial.print("10");
+  //delay(1500);
 }
 
 void loop()
@@ -50,7 +61,7 @@ void loop()
     topic.toCharArray(buffTopic, 2000);
     client.publish(buffTopic, buffTopic);
   }
-  client.loop();
+  //client.loop();
   //delay(1000);
 }
 
