@@ -32,13 +32,7 @@ def ubicacion_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-@csrf_exempt
 
-def ubicacion_detail(request, pk):
-    if request.method == 'GET':
-        ubicaion = Ubicacion.objects.get(pk)
-        serializer = UbicacionSerializer(ubicaion)
-        return JsonResponse(serializer.data)
 @csrf_exempt
 def tipo_list(request):
     """

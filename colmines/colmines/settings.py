@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'dashboard.apps.StoreConfig',
+    'django_cassandra_engine',
 
 ]
 
@@ -79,15 +80,20 @@ WSGI_APPLICATION = 'colmines.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'arqui',
-       'USER': 'juan',
-        'PASSWORD': '123456',
-        'HOST': '172.24.42.24',
-        'PORT': '5434',
+        'default': {
+            'ENGINE': 'django_cassandra_engine',
+            'NAME': 'arquidb6',
+            'TEST_NAME': 'test_db',
+            'HOST': '127.0.0.1',
+            'PORT':'9042',
+            'OPTIONS': {
+                'replication': {
+                    'strategy_class': 'SimpleStrategy',
+                    'replication_factor': 1
+                }
+            }
+        }
     }
-}
 
 #DATABASES = {
 ##        'default': {
