@@ -22,10 +22,10 @@ class Ubicacion(DjangoCassandraModel):
 #    time= models.TimeField('time',default="06:00")
 #    idUbicacion= models.ForeignKey(Ubicacion, null=True)
 class Alerta(DjangoCassandraModel):
-    idAlerta = columns.UUID(primary_key = True)
+    idAlerta = columns.Integer(primary_key = True)
     tipoAlerta = columns.Text(required = False)
-    time = columns.Time(required = True)
-    idUbicacion = columns.UUID()
+    time = columns.Text(required = True)
+    idUbicacion = columns.Integer()
 
 #class Tipo(models.Model):
 #    nombre = models.CharField('nombre tipo',max_length = 23, null = False)
@@ -52,7 +52,7 @@ class Rango(DjangoCassandraModel):
 #    valor= models.IntegerField('valor', null=False)
 #    estado = models.CharField('estado', max_length = 1, null = True)
 class Sensor(DjangoCassandraModel):
-    idSensor = columns.UUID(primary_key = True)
+    idSensor = columns.Integer(primary_key = True)
     time = columns.Text(required = False)
     valor = columns.Integer(required = False)
     ubicacion = columns.UUID()

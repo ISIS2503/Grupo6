@@ -82,7 +82,7 @@ WSGI_APPLICATION = 'colmines.wsgi.application'
 DATABASES = {
         'default': {
             'ENGINE': 'django_cassandra_engine',
-            'NAME': 'arquidb6',
+            'NAME': 'arquidb8',
             'TEST_NAME': 'test_db',
             'HOST': '127.0.0.1',
             'PORT':'9042',

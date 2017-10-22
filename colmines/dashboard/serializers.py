@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import Ubicacion, Tipo, Sensor
+from dashboard.models import Ubicacion, Tipo, Sensor,Alerta
 
 class UbicacionSerializer(serializers.Serializer):
     idUbicacion = serializers.IntegerField()
@@ -22,7 +22,7 @@ class TipoSerializer(serializers.Serializer):
         return Tipo.objects.create(**validated_data)
 
 class SensorSerializer(serializers.Serializer):
-    idSensor = serializers.TimeField()
+    idSensor = serializers.IntegerField()
     time = serializers.CharField(required = False,max_length=100)
     valor = serializers.IntegerField(required = False)
     ubicacion = serializers.UUIDField()
@@ -32,7 +32,12 @@ class SensorSerializer(serializers.Serializer):
         """
         return Sensor.objects.create(**validated_data)
 class AlertaSerializer(serializers.Serializer):
-    idlerta = serializers.UUIDField()
+    idAlerta = serializers.IntegerField()
     tipoAlerta = serializers.CharField(required = False, max_length=100)
     time = serializers.CharField()
-    idUbicacion = serializers.UUIDField()
+    idUbicacion = serializers.IntegerField()
+    def create(self, validated_data):
+        """
+        Create and return a new `PersonaModel` instance, given the validated data.
+        """
+        return Alerta.objects.create(**validated_data)

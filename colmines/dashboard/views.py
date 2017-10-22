@@ -5,18 +5,21 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from dashboard.models import Ubicacion,Tipo,Sensor
-from dashboard.serializers import UbicacionSerializer,TipoSerializer,SensorSerializer
+from dashboard.models import Ubicacion,Tipo,Sensor,Alerta
+from dashboard.serializers import UbicacionSerializer,TipoSerializer,SensorSerializer,AlertaSerializer
 from django.template.context_processors import request
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+
 
 def index(request):
     context = {
 
     }
     return render(request, 'dashboard/index.html', context)
-@csrf_exempt
-
-def ubicacion_list(request):
+@api_view(['GET','POST'])
+def ubicacion_list(request, format = None):
     """
     List all code snippets, or create a new snippet.
     """
@@ -32,15 +35,20 @@ def ubicacion_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-@csrf_exempt
 
-def ubicacion_detail(request, pk):
+@api_view(['GET','PUT','DELETE'])
+def ubicacion_detail(request, pk, format = None):
+    try:
+        ubicacion = Ubicacion.objects.get(pk=pk)
+    except Ubicacion.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
     if request.method == 'GET':
-        ubicaion = Ubicacion.objects.get(pk)
-        serializer = UbicacionSerializer(ubicaion)
-        return JsonResponse(serializer.data)
-@csrf_exempt
-def tipo_list(request):
+        serializer = UbicacionSerializer(ubicacion)
+        return Response(serializer.data)
+
+@api_view(['GET','POST'])
+def tipo_list(request, format = None):
     """
     List all code snippets, or create a new snippet.
     """
@@ -56,7 +64,20 @@ def tipo_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
-@csrf_exempt
+
+@api_view(['GET','PUT','DELETE'])
+def tipo_detail(request, pk, format = None):
+    try:
+        tipo = Tipo.objects.get(pk=pk)
+    except Tipo.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = TipoSerializer(tipo)
+        return Response(serializer.data)
+
+
+@api_view(['GET','POST'])
 def sensor_list(request):
     """
     List all code snippets, or create a new snippet.
@@ -73,6 +94,49 @@ def sensor_list(request):
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
+
+@api_view(['GET','PUT','DELETE'])
+def sensor_detail(request, pk, format = None):
+    try:
+        sensor = Sensor.objects.get(pk=pk)
+    except Sensor.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = SensorSerializer(sensor)
+        return Response(serializer.data)
+
+@api_view(['GET','POST'])
+def alerta_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        alerta = Alerta.objects.all()
+        serializer = AlertaSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = AlertaSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+@api_view(['GET','PUT','DELETE'])
+def alerta_detail(request, pk, format = None):
+    try:
+        alerta = Alerta.objects.get(pk=pk)
+    except Alerta.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AlertaSerializer(alerta)
+        return Response(serializer.data)
+
+
+
 #def sensor_ubicacion_list(request):
     """
     List all code snippets, or create a new snippet.
