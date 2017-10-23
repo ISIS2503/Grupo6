@@ -6,6 +6,7 @@ from kafka import KafkaProducer
 #clase de objeto de los que heredan sensor y actuador
 
 producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
+ip="172.24.42.40"
 
 class Sensor():
     def __init__(self,id):
@@ -56,7 +57,7 @@ class Sensor():
         promedio=self.calcularPromedio(self.temperaturas,valor,self.tiempoTemperatura)
         self.goState(self.estadoTemperatura,promedio,0,"temperatura")
     def agregarLuz(self,valor):
-         self.goState(self.estadoLuz, self.calcularPromedio(self.luces,valor,self.tiempoLuz,0,"luz"))
+        self.goState(self.estadoLuz, self.calcularPromedio(self.luces,valor,self.tiempoLuz,0,"luz"))
     def agregarRuido(self,valor):
         self.goState(self.estadoRuido, self.calcularPromedio(self.ruidos,valor,self.tiempoRuido,0,"ruido"))
     def agregarGas(self,valor):
@@ -90,10 +91,6 @@ class Actuador():
         self.goState(None)
     def malFuncionamiento(self):
         self.goState("F")
-
-
-
-
     def goState(self,fuera):
         self.estado=self.estado.goState(fuera)
         if (self.estado.__class__==Activado):
@@ -109,10 +106,11 @@ class EstadoActuador:
 class Activado(EstadoActuador):
     def goState(self,des,id):
         if(des==None):
+            publish(id,"desactivarActuador","actuador")
             return Desactivado()
         else:
-            i=IndependentProducer(id,"malFuncionamiento",True,"actuador")
-            i.start()
+            publish(id,"malFuncionamiento","actuador")
+            postAlerta(id,"malFuncionamiento","actuador")
             return MalFuncionamiento()
 
 class Desactivado(EstadoActuador):
@@ -120,8 +118,8 @@ class Desactivado(EstadoActuador):
         if(des==None):
             return Activado()
         else:
-            i=IndependentProducer(id,"malFuncionamiento",True,"actuador")
-            i.start()
+            publish(id,"malFuncionamiento","actuador")
+            postAlerta(id,"malFuncionamiento","actuador")
             return MalFuncionamiento()
 
 class MalFuncionamiento(EstadoActuador):
@@ -129,95 +127,147 @@ class MalFuncionamiento(EstadoActuador):
         if(des==None):
             return Desactivado()
         else:
-            i=IndependentProducer(id,"malFuncionamiento",True,"actuador")
-            i.start()
+            publish(id,"malFuncionamiento","actuador")
+            postAlerta(id,"malFuncionamiento","actuador")
             return MalFuncionamiento()
 
 class FueraDeLinea(EstadoSensor):
     def goState(self,promedio,diferenciaTiempo,tipo,id):
         if (diferenciaTiempo>=300):
             return FueraDeLinea()
+        putEstado(id,Normal(),tipo)
         return Normal()
 
 class Normal(EstadoSensor):
     def goState(self,promedio,diferenciaTiempo,tipo,id):
         if (diferenciaTiempo>=300):
-            i=IndependentProducer(id,"fueraDeLinea",True,tipo)
-            i.start()
+            publish(id,"fueraDeLinea",tipo, promedio)
+            postAlerta(id,"fueraDeLinea",tipo, promedio)
+            putEstado(id,FueraDeLinea(),tipo)
             return FueraDeLinea()
         if (tipo=="temperatura"):
             if promedio<21.5 or promedio>27.0:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif (tipo=="luz"):
             if promedio<100 or promedio>2000:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
-        elif (tipo=="gaz"):
+        elif (tipo=="gas"):
             if promedio<0 or promedio>100:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif(tipo=="ruido"):
             if promedio<0 or promedio>85:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
+        return self
 
 class FueraDeRango(EstadoSensor):
     def goState(self,promedio,diferenciaTiempo,tipo,id):
         if (diferenciaTiempo>=300):
-            i=IndependentProducer(id,"fueraDeLinea",True,tipo)
-            i.start()
+            publish(id,"fueraDeLinea",tipo, promedio)
+            postAlerta(id,"fueraDeLinea",tipo, promedio)
+            putEstado(id,FueraDeLinea(),tipo)
             return FueraDeLinea()
         if (tipo=="temperatura"):
             if promedio<21.5 or promedio>27.0:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif (tipo=="luz"):
             if promedio<100 or promedio>2000:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
-        elif (tipo=="gaz"):
+        elif (tipo=="gas"):
             if promedio<0 or promedio>100:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo, promedio)
+                postAlerta(id,"fueraDeRango",tipo, promedio, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif(tipo=="ruido"):
             if promedio<0 or promedio>85:
-                i=IndependentProducer(id,"fueraDeRango",True,tipo)
-                i.start()
+                publish(id,"fueraDeRango",tipo,promedio)
+                postAlerta(id,"fueraDeRango",tipo,promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
+        putEstado(id,Normal(),tipo)
         return Normal()
 
 
-#la siguiente clase será encarcgada de hacer la publicación en Kafka y el post
-#la idea es no dejar bloqueado el script mientras se hacen estas acciones
-class IndependentProducer(threading.Thread):
-    def __init__(self,id, tipoAlerta,alerta, tipoEntidad):
-        threading.Thread.__init__(self)
-        self.tipoEntidad=tipoEntidad
-        self.tipoAlerta=tipoAlerta
-        self.id=id
-        self.alerta=alerta
-    def run(self):
-        try:
-            if self.alerta:
-                print("alerta "+self.tipoAlerta)
-                producer.send('alta.'+self.tipoAlerta,{'idSensor': str(self.id), 'tipo': str(self.tipoEntidad)})
-                print("enviando alerta: "+ self.tipoAlerta + " " +self.tipoEntidad+"...")
-                url="http://localhost:8000/alertas/"
-                payload = {
-                    "idSensor" : self.id,
-                    "tipoEntidad": self.tipoEntidad,
-                    "timeStamp" : str(time.time()),
-                    "tipoAlerta" : self.tipoAlerta
-                }
-            response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-            print(str(self.id) + " Tipo Alerta: "+self.tipoAlerta+ " Response Status code: " + str(response.status.code))
-        except ValueError:
-            print(ValueError)
+
+
+def publish(id, tipoAlerta, tipoEntidad, promedio):
+    print("publicacion "+tipoAlerta)
+    payload = {
+        "idSensor" : id,
+        "tipoEntidad": tipoEntidad,
+        "promedio"  : promedio
+    }
+    producer.send('alta.'+tipoAlerta,payload)
+    print("enviando alerta: "+ tipoAlerta + " " +tipoEntidad+"...")
+
+def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
+    if (tipoEntidad=="actuador"):
+        payload={
+         "idActuador":id,
+         "time" : str(time.time()),
+         "tipoAlerta" : tipoAlerta
+        }
+        url="http://"+ip+":8080/alertas/actuador"
+    else:
+        payload = {
+            "idSensor" :id,
+            "time" : str(time.time()),
+            "tipoAlerta" : tipoAlerta,
+            "promedio" : promedio
+        }
+        url="http://"+ip+":8080/alertas/sensores"
+
+    response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+    print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status.code))
+
+def putEstado(id,estado,tipo):
+    print("cambio de estado para el sensor "+id)
+    if estado.__class__==FueraDeRango:
+        est="FueraDeRango"
+    elif estado.__class__==Normal:
+        est="Normal"
+    elif estado.__class__==FueraDeLinea:
+        est="FueraDeLinea"
+    if (tipo=="temperatura"):
+            payload={
+         "id":id,
+         "estadoTemp" : est
+         
+        }
+    elif (tipo=="luz"):
+         payload={
+     "id":id,
+     "estadoLuz": est
+    }
+    elif (tipo=="gas"):
+         payload={
+     "id":id,
+     "estadoGas": est
+    }
+    elif(tipo=="ruido"):
+         payload={
+     "id":id,
+     "estadoRuido" : est
+    }
+    url="http://"+ip+":8080/micro/"+id
+
+    response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+    print(" Response Status code: " + str(response.status.code))

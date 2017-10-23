@@ -3,7 +3,7 @@ import threading
 
 from kafka import KafkaConsumer
 
-from chequeo import States
+import States
 
 totalSensores=2500
 numeroRangos=1
