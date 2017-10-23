@@ -60,7 +60,23 @@ def busquedaPerdidos():
                     
     
     threading.Timer(300.0,busquedaPerdidos).start()
-    
+
+#la siguiente clase será encarcgada de hacer la publicación en Kafka y el post
+#la idea es no dejar bloqueado el script mientras se hacen estas acciones
+class IndependentProducer(threading.Thread):
+    def __init__(self,id, tipo):
+        threading.Thread.__init__(self)
+        self.tipo=tipo
+        self.id=id
+    def run(self):
+        try:
+            print("alerta "+self.tipo)
+            producer.send('alta.'+self.tipo,{'idSensor': str(self.id)})
+            postAlerta(str(self.id), self.tipo)
+        except ValueError:
+            print(ValueError)
+        
+            
 def postAlerta(idSensor, tipoAlerta):
     print("enviando alerta: "+ tipoAlerta + "...")
     url="http://localhost:8000/alertas/"
@@ -105,10 +121,8 @@ for message in consumer:
                     alerta=1
        
         if(alerta==1):
-            print("sensor fuera de rango")
-            producer.send('alta.fueraderango',{'idSensor': str(id)})
-            postAlerta(str(id), "Fuera de rango")
-
+            alerta=IndependentProducer(id,"fueraDeRango")
+            alerta.start()
             
     ## caso en el que el valor recibido esta mal formado
     else:
