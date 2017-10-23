@@ -121,8 +121,8 @@ for message in consumer:
                     alerta=1
        
         if(alerta==1):
-            alerta=IndependentProducer(id,"fueraDeRango")
-            alerta.start()
+            nu=IndependentProducer(id,"fueraDeRango")
+            nu.start()
             
     ## caso en el que el valor recibido esta mal formado
     else:
