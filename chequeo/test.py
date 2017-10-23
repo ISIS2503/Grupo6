@@ -3,4 +3,9 @@ class Jota:
 
 j=Jota()
 
-print(j.__class__==Jota)
+j={
+    "alba":2,
+    "sota":3
+}
+for i in range (len(j)):
+    print (j.keys())
