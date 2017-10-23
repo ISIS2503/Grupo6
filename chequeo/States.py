@@ -135,6 +135,7 @@ class FueraDeLinea(EstadoSensor):
     def goState(self,promedio,diferenciaTiempo,tipo,id):
         if (diferenciaTiempo>=300):
             return FueraDeLinea()
+        putEstado(id,Normal(),tipo)
         return Normal()
 
 class Normal(EstadoSensor):
@@ -142,54 +143,66 @@ class Normal(EstadoSensor):
         if (diferenciaTiempo>=300):
             publish(id,"fueraDeLinea",tipo, promedio)
             postAlerta(id,"fueraDeLinea",tipo, promedio)
+            putEstado(id,FueraDeLinea(),tipo)
             return FueraDeLinea()
         if (tipo=="temperatura"):
             if promedio<21.5 or promedio>27.0:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif (tipo=="luz"):
             if promedio<100 or promedio>2000:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif (tipo=="gas"):
             if promedio<0 or promedio>100:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif(tipo=="ruido"):
             if promedio<0 or promedio>85:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
+        return self
 
 class FueraDeRango(EstadoSensor):
     def goState(self,promedio,diferenciaTiempo,tipo,id):
         if (diferenciaTiempo>=300):
             publish(id,"fueraDeLinea",tipo, promedio)
             postAlerta(id,"fueraDeLinea",tipo, promedio)
+            putEstado(id,FueraDeLinea(),tipo)
             return FueraDeLinea()
         if (tipo=="temperatura"):
             if promedio<21.5 or promedio>27.0:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif (tipo=="luz"):
             if promedio<100 or promedio>2000:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif (tipo=="gas"):
             if promedio<0 or promedio>100:
                 publish(id,"fueraDeRango",tipo, promedio)
                 postAlerta(id,"fueraDeRango",tipo, promedio, promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
         elif(tipo=="ruido"):
             if promedio<0 or promedio>85:
                 publish(id,"fueraDeRango",tipo,promedio)
                 postAlerta(id,"fueraDeRango",tipo,promedio)
+                putEstado(id,FueraDeRango(),tipo)
                 return FueraDeRango()
+        putEstado(id,Normal(),tipo)
         return Normal()
 
 
@@ -254,7 +267,7 @@ def putEstado(id,estado,tipo):
      "id":id,
      "estadoRuido" : est
     }
-    url="http://"+ip+":8080/micro/"
+    url="http://"+ip+":8080/micro/"+id
 
     response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
     print(" Response Status code: " + str(response.status.code))
