@@ -3,6 +3,7 @@ from unittest.util import _MAX_LENGTH
 from cassandra.cqlengine.connection import default
 from cassandra.cqlengine import columns
 from django_cassandra_engine.models import DjangoCassandraModel
+import time
 
 
 
@@ -52,10 +53,20 @@ class Rango(DjangoCassandraModel):
 #    valor= models.IntegerField('valor', null=False)
 #    estado = models.CharField('estado', max_length = 1, null = True)
 class Sensor(DjangoCassandraModel):
-    idSensor = columns.Integer(primary_key = True)
-    time = columns.Text(required = False)
-    valor = columns.Integer(required = False)
+    idSensor =columns.Integer(primary_key = True)
     ubicacion = columns.UUID()
+
+class Medicion(DjangoCassandraModel):
+    idMedicion =columns.Integer(primary_key = True)
+    idSensor0 = columns.Integer(required= True)
+    idSensor1 = columns.Integer(required = True)
+    idSensor2 = columns.Integer(required = True)
+    idSensor3 = columns.Integer(required = True)
+    temperatura = columns.Integer(required= True)
+    sonido = columns.Integer(required = True)
+    gas = columns.Integer(required = True)
+    luz = columns.Integer(required = True)
+    time = columns.Text(required = True)
 
 #class SubReporte (models.Model):
 #    valMinimo=models.DecimalField(max_digits=7,decimal_places=3)

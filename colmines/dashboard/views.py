@@ -5,12 +5,13 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from dashboard.models import Ubicacion,Tipo,Sensor,Alerta
-from dashboard.serializers import UbicacionSerializer,TipoSerializer,SensorSerializer,AlertaSerializer
+from dashboard.models import Ubicacion,Tipo,Sensor,Alerta, Medicion
+from dashboard.serializers import UbicacionSerializer,TipoSerializer,SensorSerializer,AlertaSerializer,MedicionSerializer
 from django.template.context_processors import request
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+import time
 
 
 def index(request):
@@ -118,6 +119,8 @@ def alerta_list(request):
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
+        idData = int((time.time()*1000) % 86400000)
+        data['idAlerta']=idData
         serializer = AlertaSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -135,21 +138,33 @@ def alerta_detail(request, pk, format = None):
         serializer = AlertaSerializer(alerta)
         return Response(serializer.data)
 
-
-
-#def sensor_ubicacion_list(request):
+@api_view(['GET','POST'])
+def medicion_list(request):
     """
     List all code snippets, or create a new snippet.
     """
-#    if request.method == 'GET':
-#        snippets = SensorUbicacion.objects.all()
-#        serializer = SensorUbicacionSerializer(snippets, many=True)
-#        return JsonResponse(serializer.data, safe=False)
-#
-#    elif request.method == 'POST':
-#        data = JSONParser().parse(request)
-#        serializer = SensorUbicacionSerializer(data=data)
-#        if serializer.is_valid():
-#            serializer.save()
-#            return JsonResponse(serializer.data, status=201)
-#        return JsonResponse(serializer.errors, status=400)
+    if request.method == 'GET':
+        medicion = Medicion.objects.all()
+        serializer = MedicionSerializer(snippets, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        idData = int((time.time()*1000) % 86400000)
+        data['idMedicion']=idData
+        serializer = MedicionSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+@api_view(['GET','PUT','DELETE'])
+def medicion_detail(request, pk, format = None):
+    try:
+        medicion = medicion.objects.get(pk=pk)
+    except Alerta.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = MedicionSerializer(alerta)
+        return Response(serializer.data)
