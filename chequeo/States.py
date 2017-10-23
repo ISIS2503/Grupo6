@@ -9,6 +9,8 @@ producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializ
 
 class Sensor():
     def __init__(self,id):
+        self.actuador=Actuador()
+        self.ciclo=0
         self.id=id
         ya=time.time()
         self.tiempoTemperatura=ya
@@ -60,29 +62,43 @@ class Sensor():
     def agregarGas(self,valor):
         self.goState(self.estadoGas, self.calcularPromedio(self.gases,valor,self.tiempoGas,0),0,"gas")
 
+    def cicloActuador(self,estado):
+        self.ciclo=self.ciclo+1
+        if(estado.__class__!=FueraDeRango):
+            self.actuador.cambiarEstado()
+            self.ciclo=0
+        if self.ciclo==6:
+            self.ciclo=0
+            self.actuador.malFuncionamiento()
+        threading.Timer(600.0,self.cicloActuador,estado).start()
+
     def goState(self, estado, promedio,diferenciaTiempo,tipo):
         estado=estado.goState(promedio,diferenciaTiempo,tipo)
+        if(estado.__class__==FueraDeRango):
+            self.actuador.cambiarEstado()
+            self.cicloActuador(estado)
+
 
 
 class Actuador():
     def __init__(self,id):
         self.id=id
         self.incio=time.time()
-        self.estado=Activado()
-    def desactivar(self):
+        self.estado=Desactivado()
+        self.ciclo=0
+    def cambiarEstado(self):
         self.goState(None)
-    def activar(self):
-        self.goState(None)
-    def chequearConexion(self):
-        ya=time.time()
-        if (ya-self.incio>=3600 and self.estado.__class__==Activado):
-            self.goState("F")
-        threading.Timer(3000.0,self.chequearConexion).start()
+    def malFuncionamiento(self):
+        self.goState("F")
+
+
+
 
     def goState(self,fuera):
         self.estado=self.estado.goState(fuera)
         if (self.estado.__class__==Activado):
             self.incio=time.time()
+            self.cicloActuador()
 
 class EstadoSensor:
     pass
