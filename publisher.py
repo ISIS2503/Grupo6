@@ -20,13 +20,17 @@ for message in consumer:
         jsonVal=json.loads(message.value)
         if (jsonVal!= None and jsonVal['data']!=None):
             valor=int(jsonVal['data'])
-            id=int(jsonVal['idSensor'])
             url = "http://localhost:8000/sensores/"
             payload={
-                "idSensor": id,
-                "time": str(datetime.datetime.now()).split(" ")[1],
-
-                "valor": valor
+                "idSensor0": jsonVal['idSensor0'],
+                "idSensor1": jsonVal['idSensor1'],
+                "idSensor2": jsonVal['idSensor2'],
+                "idSensor3": jsonVal['idSensor3'],
+                "temperatura":jsonVal['temperatura'],
+                "sonido":jsonVal['sonido'],
+                "gas":jsonVal['gas'],
+                "luz":jsonVal['luz'],
+                "time": str(datetime.datetime.now()).split(" ")[1]    
           }
 
             #print(json.dumps(payload))
