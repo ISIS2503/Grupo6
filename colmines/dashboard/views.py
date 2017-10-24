@@ -106,7 +106,7 @@ def sensor_detail(request, pk, format = None):
     if request.method == 'GET':
         serializer = SensorSerializer(sensor)
         return Response(serializer.data)
-
+#Severo microDick
 @api_view(['GET','POST'])
 def alerta_list(request):
     """
