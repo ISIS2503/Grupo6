@@ -17,7 +17,7 @@ rango=1
 # To consume latest messages and auto-commit offsets
 consumer = KafkaConsumer('normal.'+'rango'+str(rango),group_id='my-group',bootstrap_servers=['172.24.42.23:8090'])
 
-class AgregadorThread(threading):
+class AgregadorThread(threading.Thread):
     def __init__(self,id,temperatura,gas,ruido,luz):
         self.id=id
         self.temperatura=temperatura
@@ -34,9 +34,10 @@ class AgregadorThread(threading):
 
 init=totalSensores/numeroRangos*(rango-1)
 for i in range(int(totalSensores/numeroRangos)):
-    micros.append(States.Sensor(init + i))
+    micros.append(States.Sensor(init+i))
 
 for message in consumer:
+    print(message)
     jsonVal=json.loads(message.value)
     id=jsonVal['id']
     temperatura=jsonVal['temperatura']

@@ -10,7 +10,7 @@ ip="172.24.42.40"
 
 class Sensor():
     def __init__(self,id):
-        self.actuador=Actuador()
+        self.actuador=Actuador(id)
         self.ciclo=0
         self.id=id
         ya=time.time()
@@ -74,7 +74,7 @@ class Sensor():
         threading.Timer(600.0,self.cicloActuador,estado).start()
 
     def goState(self, estado, promedio,diferenciaTiempo,tipo):
-        estado=estado.goState(promedio,diferenciaTiempo,tipo)
+        estado=estado.goState(promedio,diferenciaTiempo,tipo,self.id)
         if(estado.__class__==FueraDeRango):
             self.actuador.cambiarEstado()
             self.cicloActuador(estado)
@@ -92,7 +92,7 @@ class Actuador():
     def malFuncionamiento(self):
         self.goState("F")
     def goState(self,fuera):
-        self.estado=self.estado.goState(fuera)
+        self.estado=self.estado.goState(fuera,self.id)
         if (self.estado.__class__==Activado):
             self.incio=time.time()
             self.cicloActuador()
@@ -236,10 +236,10 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
         url="http://"+ip+":8080/alertas/sensores"
 
     response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-    print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status.code))
+    print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
 
 def putEstado(id,estado,tipo):
-    print("cambio de estado para el sensor "+id)
+    print("cambio de estado para el sensor "+str(id))
     if estado.__class__==FueraDeRango:
         est="FueraDeRango"
     elif estado.__class__==Normal:
@@ -266,4 +266,4 @@ def putEstado(id,estado,tipo):
     url="http://"+ip+":8080/micro/"+id
 
     response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-    print(" Response Status code: " + str(response.status.code))
+    print(" Response Status code: " + str(response.status_code))
