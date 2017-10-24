@@ -106,11 +106,11 @@ class EstadoActuador:
 class Activado(EstadoActuador):
     def goState(self,des,id):
         if(des==None):
-            publish(id,"desactivarActuador","actuador")
+            publish(id,"desactivarActuador","actuador",0)
             return Desactivado()
         else:
-            publish(id,"malFuncionamiento","actuador")
-            postAlerta(id,"malFuncionamiento","actuador")
+            publish(id,"malFuncionamiento","actuador",0)
+            postAlerta(id,"malFuncionamiento","actuador",0)
             return MalFuncionamiento()
 
 class Desactivado(EstadoActuador):
@@ -118,8 +118,8 @@ class Desactivado(EstadoActuador):
         if(des==None):
             return Activado()
         else:
-            publish(id,"malFuncionamiento","actuador")
-            postAlerta(id,"malFuncionamiento","actuador")
+            publish(id,"malFuncionamiento","actuador",0)
+            postAlerta(id,"malFuncionamiento","actuador",0)
             return MalFuncionamiento()
 
 class MalFuncionamiento(EstadoActuador):
@@ -127,8 +127,8 @@ class MalFuncionamiento(EstadoActuador):
         if(des==None):
             return Desactivado()
         else:
-            publish(id,"malFuncionamiento","actuador")
-            postAlerta(id,"malFuncionamiento","actuador")
+            publish(id,"malFuncionamiento","actuador",0)
+            postAlerta(id,"malFuncionamiento","actuador",0)
             return MalFuncionamiento()
 
 class FueraDeLinea(EstadoSensor):
