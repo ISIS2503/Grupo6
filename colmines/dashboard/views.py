@@ -5,8 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from dashboard.models import Ubicacion,Tipo,Sensor,Alerta, Medicion
-from dashboard.serializers import UbicacionSerializer,TipoSerializer,SensorSerializer,AlertaSerializer,MedicionSerializer
+from dashboard.models import Ubicacion,Tipo,MicroControlador,Alerta, Medicion
+from dashboard.serializers import UbicacionSerializer,TipoSerializer,MicroControladorSerializer,AlertaSerializer,MedicionSerializer
 from django.template.context_processors import request
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -79,34 +79,46 @@ def tipo_detail(request, pk, format = None):
 
 
 @api_view(['GET','POST'])
-def sensor_list(request):
+def micro_list(request):
     """
     List all code snippets, or create a new snippet.
     """
     if request.method == 'GET':
-        snippets = Sensor.objects.all()
-        serializer = SensorSerializer(snippets, many=True)
+        snippets = MicroControlador.objects.all()
+        serializer = MicroControladorSerializer(snippets, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = SensorSerializer(data=data)
+        serializer = MicroControladorSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-@api_view(['GET','PUT','DELETE'])
-def sensor_detail(request, pk, format = None):
+@api_view(['GET','PUT','DELETE', 'POST'])
+def micro_detail(request, pk, format = None):
     try:
-        sensor = Sensor.objects.get(pk=pk)
-    except Sensor.DoesNotExist:
+        micro = MicroControlador.objects.get(pk=pk)
+    except MicroControlador.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = SensorSerializer(sensor)
+        serializer = MicroControladorSerializer(micro)
         return Response(serializer.data)
-#Severo microDick
+
+    elif request.method == 'PUT':
+        valor = request.data
+
+        for v in valor.keys():
+            micro.setEstado(v,valor[v])
+        microDick = {"id": micro.id, "ubicacion": micro.ubicacion, "estadoTemp": micro.estadoTemp, "estadoGas": micro.estadoGas, "estadoSoni": micro.estadoSoni, "estadoLuz": micro.estadoLuz}
+        serializer = MicroControladorSerializer(data=microDick)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(micro)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 @api_view(['GET','POST'])
 def alerta_list(request):
     """
@@ -145,7 +157,7 @@ def medicion_list(request):
     """
     if request.method == 'GET':
         medicion = Medicion.objects.all()
-        serializer = MedicionSerializer(snippets, many=True)
+        serializer = MedicionSerializer(medicion, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
