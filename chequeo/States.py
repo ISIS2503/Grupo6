@@ -246,6 +246,9 @@ def putEstado(id,estado,tipo):
         est="Normal"
     elif estado.__class__==FueraDeLinea:
         est="FueraDeLinea"
+    payload={
+        "estadoJ":0
+    }
     if (tipo=="temperatura"):
             payload={
          "estadoTemp" : est
@@ -263,7 +266,8 @@ def putEstado(id,estado,tipo):
          payload={
      "estadoRuido" : est
     }
-    url="http://"+ip+":8080/micro/"+id
+
+    url="http://"+ip+":8080/micro/"+str(id)
 
     response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
     print(" Response Status code: " + str(response.status_code))

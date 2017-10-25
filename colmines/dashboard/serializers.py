@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from dashboard.models import Ubicacion, Tipo, Sensor,Alerta,Medicion
+from dashboard.models import Ubicacion, Tipo, MicroControlador,Alerta,Medicion,AlertaActuador
 
 class UbicacionSerializer(serializers.Serializer):
     idUbicacion = serializers.IntegerField()
@@ -21,14 +21,20 @@ class TipoSerializer(serializers.Serializer):
         """
         return Tipo.objects.create(**validated_data)
 
-class SensorSerializer(serializers.Serializer):
-    idSensor = serializers.IntegerField()
+class MicroControladorSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
     ubicacion = serializers.UUIDField()
+    estadoTemp = serializers.CharField()
+    estadoGas = serializers.CharField()
+    estadoSoni = serializers.CharField()
+    estadoLuz = serializers.CharField()
     def create(self, validated_data):
         """
         Create and return a new `PersonaModel` instance, given the validated data.
         """
-        return Sensor.objects.create(**validated_data)
+        return MicroControlador.objects.create(**validated_data)
+    
+
 class MedicionSerializer(serializers.Serializer):
     idMedicion = serializers.IntegerField()
     idSensor0 = serializers.IntegerField()
@@ -53,3 +59,10 @@ class AlertaSerializer(serializers.Serializer):
         Create and return a new `PersonaModel` instance, given the validated data.
         """
         return Alerta.objects.create(**validated_data)
+class AlertaActuadorSerializer(serializers.Serializer):
+    idAlerta = serializers.IntegerField()
+    tipoAlerta = serializers.CharField(required = False, max_length = 100)
+    time = serializers.CharField()
+    idActuador = serializers.IntegerField()
+    def create(self,validated_data):
+        return AlertaActuador.objects.create(**validated_data)
