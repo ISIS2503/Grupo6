@@ -28,6 +28,7 @@ class AgregadorThread(threading.Thread):
     global promedio
     global i
     def __init__(self,id,temperatura,gas,ruido,luz,time):
+        threading.Thread.__init__(self)
         self.id=id
         self.temperatura=temperatura
         self.gas=gas
@@ -55,12 +56,12 @@ for i in range(int(totalSensores/numeroRangos)):
 for message in consumer:
     print(message)
     jsonVal=json.loads(message.value)
-    id=jsonVal['id']
-    temperatura=jsonVal['temperatura']
-    gas=jsonVal['gas']
-    ruido=jsonVal['ruido']
-    luz=jsonVal['luz']
-    time=jsonVal['time']
+    id=int(jsonVal['id'])
+    temperatura=int(jsonVal['temperatura'])
+    gas=int(jsonVal['gas'])
+    ruido=int(jsonVal['ruido'])
+    luz=int(jsonVal['luz'])
+    time=int(jsonVal['sensetime'])
     a=AgregadorThread(id,temperatura,gas,ruido,luz,time)
     a.start()
     sem.acquire()
