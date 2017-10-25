@@ -17,7 +17,7 @@ class Alerta(DjangoCassandraModel):
     tipoAlerta = columns.Text(required = False)
     time = columns.Text(required = True)
     idSensor = columns.Integer()
-    promedio = columns.Decimal()
+    promedio = columns.Integer()
 
 class AlertaActuador(DjangoCassandraModel):
     idAlerta = columns.Integer(primary_key = True)
@@ -39,7 +39,7 @@ class MicroControlador(DjangoCassandraModel):
     ubicacion = columns.UUID()
     estadoTemp = columns.Text(required = True)
     estadoGas = columns.Text(required = True)
-    estadoSoni = columns.Text(required = True)
+    estadoRuido = columns.Text(required = True)
     estadoLuz = columns.Text(required = True)
     def setEstado(self,key,val):
         if key == "estadoTemp":
@@ -48,8 +48,8 @@ class MicroControlador(DjangoCassandraModel):
             self.estadoGas=val
         elif key == "estadoLuz":
             self.estadoLuz = val
-        elif key == "estadoSoni":
-            self.estadoSoni = val
+        elif key == "estadoRuido":
+            self.estadoRuido = val
         self.save()
 class Medicion(DjangoCassandraModel):
     idMedicion =columns.Integer(primary_key = True)

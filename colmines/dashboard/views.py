@@ -5,8 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from dashboard.models import Ubicacion,Tipo,MicroControlador,Alerta, Medicion
-from dashboard.serializers import UbicacionSerializer,TipoSerializer,MicroControladorSerializer,AlertaSerializer,MedicionSerializer
+from dashboard.models import Ubicacion,Tipo,MicroControlador,Alerta, Medicion,AlertaActuador
+from dashboard.serializers import UbicacionSerializer,TipoSerializer,MicroControladorSerializer,AlertaSerializer,MedicionSerializer,AlertaActuadorSerializer
 from django.template.context_processors import request
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -112,7 +112,9 @@ def micro_detail(request, pk, format = None):
 
         for v in valor.keys():
             micro.setEstado(v,valor[v])
-        microDick = {"id": micro.id, "ubicacion": micro.ubicacion, "estadoTemp": micro.estadoTemp, "estadoGas": micro.estadoGas, "estadoSoni": micro.estadoSoni, "estadoLuz": micro.estadoLuz}
+        microDick = {"id": micro.id, "ubicacion": micro.ubicacion,
+                     "estadoTemp": micro.estadoTemp, "estadoGas": micro.estadoGas, "estadoRuido": micro.estadoRuido,
+                     "estadoLuz": micro.estadoLuz}
         serializer = MicroControladorSerializer(data=microDick)
         if serializer.is_valid():
             serializer.save()
@@ -148,6 +150,37 @@ def alerta_detail(request, pk, format = None):
 
     if request.method == 'GET':
         serializer = AlertaSerializer(alerta)
+        return Response(serializer.data)
+
+@api_view(['GET','POST'])
+def alertaAct_list(request):
+    """
+    List all code snippets, or create a new snippet.
+    """
+    if request.method == 'GET':
+        alerta = AlertaActuador.objects.all()
+        serializer = AlertaActuadorSerializer(alerta, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        idData = int((time.time()*1000) % 86400000)
+        data['idAlerta']=idData
+        serializer = AlertaActuadorSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+@api_view(['GET','PUT','DELETE'])
+def alertaAct_detail(request, pk, format = None):
+    try:
+        alerta = AlertaActuador.objects.get(pk=pk)
+    except Alerta.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = AlertaActuadorSerializer(alerta)
         return Response(serializer.data)
 
 @api_view(['GET','POST'])
