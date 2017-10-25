@@ -25,20 +25,22 @@ i=0
 
 class AgregadorThread(threading.Thread):
 
+    global promedio
+    global i
     def __init__(self,id,temperatura,gas,ruido,luz,time):
         self.id=id
         self.temperatura=temperatura
         self.gas=gas
         self.ruido=ruido
         self.luz=luz
-        self.time=time 
+        self.time=time
     def run(self):
         micros[self.id].agregarTemperatura(self.temperatura)
         micros[self.id].agregarGas(self.gas)
         micros[self.id].agregarRuido(self.ruido)
         micros[self.id].agregarLuz(self.luz)
         sem.acquire()
-        promedio= (self.time-time.time()+promedio*i)/(i+1)
+        self.promedio= (self.time-time.time()+self.promedio*self.i)/(self.i+1)
         sem.release()
         sem.notify()
 
