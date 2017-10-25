@@ -54,7 +54,7 @@ class Sensor():
         return promedio
 
     def agregarTemperatura(self,valor):
-        promedio=self.calcularPromedio(self.temperaturas,valor,self.tiempoTemperatura)
+        promedio=self.calcularPomedio(self.temperaturas,valor,self.tiempoTemperatura)
         self.goState(self.estadoTemperatura,promedio,0,"temperatura")
     def agregarLuz(self,valor):
         self.goState(self.estadoLuz, self.calcularPromedio(self.luces,valor,self.tiempoLuz,0,"luz"))
@@ -225,7 +225,7 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
          "time" : str(time.time()),
          "tipoAlerta" : tipoAlerta
         }
-        url="http://"+ip+":8080/alertas/actuador"
+        url="http://"+ip+":8000/alertas/actuador"
     else:
         payload = {
             "idSensor" :id,
@@ -233,7 +233,7 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
             "tipoAlerta" : tipoAlerta,
             "promedio" : promedio
         }
-        url="http://"+ip+":8080/alertas/sensores"
+        url="http://"+ip+":8000/alertas/sensores"
 
     response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
     print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
@@ -267,7 +267,7 @@ def putEstado(id,estado,tipo):
      "estadoRuido" : est
     }
 
-    url="http://"+ip+":8080/micro/"+str(id)
+    url="http://"+ip+":8000/micro/"+str(id)
 
     response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
     print(" Response Status code: " + str(response.status_code))
