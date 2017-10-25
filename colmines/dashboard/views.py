@@ -114,7 +114,7 @@ def alerta_list(request):
     """
     if request.method == 'GET':
         alerta = Alerta.objects.all()
-        serializer = AlertaSerializer(snippets, many=True)
+        serializer = AlertaSerializer(alerta, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -145,7 +145,7 @@ def medicion_list(request):
     """
     if request.method == 'GET':
         medicion = Medicion.objects.all()
-        serializer = MedicionSerializer(snippets, many=True)
+        serializer = MedicionSerializer(medicion, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -161,10 +161,10 @@ def medicion_list(request):
 @api_view(['GET','PUT','DELETE'])
 def medicion_detail(request, pk, format = None):
     try:
-        medicion = medicion.objects.get(pk=pk)
+        medicion = Medicion.objects.get(pk=pk)
     except Alerta.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = MedicionSerializer(alerta)
+        serializer = MedicionSerializer(medicion)
         return Response(serializer.data)
