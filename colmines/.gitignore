@@ -3,3 +3,10 @@ disquaire_project/disquaire_project/__pycache__
 disquaire_project/store/__pycache__/
 disquaire_project/store/management/
 disquaire_project/store/migrations/__pycache__/
+.idea/FINFLEX-App.iml
+.idea/inspectionProfiles/Project_Default.xml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
