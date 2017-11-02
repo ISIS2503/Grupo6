@@ -10,8 +10,14 @@ ip="172.24.42.40"
 
 class Sensor():
     def __init__(self,id):
-        self.actuador=Actuador(id)
-        self.ciclo=0
+        self.actuadorTemperatura=Actuador(id*10)
+        self.actuadorGas = Actuador(id * 10+1)
+        self.actuadorLuz = Actuador(id * 10+2)
+        self.actuadorRuido = Actuador(id * 10+3)
+        self.cicloT = 0
+        self.cicloG = 0
+        self.cicloL = 0
+        self.cicloR = 0
         self.id=id
         ya=time.time()
         self.tiempoTemperatura=ya
@@ -26,19 +32,7 @@ class Sensor():
         self.gases=[]
         self.luces=[]
         self.ruidos=[]
-        self.chequearConexion()
 
-    def chequearConexion(self):
-        ya=time.time()
-        if(ya-self.tiempoGas>=300):
-            self.goState(self.estadoGas,0,350,"")
-        if(ya-self.tiempoRuido>=300):
-            self.goState(self.estadoRuido,0,350,"")
-        if(ya-self.tiempoLuz>=300):
-            self.goState(self.estadoLuz,0,350,"")
-        if(ya-self.tiempoTemperatura>=300):
-            self.goState(self.estadoTemperatura,0,350,"")
-        threading.Timer(300.0,self.chequearConexion).start()
 
     def calcularPomedio(self, lista, valor, tiempo):
         if(valor==None):
@@ -57,27 +51,38 @@ class Sensor():
         promedio=self.calcularPomedio(self.temperaturas,valor,self.tiempoTemperatura)
         self.goState(self.estadoTemperatura,promedio,0,"temperatura")
     def agregarLuz(self,valor):
-        self.goState(self.estadoLuz, self.calcularPromedio(self.luces,valor,self.tiempoLuz,0,"luz"))
+        self.goState(self.estadoLuz, self.calcularPomedio(self.luces,valor,self.tiempoLuz),0,"luz")
     def agregarRuido(self,valor):
-        self.goState(self.estadoRuido, self.calcularPromedio(self.ruidos,valor,self.tiempoRuido,0,"ruido"))
+        self.goState(self.estadoRuido, self.calcularPomedio(self.ruidos,valor,self.tiempoRuido),0,"ruido")
     def agregarGas(self,valor):
-        self.goState(self.estadoGas, self.calcularPromedio(self.gases,valor,self.tiempoGas,0),0,"gas")
+        self.goState(self.estadoGas, self.calcularPomedio(self.gases,valor,self.tiempoGas),0,"gas")
 
-    def cicloActuador(self,estado):
-        self.ciclo=self.ciclo+1
+    def cicloActuador(self,estado,ciclo,actuador):
+        ciclo=ciclo+1
+        if ciclo==1:
+            actuador.cambiarEstado()
         if(estado.__class__!=FueraDeRango):
-            self.actuador.cambiarEstado()
-            self.ciclo=0
-        if self.ciclo==6:
-            self.ciclo=0
-            self.actuador.malFuncionamiento()
+            actuador.cambiarEstado()
+            ciclo=0
+        if ciclo==6:
+            ciclo=0
+            actuador.malFuncionamiento()
         threading.Timer(600.0,self.cicloActuador,estado).start()
+        return ciclo
 
     def goState(self, estado, promedio,diferenciaTiempo,tipo):
         estado=estado.goState(promedio,diferenciaTiempo,tipo,self.id)
         if(estado.__class__==FueraDeRango):
-            self.actuador.cambiarEstado()
-            self.cicloActuador(estado)
+            if (tipo == "temperatura"):
+               self.cicloT= self.cicloActuador(estado, self.cicloT,self.actuadorTemperatura)
+            elif (tipo == "luz"):
+                self.cicloL = self.cicloActuador(estado, self.cicloL,self.actuadorLuz)
+            elif (tipo == "gas"):
+                self.cicloG = self.cicloActuador(estado, self.cicloG,self.actuadorGas)
+            elif (tipo == "ruido"):
+                self.cicloR = self.cicloActuador(estado, self.cicloR,self.actuadorRuido)
+
+
 
 
 
@@ -95,7 +100,7 @@ class Actuador():
         self.estado=self.estado.goState(fuera,self.id)
         if (self.estado.__class__==Activado):
             self.incio=time.time()
-            self.cicloActuador()
+
 
 class EstadoSensor:
     pass
@@ -105,7 +110,7 @@ class EstadoActuador:
 
 class Activado(EstadoActuador):
     def goState(self,des,id):
-        if(des==None):
+        if(des is None):
             publish(id,"desactivarActuador","actuador",0)
             return Desactivado()
         else:
@@ -115,7 +120,7 @@ class Activado(EstadoActuador):
 
 class Desactivado(EstadoActuador):
     def goState(self, des,id):
-        if(des==None):
+        if(des is None):
             return Activado()
         else:
             publish(id,"malFuncionamiento","actuador",0)
@@ -209,6 +214,9 @@ class FueraDeRango(EstadoSensor):
 
 
 def publish(id, tipoAlerta, tipoEntidad, promedio):
+    #global producer
+    producer = KafkaProducer(bootstrap_servers=['localhost:8090'],
+                             value_serializer=lambda m: json.dumps(m).encode('ascii'))
     print("publicacion "+tipoAlerta)
     payload = {
         "idSensor" : id,
@@ -219,24 +227,26 @@ def publish(id, tipoAlerta, tipoEntidad, promedio):
     print("enviando alerta: "+ tipoAlerta + " " +tipoEntidad+"...")
 
 def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
-    if (tipoEntidad=="actuador"):
-        payload={
-         "idActuador":id,
-         "time" : str(time.time()),
-         "tipoAlerta" : tipoAlerta
-        }
-        url="http://"+ip+":8000/alertas/actuador"
-    else:
-        payload = {
-            "idSensor" :id,
-            "time" : str(time.time()),
-            "tipoAlerta" : tipoAlerta,
-            "promedio" : promedio
-        }
-        url="http://"+ip+":8000/alertas/sensores"
-
-    response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-    print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
+    try:
+        if (tipoEntidad=="actuador"):
+            payload={
+             "idActuador":id,
+             "time" : str(time.time()),
+             "tipoAlerta" : tipoAlerta
+            }
+            url="http://"+ip+":8000/alertas/actuador"
+        else:
+            payload = {
+                "idSensor" :id,
+                "time" : str(time.time()),
+                "tipoAlerta" : tipoAlerta,
+                "promedio" : promedio
+            }
+            url="http://"+ip+":8000/alertas/sensores"
+        response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+        print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
+    except ValueError:
+        print("Exception at posting")
 
 def putEstado(id,estado,tipo):
     print("cambio de estado para el sensor "+str(id))

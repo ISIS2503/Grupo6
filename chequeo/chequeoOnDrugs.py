@@ -1,5 +1,6 @@
 import json
 import threading
+import time
 
 
 from kafka import KafkaConsumer
@@ -24,35 +25,51 @@ valorPrueba = 1500
 i=0
 
 class AgregadorThread(threading.Thread):
+	def __init__(self,id,temperatura,gas,ruido,luz,time):
+		threading.Thread.__init__(self)
+		self.id=id
+		self.temperatura=temperatura
+		self.gas=gas
+		self.ruido=ruido
+		self.luz=luz
+		self.time=time
+	def run(self):
+		global promedio
+		global i
+		micros[self.id].agregarTemperatura(self.temperatura)
+		micros[self.id].agregarGas(self.gas)
+		micros[self.id].agregarRuido(self.ruido)
+		micros[self.id].agregarLuz(self.luz)
+		sem.acquire()
+		promedio= (self.time-time.time()+promedio*i)/(i+1)
+		sem.release()
+		sem.notify()
 
-    global promedio
-    global i
-    def __init__(self,id,temperatura,gas,ruido,luz,time):
-        threading.Thread.__init__(self)
-        self.id=id
-        self.temperatura=temperatura
-        self.gas=gas
-        self.ruido=ruido
-        self.luz=luz
-        self.time=time
-    def run(self):
-        micros[self.id].agregarTemperatura(self.temperatura)
-        micros[self.id].agregarGas(self.gas)
-        micros[self.id].agregarRuido(self.ruido)
-        micros[self.id].agregarLuz(self.luz)
-        sem.acquire()
-        self.promedio= (self.time-time.time()+self.promedio*self.i)/(self.i+1)
-        sem.release()
-        sem.notify()
+def chequearConexion():
+	for micro in micros:
+		ya = time.time()
+		if (ya - micro.tiempoGas >= 300):
+			micro.goState(micro.estadoGas, 0, 350, "")
+		if (ya - micro.tiempoRuido >= 300):
+			micro.goState(micro.estadoRuido, 0, 350, "")
+		if (ya - micro.tiempoLuz >= 300):
+			micro.goState(micro.estadoLuz, 0, 350, "")
+		if (ya - micro.tiempoTemperatura >= 300):
+			micro.goState(micro.estadoTemperatura, 0, 350, "")
+
+	threading.Timer(300.0, chequearConexion).start()
 
 
 
-
-
-init=totalSensores/numeroRangos*(rango-1)
-for i in range(int(totalSensores/numeroRangos)):
-    micros.append(States.Sensor(init+i))
-
+#init=totalSensores/numeroRangos*(rango-1)
+init=0
+print("creando objetos")
+t=time.time()
+for i in range(totalSensores):
+	micros.append(States.Sensor(init+i))
+	print(i)
+print("Objetos creados tiempo tomado: "+str(time.time()-t))
+chequearConexion()
 for message in consumer:
     print(message)
     jsonVal=json.loads(message.value)
@@ -65,9 +82,11 @@ for message in consumer:
     a=AgregadorThread(id,temperatura,gas,ruido,luz,time)
     a.start()
     sem.acquire()
-    while(i<valorPrueba):
-        sem.wait()
-    print(str(i)+" :"+ str(promedio))
+while i<valorPrueba :
+	sem.release()
+	time.sleep(1)
+	sem.acquire()
+print(str(i)+" :"+ str(promedio))
 
 
 
