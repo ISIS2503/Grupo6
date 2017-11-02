@@ -49,7 +49,7 @@ def chequearConexion():
 	for micro in micros:
 		ya = time.time()
 		if (ya - micro.tiempoGas >= 300):
-			micro.goState(micro.estadoGas, 0, 350, "")
+ 			micro.goState(micro.estadoGas, 0, 350, "")
 		if (ya - micro.tiempoRuido >= 300):
 			micro.goState(micro.estadoRuido, 0, 350, "")
 		if (ya - micro.tiempoLuz >= 300):
@@ -71,22 +71,23 @@ for i in range(totalSensores):
 print("Objetos creados tiempo tomado: "+str(time.time()-t))
 chequearConexion()
 for message in consumer:
-    print(message)
-    jsonVal=json.loads(message.value)
-    id=int(jsonVal['id'])
-    temperatura=int(jsonVal['temperatura'])
-    gas=int(jsonVal['gas'])
-    ruido=int(jsonVal['ruido'])
-    luz=int(jsonVal['luz'])
-    time=int(jsonVal['sensetime'])
-    a=AgregadorThread(id,temperatura,gas,ruido,luz,time)
-    a.start()
-    sem.acquire()
-while i<valorPrueba :
-	sem.release()
-	time.sleep(1)
+	print(message)
+	jsonVal=json.loads(message.value)
+	id=int(jsonVal['id'])
+	temperatura=int(jsonVal['temperatura'])
+	gas=int(jsonVal['gas'])
+	ruido=int(jsonVal['ruido'])
+	luz=int(jsonVal['luz'])
+	tt=int(jsonVal['sensetime'])
+	a=AgregadorThread(id,temperatura,gas,ruido,luz,tt)
+	a.start()
 	sem.acquire()
-print(str(i)+" :"+ str(promedio))
+	if i<valorPrueba :
+		sem.release()
+	else:
+		sem.acquire()
+		print(str(i)+" :"+ str(promedio))
+		sem.release()
 
 
 

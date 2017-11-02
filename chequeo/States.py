@@ -215,7 +215,7 @@ class FueraDeRango(EstadoSensor):
 
 def publish(id, tipoAlerta, tipoEntidad, promedio):
     #global producer
-    producer = KafkaProducer(bootstrap_servers=['localhost:8090'],
+    producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'],
                              value_serializer=lambda m: json.dumps(m).encode('ascii'))
     print("publicacion "+tipoAlerta)
     payload = {
@@ -223,8 +223,9 @@ def publish(id, tipoAlerta, tipoEntidad, promedio):
         "tipoEntidad": tipoEntidad,
         "promedio"  : promedio
     }
-    producer.send('alta.'+tipoAlerta,payload)
-    print("enviando alerta: "+ tipoAlerta + " " +tipoEntidad+"...")
+    res = producer.send('alta.'+tipoAlerta,payload)
+    print("enviando alerta: "+ 'alta.',tipoAlerta + " " +tipoEntidad+"...")
+    print(res)
 
 def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
     try:
@@ -243,8 +244,8 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
                 "promedio" : promedio
             }
             url="http://"+ip+":8000/alertas/sensores"
-        response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-        print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
+       # response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+       # print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
     except ValueError:
         print("Exception at posting")
 
@@ -279,5 +280,5 @@ def putEstado(id,estado,tipo):
 
     url="http://"+ip+":8000/micro/"+str(id)
 
-    response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-    print(" Response Status code: " + str(response.status_code))
+   # response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+   # print(" Response Status code: " + str(response.status_code))
