@@ -32,19 +32,7 @@ class Sensor():
         self.gases=[]
         self.luces=[]
         self.ruidos=[]
-        self.chequearConexion()
 
-    def chequearConexion(self):
-        ya=time.time()
-        if(ya-self.tiempoGas>=300):
-            self.goState(self.estadoGas,0,350,"")
-        if(ya-self.tiempoRuido>=300):
-            self.goState(self.estadoRuido,0,350,"")
-        if(ya-self.tiempoLuz>=300):
-            self.goState(self.estadoLuz,0,350,"")
-        if(ya-self.tiempoTemperatura>=300):
-            self.goState(self.estadoTemperatura,0,350,"")
-        threading.Timer(300.0,self.chequearConexion).start()
 
     def calcularPomedio(self, lista, valor, tiempo):
         if(valor==None):
@@ -255,8 +243,8 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
                 "promedio" : promedio
             }
             url="http://"+ip+":8000/alertas/sensores"
-        #response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-       # print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
+        response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+        print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
     except ValueError:
         print("Exception at posting")
 
@@ -291,5 +279,5 @@ def putEstado(id,estado,tipo):
 
     url="http://"+ip+":8000/micro/"+str(id)
 
-    #response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-    #print(" Response Status code: " + str(response.status_code))
+    response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+    print(" Response Status code: " + str(response.status_code))

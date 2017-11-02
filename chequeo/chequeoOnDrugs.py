@@ -7,7 +7,7 @@ from kafka import KafkaConsumer
 
 import States
 
-totalSensores=500
+totalSensores=2500
 numeroRangos=1
 
 micros=[]
@@ -45,7 +45,19 @@ class AgregadorThread(threading.Thread):
 		sem.release()
 		sem.notify()
 
+def chequearConexion():
+	for micro in micros:
+		ya = time.time()
+		if (ya - micro.tiempoGas >= 300):
+			micro.goState(micro.estadoGas, 0, 350, "")
+		if (ya - micro.tiempoRuido >= 300):
+			micro.goState(micro.estadoRuido, 0, 350, "")
+		if (ya - micro.tiempoLuz >= 300):
+			micro.goState(micro.estadoLuz, 0, 350, "")
+		if (ya - micro.tiempoTemperatura >= 300):
+			micro.goState(micro.estadoTemperatura, 0, 350, "")
 
+	threading.Timer(300.0, chequearConexion).start()
 
 
 
@@ -57,7 +69,7 @@ for i in range(totalSensores):
 	micros.append(States.Sensor(init+i))
 	print(i)
 print("Objetos creados tiempo tomado: "+str(time.time()-t))
-
+chequearConexion()
 for message in consumer:
     print(message)
     jsonVal=json.loads(message.value)
