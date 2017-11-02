@@ -5,7 +5,7 @@ import json
 from kafka import KafkaProducer
 #clase de objeto de los que heredan sensor y actuador
 
-producer = KafkaProducer(bootstrap_servers=['localhost:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
+producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
 ip="172.24.42.40"
 
 class Sensor():

@@ -18,7 +18,7 @@ rango=1
 
 
 # To consume latest messages and auto-commit offsets
-consumer = KafkaConsumer('normal.'+'rango'+str(rango),group_id='my-group',bootstrap_servers=['172.24.42.46:8090'])
+consumer = KafkaConsumer('normal.'+'rango'+str(rango),group_id='my-group',bootstrap_servers=['172.24.42.23:8090'])
 sem= threading.BoundedSemaphore()
 promedio = 1
 valorPrueba = 1500
