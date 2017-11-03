@@ -244,9 +244,10 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
                 "promedio" : promedio
             }
             url="http://"+ip+":8000/alertas/sensores"
-       # response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-       # print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
-    except ValueError:
+
+        response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+        print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
+    except requests.exceptions.ConnectionError:
         print("Exception at posting")
 
 def putEstado(id,estado,tipo):

@@ -81,11 +81,10 @@ for message in consumer:
 	tt=int(jsonVal['sensetime'])
 	a=AgregadorThread(id,temperatura,gas,ruido,luz,tt)
 	a.start()
-	sem.acquire()
+	sem.acquire(1)
 	if i<valorPrueba :
 		sem.release()
 	else:
-		sem.acquire()
 		print(str(i)+" :"+ str(promedio))
 		sem.release()
 
