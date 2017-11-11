@@ -26,7 +26,9 @@ from dashboard import views
 #]
 
 urlpatterns = [
+    url(r'^$', views.index, name="index"),
     url(r'^', include('dashboard.urls')),
+    url(r'^admin/', admin.site.urls)
 ]
 if settings.DEBUG:
     import debug_toolbar

@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
-
+import json
+from six.moves.urllib import request
+from cryptography.x509 import load_pem_x509_certificate
+from cryptography.hazmat.backends import default_backend
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
+    'colmines',
     'rest_framework',
     'dashboard.apps.StoreConfig',
     'django_cassandra_engine',
@@ -95,20 +100,6 @@ DATABASES = {
         }
     }
 
-#DATABASES = {
-##        'default': {
-#            'ENGINE': 'django_cassandra_engine',
-#            'NAME': 'db',
-#            'TEST_NAME': 'test_db',
-#           'HOST': '172.24.42.24',
-#            'OPTIONS': {
-#                'replication': {
-#                    'strategy_class': 'SimpleStrategy',
-#                    'replication_factor': 1
-#                }
-#            }
-#        }
-#    }
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -128,6 +119,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+
+jsonurl = request.urlopen("https://colmines.auth0.com/.well-known/jwks.json")
+jwks = json.loads(jsonurl.read())
+cert = '-----BEGIN CERTIFICATE-----\n' + jwks['keys'][0]['x5c'][0] + '\n-----END CERTIFICATE-----'
+
+certificate = load_pem_x509_certificate(str.encode(cert), default_backend())
+publickey = certificate.public_key()
+
+JWT_AUTH = {
+    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
+        'authorization.user.jwt_get_username_from_payload_handler',
+    'JWT_PUBLIC_KEY': publickey,
+    'JWT_ALGORITHM': 'RS256',
+    'JWT_AUDIENCE': '5a062b444af3d45781fba2d9',
+    'JWT_ISSUER': 'https://colmines.auth0.com/',
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
