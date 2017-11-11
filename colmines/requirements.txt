@@ -1,0 +1,7 @@
+django
+djangorestframework
+djangorestframework-jwt
+social-auth-app-django
+python-jose
+six
+cryptography
