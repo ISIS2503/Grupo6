@@ -14,18 +14,30 @@ consumer = KafkaConsumer('normal.'+'rango1',
 
 i=0
 print("*started looking for topics to eat*")
+class AgregadorThread(threading.Thread):
+	def __init__(self,payload):
+		threading.Thread.__init__(self)
+		self.payload=payload
+	def run(self):
+		global promedio
+		global i
+    url = "http://172.24.42.40:8000/mediciones/"
+		response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+		sem.acquire()
+		promedio= (self.time-time.time()+promedio*i)/(i+1)
+		sem.release()
+
+
 for message in consumer:
    # print(message)
     try:
         jsonVal=json.loads(message.value)
         if (jsonVal!= None and jsonVal['data']!=None):
             valor=int(jsonVal['data'])
-            url = "http://localhost:8000/sensores/"
+           
             payload={
-                "idSensor0": jsonVal['idSensor0'],
-                "idSensor1": jsonVal['idSensor1'],
-                "idSensor2": jsonVal['idSensor2'],
-                "idSensor3": jsonVal['idSensor3'],
+        
+                "idMicro": jsonVal['idMicro'],
                 "temperatura":jsonVal['temperatura'],
                 "sonido":jsonVal['sonido'],
                 "gas":jsonVal['gas'],
@@ -34,7 +46,7 @@ for message in consumer:
           }
 
             #print(json.dumps(payload))
-            response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+           
             print(message.topic)
             i+=1
             print("Msj:"+ str(i)+" Response Status Code: " + str(response.status_code))
