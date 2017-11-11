@@ -4,6 +4,7 @@ import datetime
 import sys
 import requests
 import time
+import threading
 
 t=time.time()
 # To consume latest messages and auto-commit offsets
@@ -13,6 +14,8 @@ consumer = KafkaConsumer('normal.'+'rango1',
                          bootstrap_servers=['172.24.42.46:8090'])
 
 i=0
+promedio=0
+
 print("*started looking for topics to eat*")
 class AgregadorThread(threading.Thread):
 	def __init__(self,payload):
@@ -21,10 +24,12 @@ class AgregadorThread(threading.Thread):
 	def run(self):
 		global promedio
 		global i
-    url = "http://172.24.42.40:8000/mediciones/"
+   		 url = "http://172.24.42.40:8000/mediciones/"
 		response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
 		sem.acquire()
 		promedio= (self.time-time.time()+promedio*i)/(i+1)
+		i=i+1
+		print("Msj:"+ str(i)+" Response Status Code: " + str(response.status_code))
 		sem.release()
 
 
@@ -37,20 +42,19 @@ for message in consumer:
            
             payload={
         
-                "idMicro": jsonVal['idMicro'],
+                "idMicro": jsonVal['id'],
                 "temperatura":jsonVal['temperatura'],
                 "sonido":jsonVal['sonido'],
                 "gas":jsonVal['gas'],
                 "luz":jsonVal['luz'],
-                "time": str(datetime.datetime.now()).split(" ")[1]    
+                "time": jsonVal['senseTime']   
           }
 
-            #print(json.dumps(payload))
+        ag=AgregadorThread(payload)
+	ag.start()
+	 
            
-            print(message.topic)
-            i+=1
-            print("Msj:"+ str(i)+" Response Status Code: " + str(response.status_code))
-        ## caso en el que el valor recibido esta mal formado
+       
         else:
             print("null value received")
 
