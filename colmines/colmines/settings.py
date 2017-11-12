@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'django_cassandra_engine',
-    'dashboard',
     'django.contrib.admin',
+    'dashboard',
 ]
 
 MIDDLEWARE = [

@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from rest_framework.parsers import JSONParser
 from .models import Ubicacion,Tipo,MicroControlador,Alerta, Medicion,AlertaActuador
 from .serializers import UbicacionSerializer,TipoSerializer,MicroControladorSerializer,AlertaSerializer,MedicionSerializer,AlertaActuadorSerializer
@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.contrib.auth.views import login
 from django.shortcuts import render
 
 import time
@@ -14,9 +15,22 @@ import time
 def index(request):
   return render(request, 'security/login.html')
 
+def custom_login(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('dashboard')
+    else:
+        return login(request)
+
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard/dashboard.html')
+    groups = request.user.groups.values_list('name', flat=True)
+    group = None
+    for g in groups:
+        group = g
+    if group == 'syso':
+        return render(request, 'dashboard/dashboardSySo.html')
+    else:
+        return render(request, 'dashboard/dashboardAdmin.html')
 
 @api_view(['GET','POST'])
 def ubicacion_list(request, format = None):
