@@ -2,36 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="08f8db23-1ec6-4ce3-b970-8bc1d6a76e15" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colmines/dashboard/static/dashboard/css/style.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colmines/dashboard/templates/dashboard/dashboard.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colmines/dashboard/templates/registration/login.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colmines/dashboard/templates/registration/logout.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/colmines/db.sqlite3" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0002_auto_20170926_1032.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0003_auto_20170926_1208.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0004_auto_20170926_1252.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0005_auto_20170926_1324.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0006_auto_20170926_1402.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0007_auto_20170927_0933.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0007_auto_20170927_1005.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0008_auto_20170927_1007.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0009_auto_20170927_1012.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0010_auto_20170927_1012.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0011_auto_20170927_1014.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0012_auto_20170927_1203.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0013_merge_20170927_1949.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0014_auto_20171101_1906.py" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/colmines/dashboard/static/dashboard/css/business-casual.css" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/colmines/dashboard/templates/dashboard/base.html" afterPath="$PROJECT_DIR$/colmines/dashboard/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/colmines/settings.py" afterPath="$PROJECT_DIR$/colmines/colmines/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/colmines/urls.py" afterPath="$PROJECT_DIR$/colmines/colmines/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/dashboard/migrations/0001_initial.py" afterPath="$PROJECT_DIR$/colmines/dashboard/migrations/0001_initial.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/dashboard/templates/dashboard/index.html" afterPath="$PROJECT_DIR$/colmines/dashboard/templates/dashboard/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/dashboard/urls.py" afterPath="$PROJECT_DIR$/colmines/dashboard/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/dashboard/views.py" afterPath="$PROJECT_DIR$/colmines/dashboard/views.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/requirements.txt" afterPath="$PROJECT_DIR$/colmines/requirements.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/colmines/.gitignore" afterPath="$PROJECT_DIR$/colmines/.gitignore" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -74,14 +46,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/colmines/dashboard/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="112">
-              <caret line="7" column="97" lean-forward="false" selection-start-line="7" selection-start-column="97" selection-end-line="7" selection-end-column="97" />
+            <state relative-caret-position="80">
+              <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/colmines/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="224">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -138,7 +120,6 @@
         <option value="$PROJECT_DIR$/colmines/dashboard/serializers.py" />
         <option value="$PROJECT_DIR$/chequeo/States.py" />
         <option value="$PROJECT_DIR$/chequeo/chequeoOnDrugs.py" />
-        <option value="$PROJECT_DIR$/colmines/.gitignore" />
         <option value="$PROJECT_DIR$/colmines/user.py" />
         <option value="$PROJECT_DIR$/colmines/dashboard/templates/dashboard/base.html" />
         <option value="$PROJECT_DIR$/colmines/dashboard/static/dashboard/css/business-casual.css" />
@@ -159,11 +140,11 @@
         <option value="$PROJECT_DIR$/colmines/requirements.txt" />
         <option value="$PROJECT_DIR$/colmines/dashboard/views.py" />
         <option value="$PROJECT_DIR$/colmines/dashboard/urls.py" />
+        <option value="$PROJECT_DIR$/colmines/.gitignore" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="640" />
+  <component name="ProjectFrameBounds">
     <option name="width" value="640" />
     <option name="height" value="800" />
   </component>
@@ -398,9 +379,10 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="-4" width="1288" height="808" extended-state="6" />
+    <frame x="0" y="0" width="640" height="800" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.13570274" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28474575" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32914925" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32962587" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32998997" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -570,13 +552,6 @@
         <state relative-caret-position="4192">
           <caret line="278" column="8" lean-forward="false" selection-start-line="278" selection-start-column="8" selection-end-line="278" selection-end-column="8" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/colmines/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="10" column="15" lean-forward="true" selection-start-line="10" selection-start-column="15" selection-end-line="10" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -770,11 +745,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/colmines/dashboard/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="97" lean-forward="false" selection-start-line="7" selection-start-column="97" selection-end-line="7" selection-end-column="97" />
+        <state relative-caret-position="80">
+          <caret line="5" column="15" lean-forward="true" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/colmines/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
