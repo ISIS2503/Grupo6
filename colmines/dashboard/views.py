@@ -1,24 +1,23 @@
-from django.shortcuts import render, get_object_or_404
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db import transaction, IntegrityError
 from django.http import HttpResponse, JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
-from dashboard.models import Ubicacion,Tipo,MicroControlador,Alerta, Medicion,AlertaActuador
-from dashboard.serializers import UbicacionSerializer,TipoSerializer,MicroControladorSerializer,AlertaSerializer,MedicionSerializer,AlertaActuadorSerializer
-from django.template.context_processors import request
+from .models import Ubicacion,Tipo,MicroControlador,Alerta, Medicion,AlertaActuador
+from .serializers import UbicacionSerializer,TipoSerializer,MicroControladorSerializer,AlertaSerializer,MedicionSerializer,AlertaActuadorSerializer
+from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from django.shortcuts import render
+
 import time
 
 
 def index(request):
-    context = {
+  return render(request, 'security/login.html')
 
-    }
-    return render(request, 'dashboard/index.html', context)
+@login_required
+def dashboard(request):
+    return render(request, 'dashboard/dashboard.html')
+
 @api_view(['GET','POST'])
 def ubicacion_list(request, format = None):
     """

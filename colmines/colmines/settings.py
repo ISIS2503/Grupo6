@@ -15,6 +15,7 @@ import json
 from six.moves.urllib import request
 from cryptography.x509 import load_pem_x509_certificate
 from cryptography.hazmat.backends import default_backend
+from dotenv import load_dotenv, find_dotenv
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,47 +37,28 @@ ALLOWED_HOSTS = []
 
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social_django',
-    'colmines',
     'rest_framework',
-    'dashboard.apps.StoreConfig',
     'django_cassandra_engine',
-
+    'dashboard',
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'colmines.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
 
 WSGI_APPLICATION = 'colmines.wsgi.application'
 
@@ -86,6 +68,10 @@ WSGI_APPLICATION = 'colmines.wsgi.application'
 
 DATABASES = {
         'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+             },
+        'app': {
             'ENGINE': 'django_cassandra_engine',
             'NAME': 'arquidb13',
             'TEST_NAME': 'test_db',
@@ -96,7 +82,7 @@ DATABASES = {
                     'strategy_class': 'SimpleStrategy',
                     'replication_factor': 1
                 }
-            }
+            },
         }
     }
 
@@ -119,33 +105,22 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-    ),
-}
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': ['/dashboard/templates'],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
-jsonurl = request.urlopen("https://colmines.auth0.com/.well-known/jwks.json")
-jwks = json.loads(jsonurl.read())
-cert = '-----BEGIN CERTIFICATE-----\n' + jwks['keys'][0]['x5c'][0] + '\n-----END CERTIFICATE-----'
-
-certificate = load_pem_x509_certificate(str.encode(cert), default_backend())
-publickey = certificate.public_key()
-
-JWT_AUTH = {
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER':
-        'authorization.user.jwt_get_username_from_payload_handler',
-    'JWT_PUBLIC_KEY': publickey,
-    'JWT_ALGORITHM': 'RS256',
-    'JWT_AUDIENCE': '5a062b444af3d45781fba2d9',
-    'JWT_ISSUER': 'https://colmines.auth0.com/',
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
@@ -165,3 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# url to redirect after successfull login
+LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_URL='/'

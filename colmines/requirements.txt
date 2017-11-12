@@ -1,7 +1,4 @@
 django
 djangorestframework
-djangorestframework-jwt
-social-auth-app-django
-python-jose
-six
-cryptography
+django-cassandra-engine
+debug_toolbar

@@ -17,21 +17,13 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from dashboard import views
 
 #urlpatterns = [
-#    url(r'^$', views.index, name="index"),
 #    url(r'^dashboard/', include('dashboard.urls', namespace='dashboard')),
 #    url(r'^admin/', admin.site.urls)
 #]
 
 urlpatterns = [
-    url(r'^$', views.index, name="index"),
-    url(r'^', include('dashboard.urls')),
-    url(r'^admin/', admin.site.urls)
+    url(r'^/', admin.site.urls),
+    url(r'^', include('dashboard.urls'))
 ]
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns

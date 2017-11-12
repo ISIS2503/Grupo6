@@ -1,8 +1,14 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
+    url(r'^$', auth_views.login, name='login'),
+    url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logout.html'}, name='logout'),
+
+    url(r'^dashboard', views.dashboard),
+
     url(r'^ubicaciones$', views.ubicacion_list),
     url(r'^ubicaciones/(?P<pk>[0-9]+)$', views.ubicacion_detail),
 
