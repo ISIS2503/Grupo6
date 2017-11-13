@@ -33,14 +33,11 @@ class MicroControladorSerializer(serializers.Serializer):
         Create and return a new `PersonaModel` instance, given the validated data.
         """
         return MicroControlador.objects.create(**validated_data)
-    
+
 
 class MedicionSerializer(serializers.Serializer):
     idMedicion = serializers.IntegerField()
-    idSensor0 = serializers.IntegerField()
-    idSensor1 = serializers.IntegerField()
-    idSensor2 = serializers.IntegerField()
-    idSensor3 = serializers.IntegerField()
+    idMicro = serializers.IntegerField()
     temperatura = serializers.IntegerField()
     sonido = serializers.IntegerField()
     gas = serializers.IntegerField()

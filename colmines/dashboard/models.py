@@ -53,10 +53,7 @@ class MicroControlador(DjangoCassandraModel):
         self.save()
 class Medicion(DjangoCassandraModel):
     idMedicion =columns.Integer(primary_key = True)
-    idSensor0 = columns.Integer(required= True)
-    idSensor1 = columns.Integer(required = True)
-    idSensor2 = columns.Integer(required = True)
-    idSensor3 = columns.Integer(required = True)
+    idMicro = columns.Integer(required= True)
     temperatura = columns.Integer(required= True)
     sonido = columns.Integer(required = True)
     gas = columns.Integer(required = True)
