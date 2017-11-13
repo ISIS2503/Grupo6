@@ -217,13 +217,14 @@ def medicion_list(request):
         user = authenticate(username=u,password=p)
 
         if user is not None:
-            idData = int((time.time()*1000) % 86400000)
-            data['idMedicion']=idData
-            serializer = MedicionSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                return JsonResponse(serializer.data, status=201)
-            return JsonResponse(serializer.errors, status=400)
+            if user.has_perm('dashboard.add_medicion'):
+                idData = int((time.time()*1000) % 86400000)
+                data['idMedicion']=idData
+                serializer = MedicionSerializer(data=data)
+                if serializer.is_valid():
+                    serializer.save()
+                    return JsonResponse(serializer.data, status=201)
+    return JsonResponse(serializer.errors, status=400)
 
 @api_view(['GET','PUT','DELETE'])
 def medicion_detail(request, pk, format = None):
