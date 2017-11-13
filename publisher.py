@@ -6,6 +6,8 @@ import requests
 import time
 import threading
 
+username = "publisher"
+password = "colmines12545"
 t=time.time()
 # To consume latest messages and auto-commit offsets
 print("**Starting publisher")
@@ -41,7 +43,8 @@ for message in consumer:
             valor=int(jsonVal['data'])
            
             payload={
-        
+                "user":username,
+                "pw":password,
                 "idMicro": jsonVal['id'],
                 "temperatura":jsonVal['temperatura'],
                 "sonido":jsonVal['sonido'],
@@ -52,9 +55,9 @@ for message in consumer:
 
         ag=AgregadorThread(payload)
 	ag.start()
-	 
-           
-       
+
+
+
         else:
             print("null value received")
 

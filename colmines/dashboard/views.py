@@ -217,8 +217,6 @@ def medicion_list(request):
         user = authenticate(username=u,password=p)
 
         if user is not None:
-            print(data)
-            print(type(data))
             idData = int((time.time()*1000) % 86400000)
             data['idMedicion']=idData
             serializer = MedicionSerializer(data=data)
