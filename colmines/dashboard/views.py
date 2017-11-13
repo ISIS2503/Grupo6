@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.contrib.auth.views import login
+from django.contrib.auth import authenticate
 from django.shortcuts import render
 
 import time
@@ -29,8 +30,9 @@ def dashboard(request):
         group = g
     if group == 'syso':
         return render(request, 'dashboard/dashboardSySo.html')
-    else:
+    elif group == 'administrador':
         return render(request, 'dashboard/dashboardAdmin.html')
+    else: return render(request, 'dashboard/index.html')
 
 @api_view(['GET','POST'])
 def ubicacion_list(request, format = None):
@@ -208,13 +210,22 @@ def medicion_list(request):
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        idData = int((time.time()*1000) % 86400000)
-        data['idMedicion']=idData
-        serializer = MedicionSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+        u = data['user']
+        del data['user']
+        p = data['pw']
+        del data['pw']
+        user = authenticate(username=u,password=p)
+
+        if user is not None:
+            print(data)
+            print(type(data))
+            idData = int((time.time()*1000) % 86400000)
+            data['idMedicion']=idData
+            serializer = MedicionSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save()
+                return JsonResponse(serializer.data, status=201)
+            return JsonResponse(serializer.errors, status=400)
 
 @api_view(['GET','PUT','DELETE'])
 def medicion_detail(request, pk, format = None):
