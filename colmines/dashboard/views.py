@@ -29,10 +29,18 @@ def dashboard(request):
     for g in groups:
         group = g
     if group == 'syso':
-        return render(request, 'dashboard/dashboardSySo.html')
+        return render(request, 'syso_home.html')
     elif group == 'administrador':
-        return render(request, 'dashboard/dashboardAdmin.html')
-    else: return render(request, 'dashboard/index.html')
+        return render(request, 'supervisor_home.html')
+    else: return render(request, 'base.html')
+
+@login_required
+def reportes(request):
+    return render(request, 'reportes.html')
+
+@login_required
+def alertas(request):
+    return render(request, 'alertas.html')
 
 @api_view(['GET','POST'])
 def ubicacion_list(request, format = None):
@@ -224,7 +232,8 @@ def medicion_list(request):
                 if serializer.is_valid():
                     serializer.save()
                     return JsonResponse(serializer.data, status=201)
-    return JsonResponse(serializer.errors, status=400)
+
+    return JsonResponse(status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['GET','PUT','DELETE'])
 def medicion_detail(request, pk, format = None):

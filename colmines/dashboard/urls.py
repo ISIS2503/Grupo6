@@ -1,6 +1,7 @@
 from django.conf.urls import url, include
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib.auth import views as auth_views
+from django.views.generic.base import RedirectView
 from . import views
 
 urlpatterns = [
@@ -8,6 +9,8 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logout.html'}, name='logout'),
 
     url(r'^dashboard', views.dashboard, name='dashboard'),
+    url(r'^reportes', views.reportes, name='reportes'),
+    url(r'^alertas', views.alertas, name='alertas'),
 
     url(r'^ubicaciones$', views.ubicacion_list),
     url(r'^ubicaciones/(?P<pk>[0-9]+)$', views.ubicacion_detail),

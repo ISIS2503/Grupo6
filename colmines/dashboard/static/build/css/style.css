@@ -1,0 +1,96 @@
+.large-image{
+    max-height: 80vh
+}
+
+#plan-boutiques {
+    display: inline-block;
+    position: relative;
+}
+
+.container {
+  width:100%;
+  margin:0 auto;
+}
+
+ #plan-boutiques a {
+  border-radius: 100px;
+  background-repeat: no-repeat;
+  display:block;
+  height:10px;
+  width:10px;
+  position:absolute;
+  line-height: 25px;
+  color:#fff;
+  text-align:center;
+  font-size:1px;
+  background-position: 0 -27px;
+ }
+
+#plan-boutiques a:hover {
+  background-position: 0 0;
+}
+a#first_element {
+  background-color: green;
+  margin-left: 29.92%;
+  margin-top: -25.02%;
+}
+
+a#second_element {
+  background-color: green;
+  margin-left: 39.68%;
+  margin-top: -32.06%;
+}
+a#third_element {
+  background-color: red;
+  margin-left: 40.84%;
+  margin-top: -30.04%;
+}
+a#fourth_element {
+  background-color: green;
+  margin-left: 59.92%;
+  margin-top: -29.02%;
+}
+
+a#fifth_element {
+  background-color: yellow;
+  margin-left: 47.68%;
+  margin-top: -35.06%;
+}
+a#sixth_element {
+  background-color: green;
+  margin-left: 35.84%;
+  margin-top: -25.04%;
+}
+
+a#sev_element {
+  background-color: green;
+  margin-left: 59.92%;
+  margin-top: -35.02%;
+}
+
+a#eig_element {
+  background-color: green;
+  margin-left: 49.68%;
+  margin-top: -32.06%;
+}
+a#nin_element {
+  background-color: red;
+  margin-left: 45.84%;
+  margin-top: -30.04%;
+}
+a#ten_element {
+  background-color: green;
+  margin-left: 49.92%;
+  margin-top: -35.02%;
+}
+
+a#ele_element {
+  background-color: yellow;
+  margin-left: 41.68%;
+  margin-top: -39.06%;
+}
+a#twe_element {
+  background-color: green;
+  margin-left: 35.84%;
+  margin-top: -35.04%;
+}

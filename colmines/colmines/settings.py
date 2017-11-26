@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/dashboard/templates'],
+        'DIRS': ['/dashboard'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -144,3 +144,4 @@ STATIC_URL = '/static/'
 # url to redirect after successfull login
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGIN_URL='/'
+LOGOUT_REDIRECT_URL='/'
