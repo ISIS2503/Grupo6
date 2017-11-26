@@ -1,4 +1,3 @@
 django
 djangorestframework
 django-cassandra-engine
-debug_toolbar
