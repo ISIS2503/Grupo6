@@ -10,6 +10,7 @@ colmines/colmines/__pycache__/
 colmines/dashboard/__pycache__/
 
 # Django:
+/chequeo/.idea/
 *.log
 local_settings.py
 
@@ -18,7 +19,6 @@ local_settings.py
 
 # dotenv
 .env
-
 
 
 env/

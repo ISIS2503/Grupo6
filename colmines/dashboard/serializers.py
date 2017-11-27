@@ -50,7 +50,7 @@ class AlertaSerializer(serializers.Serializer):
     idAlerta = serializers.IntegerField()
     tipoAlerta = serializers.CharField(required = False, max_length=100)
     time = serializers.CharField()
-    idSensor = serializers.IntegerField()
+    idMicro = serializers.IntegerField()
     promedio = serializers.IntegerField()
     def create(self, validated_data):
         """
