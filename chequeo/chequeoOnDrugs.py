@@ -27,6 +27,7 @@ i=0
 class AgregadorThread(threading.Thread):
 	def __init__(self,id,temperatura,gas,ruido,luz,time):
 		threading.Thread.__init__(self)
+		self.producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
 		self.id=id
 		self.temperatura=temperatura
 		self.gas=gas
@@ -40,10 +41,16 @@ class AgregadorThread(threading.Thread):
 		micros[self.id].agregarGas(self.gas)
 		micros[self.id].agregarRuido(self.ruido)
 		micros[self.id].agregarLuz(self.luz)
-		sem.acquire()
-		promedio= (self.time-time.time()+promedio*i)/(i+1)
-		sem.release()
-		sem.notify()
+		payload = {
+		"id" : self.id,
+		"temperatura": self.temperatura,
+		"gas": self.gas,
+		"ruido": self.ruido,
+		"luz": self.kuz,
+		"sensetime" :self.time
+	  	  }
+		producer.send('bash.rango1',payload)
+		
 
 def chequearConexion():
 	for micro in micros:
@@ -81,12 +88,7 @@ for message in consumer:
 	tt=int(jsonVal['sensetime'])
 	a=AgregadorThread(id,temperatura,gas,ruido,luz,tt)
 	a.start()
-	sem.acquire(1)
-	if i<valorPrueba :
-		sem.release()
-	else:
-		print(str(i)+" :"+ str(promedio))
-		sem.release()
+	
 
 
 
