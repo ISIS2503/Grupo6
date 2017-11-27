@@ -48,7 +48,21 @@
                       {% endif %}
                     </ul>
 
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if lista_alertas.has_previous %}
+                                <a href="?page={{ lista_alertas.previous_page_number }}">Previous</a>
+                            {% endif %}
 
+                            <span class="current">
+                                Page {{ lista_alertas.number }} of {{ lista_alertas.paginator.num_pages }}.
+                            </span>
+
+                            {% if lista_alertas.has_next %}
+                                <a href="?page={{ lista_alertas.next_page_number }}">Next</a>
+                            {% endif %}
+                        </span>
+                    </div>
 
                   </div>
                 </div>
