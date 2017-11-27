@@ -1,15 +1,15 @@
-**.idea/
+.idea/
 .idea/workspace.xml
-'django.contrib.admin',
-.idea/FINFLEX-App.iml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
 .idea/encodings.xml
+colmines/colmines/__pycache__/
+colmines/dashboard/__pycache__/
 
-# Django stuff:
+# Django:
 *.log
 local_settings.py
 
