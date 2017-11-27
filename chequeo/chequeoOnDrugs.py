@@ -19,31 +19,73 @@ rango=1
 
 # To consume latest messages and auto-commit offsets
 consumer = KafkaConsumer('normal.'+'rango'+str(rango),group_id='my-group',bootstrap_servers=['172.24.42.23:8090'])
-sem= threading.BoundedSemaphore()
+#evt= threading.event()
 promedio = 1
 valorPrueba = 1500
 i=0
 
 class AgregadorThread(threading.Thread):
-	def __init__(self,id,temperatura,gas,ruido,luz,time):
+
+	def __init__(self):
 		threading.Thread.__init__(self)
+		self.event = threading.Event()
+		self.producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
+		self.id=0
+		self.temperatura=0
+		self.gas=0
+		self.ruido=0
+		self.luz=0
+		self.time=0
+
+	def setVals(self,id,temperatura,gas,ruido,luz,time):
+		#threading.Thread.__init__(self)
+		#self.event = threading.Event()
+		#self.producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
 		self.id=id
 		self.temperatura=temperatura
 		self.gas=gas
 		self.ruido=ruido
 		self.luz=luz
 		self.time=time
+
 	def run(self):
-		global promedio
-		global i
-		micros[self.id].agregarTemperatura(self.temperatura)
-		micros[self.id].agregarGas(self.gas)
-		micros[self.id].agregarRuido(self.ruido)
-		micros[self.id].agregarLuz(self.luz)
-		sem.acquire()
-		promedio= (self.time-time.time()+promedio*i)/(i+1)
-		sem.release()
-		sem.notify()
+		while True:
+			self.event.clear()
+			self.event.wait()
+			micros[self.id].agregarTemperatura(self.temperatura)
+			micros[self.id].agregarGas(self.gas)
+			micros[self.id].agregarRuido(self.ruido)
+			micros[self.id].agregarLuz(self.luz)
+			payload = {
+			"id" : self.id,
+			"temperatura": self.temperatura,
+			"gas": self.gas,
+			"ruido": self.ruido,
+			"luz": self.luz,
+			"sensetime" :self.time
+			}
+			producer.send('bash.rango1',payload)
+
+
+	def setId(self,id):
+		self.id = id
+
+	def setTemperatura(self,temperatura):
+		self.temperatura = temperatura
+
+	def setGas(self,gas):
+		self.gas = gas
+
+	def setRuido(self,ruido):
+		self.ruido = ruido
+
+	def setLuz(self, luz):
+		self.luz = luz
+
+	def setTime(self, time):
+		self.time = time
+
+		
 
 def chequearConexion():
 	for micro in micros:
@@ -70,6 +112,12 @@ for i in range(totalSensores):
 	print(i)
 print("Objetos creados tiempo tomado: "+str(time.time()-t))
 chequearConexion()
+poolSize = 10
+pool[0] = None
+for i in range(1,poolSize):
+	pool[i] = AgregadorThread()
+	pool[i].start()
+
 for message in consumer:
 	print(message)
 	jsonVal=json.loads(message.value)
@@ -79,14 +127,13 @@ for message in consumer:
 	ruido=int(jsonVal['ruido'])
 	luz=int(jsonVal['luz'])
 	tt=int(jsonVal['sensetime'])
-	a=AgregadorThread(id,temperatura,gas,ruido,luz,tt)
-	a.start()
-	sem.acquire(1)
-	if i<valorPrueba :
-		sem.release()
-	else:
-		print(str(i)+" :"+ str(promedio))
-		sem.release()
+	for i in range(1,poolSize):
+		if not pool[i].event.is_set():
+			pool[i].setVals(id,temperatura,gas,ruido,luz,tt)
+			pool[i].event.set()
+			break
+
+	
 
 
 

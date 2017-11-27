@@ -8,7 +8,7 @@
 .idea/modules.xml
 .idea/vcs.xml
 .idea/encodings.xml
-
+/chequeo/.idea/
 # Django stuff:
 *.log
 local_settings.py
