@@ -63,6 +63,10 @@ class AgregadorThread(threading.Thread):
 			"ruido": self.ruido,
 			"luz": self.luz,
 			"sensetime" :self.time
+			"estadoTemp" : micros[self.id].estadoTemperatura
+			"estadoGas" : micros[self.id].estadoGas
+			"estadoRuido" : micros[self.id].estadoRuido
+			"estadoLuz" : micros[self.id].estadoLuz
 			}
 			producer.send('bash.rango1',payload)
 
