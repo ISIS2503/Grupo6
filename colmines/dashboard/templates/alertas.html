@@ -20,7 +20,15 @@
                   <div class="dashboard-widget-content">
 
                     <ul class="list-unstyled timeline widget">
-
+                      {% if lista_alertas %}
+                          <ul>
+                          {% for alerta in lista_alertas %}
+                              <li><a href="">{{ alerta.promedio }}</a></li>
+                          {% endfor %}
+                          </ul>
+                      {% else %}
+                          <p>No hay alertas.</p>
+                      {% endif %}
                       <li>
                         <div class="block">
                           <div class="block_content">

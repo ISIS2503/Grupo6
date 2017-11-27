@@ -1,7 +1,6 @@
-**.idea/
+.idea/
 .idea/workspace.xml
 'django.contrib.admin',
-.idea/FINFLEX-App.iml
 .idea/inspectionProfiles/Project_Default.xml
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/misc.xml
@@ -9,6 +8,7 @@
 .idea/vcs.xml
 .idea/encodings.xml
 /chequeo/.idea/
+dashboard/__pycache__/
 # Django stuff:
 *.log
 local_settings.py
