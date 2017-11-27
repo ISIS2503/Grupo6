@@ -11,7 +11,7 @@ password = "colmines12545"
 t=time.time()
 # To consume latest messages and auto-commit offsets
 print("**Starting publisher")
-consumer = KafkaConsumer('normal.'+'rango1',
+consumer = KafkaConsumer('bash.'+'rango1',
                          group_id='my-group',
                          bootstrap_servers=['172.24.42.46:8090'])
 
