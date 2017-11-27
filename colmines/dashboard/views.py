@@ -40,7 +40,11 @@ def reportes(request):
 
 @login_required
 def alertas(request):
-    return render(request, 'alertas.html')
+    alertas = Alerta.objects.all()
+    context={
+        'lista_alertas':alertas
+    }
+    return render(request, 'alertas.html', context)
 
 @api_view(['GET','POST'])
 def ubicacion_list(request, format = None):
