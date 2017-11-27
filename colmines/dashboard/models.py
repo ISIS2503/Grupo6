@@ -16,7 +16,7 @@ class Alerta(DjangoCassandraModel):
     idAlerta = columns.Integer(primary_key = True)
     tipoAlerta = columns.Text(required = False)
     time = columns.Text(required = True)
-    idSensor = columns.Integer()
+    idMicro = columns.Integer()
     promedio = columns.Integer()
 
 class AlertaActuador(DjangoCassandraModel):
