@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from django.contrib.auth.views import login
 from django.contrib.auth import authenticate
 from django.shortcuts import render
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 import time
 
@@ -41,6 +42,17 @@ def reportes(request):
 @login_required
 def alertas(request):
     alertas = Alerta.objects.all()
+    paginator = Paginator(alertas, 2)
+    page = request.GET.get('page')
+    try:
+        alertas = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        alertas = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        alertas = paginator.page(paginator.num_pages)
+
     context={
         'lista_alertas':alertas
     }
