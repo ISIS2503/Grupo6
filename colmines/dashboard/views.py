@@ -42,7 +42,7 @@ def reportes(request):
 @login_required
 def alertas(request):
     alertas = Alerta.objects.all()
-    paginator = Paginator(alertas, 2)
+    paginator = Paginator(alertas, 5)
     page = request.GET.get('page')
     try:
         alertas = paginator.page(page)
@@ -57,6 +57,26 @@ def alertas(request):
         'lista_alertas':alertas
     }
     return render(request, 'alertas.html', context)
+
+
+@login_required
+def actuador(request):
+    alertas = AlertaActuador.objects.all()
+    paginator = Paginator(alertas, 5)
+    page = request.GET.get('page')
+    try:
+        alertas = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        alertas = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        alertas = paginator.page(paginator.num_pages)
+
+    context={
+        'lista_alertas':alertas
+    }
+    return render(request, 'alertas_actuador.html', context)
 
 @api_view(['GET','POST'])
 def ubicacion_list(request, format = None):

@@ -63,7 +63,12 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="{% url 'dashboard' %}"><i class="fa fa-th-large"></i> Dashboard </a></li>
-                  <li><a href="{% url 'alertas' %}"><i class="fa fa-warning"></i> Alertas </span></a></li>
+                  <li><a><i class="fa fa-warning"></i> Alertas <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="{% url 'alertas' %}">Alertas Sensores</a></li>
+                      <li><a href="{% url 'actuadores' %}">Alertas Actuadores</a></li>
+                    </ul>
+                  </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Reportes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'reportes' %}">Áreas</a></li>

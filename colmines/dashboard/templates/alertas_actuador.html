@@ -7,7 +7,7 @@
   <div class="col-md-12">
               <div class="x_panel">
                 <div class="x_title">
-                  <h2>Alertas Sensores</h2>
+                  <h2>Alertas Actuadores</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -25,18 +25,15 @@
                                 <div class="block">
                                   <div class="block_content">
                                     <h2 class="title">
-                                      {% if 'fdr' in alerta.tipoAlerta %}
-                                        <a><strong>Fuera de Rango</strong></a>
-                                      {% elif 'fdl' in alerta.tipoAlerta %}
-                                        <a><strong>Fuera de Línea</strong></a>
+                                      {% if 'ai' in alerta.tipoAlerta %}
+                                        <a><strong>Actuador Ineficiente</strong></a>
                                       {% endif %}
 
                                     </h2>
                                     <div class="byline">
-                                      <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
+                                      <span>{{alerta.time}}</span>
                                     </div>
-                                    <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
-                                    <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p>
+                                    <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
                                   </div>
                                 </div>
                               </li>

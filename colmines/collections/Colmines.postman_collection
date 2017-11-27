@@ -1,0 +1,131 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Colmines",
+		"_postman_id": "0f377bc9-ecf1-781e-428a-de22f05eeac2",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get alertas sensores",
+			"request": {
+				"url": "http://localhost:8000/rest/alertas/sensores",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"Bogotá\",\n\t\"zipcode\":129013,\n\t\"population\": 5000\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post alertas sensores",
+			"request": {
+				"url": "http://localhost:8000/rest/alertas/sensores",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tipoAlerta\":\"fdr\",\n\t\"time\":1511798306,\n\t\"idMicro\": 1,\n\t\"promedio\": 26\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get alertas actuador",
+			"request": {
+				"url": "http://localhost:8000/rest/alertas/actuador",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tipoAlerta\":\"fdr\",\n\t\"time\":1511798306,\n\t\"idMicro\": 1,\n\t\"promedio\": 26\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post alertas actuador",
+			"request": {
+				"url": "http://localhost:8000/rest/alertas/actuador",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tipoAlerta\":\"ai\",\n\t\"time\":1511798306,\n\t\"idActuador\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get ubicaciones",
+			"request": {
+				"url": "http://localhost:8000/rest/ubicaciones",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"tipoAlerta\":\"ai\",\n\t\"time\":1511798306,\n\t\"idActuador\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Post ubicación",
+			"request": {
+				"url": "http://localhost:8000/rest/ubicaciones",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"idUbicacion\":1,\n\t\"zona\":1,\n\t\"area\":1,\n\t\"nivel\": 1\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

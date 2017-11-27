@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^dashboard', views.dashboard, name='dashboard'),
     url(r'^reportes', views.reportes, name='reportes'),
     url(r'^alertas', views.alertas, name='alertas'),
+    url(r'^actuadores', views.actuador, name='actuadores'),
 
     url(r'^rest/ubicaciones$', views.ubicacion_list),
     url(r'^rest/ubicaciones/(?P<pk>[0-9]+)$', views.ubicacion_detail),
