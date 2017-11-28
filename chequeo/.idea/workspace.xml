@@ -24,11 +24,10 @@
       <file leaf-file-name="chequeoOnDrugs.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/chequeoOnDrugs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1020">
-              <caret line="67" column="56" lean-forward="false" selection-start-line="67" selection-start-column="56" selection-end-line="67" selection-end-column="56" />
+            <state relative-caret-position="317">
+              <caret line="121" column="19" lean-forward="true" selection-start-line="121" selection-start-column="19" selection-end-line="121" selection-end-column="19" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
               </folding>
             </state>
           </provider>
@@ -37,7 +36,7 @@
       <file leaf-file-name="Consumer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Consumer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
+            <state relative-caret-position="255">
               <caret line="17" column="56" lean-forward="false" selection-start-line="17" selection-start-column="56" selection-end-line="17" selection-end-column="56" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
@@ -49,8 +48,8 @@
       <file leaf-file-name="States.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/States.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state relative-caret-position="314">
+              <caret line="248" column="53" lean-forward="true" selection-start-line="239" selection-start-column="12" selection-end-line="248" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -59,7 +58,7 @@
       <file leaf-file-name="publish.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/paho/mqtt/publish.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2618">
+            <state relative-caret-position="1385">
               <caret line="155" column="4" lean-forward="false" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
               <folding />
             </state>
@@ -106,6 +105,8 @@
       <find>self.</find>
       <find>malFuncio</find>
       <find>send</find>
+      <find>ip</find>
+      <find>ruido</find>
     </findStrings>
     <replaceStrings>
       <replace>tipo, promedio</replace>
@@ -217,7 +218,7 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\veneg\AppData\Local\Programs\Python\Python35\python.exe" />
+      <option name="SDK_HOME" value="C:\Users\tf.venegas10\AppData\Local\Programs\Python\Python36-32\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -279,8 +280,8 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17604166" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19007392" sideWeight="0.0796875" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.47968397" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47940865" sideWeight="0.50208336" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.47940865" sideWeight="0.49791667" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -302,7 +303,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="7" />
+      <option name="time" value="8" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -311,14 +312,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15470">
           <caret line="916" column="17" lean-forward="false" selection-start-line="916" selection-start-column="16" selection-end-line="916" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/paho/mqtt/publish.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2618">
-          <caret line="155" column="4" lean-forward="false" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -347,7 +340,6 @@
           <caret line="14" column="19" lean-forward="true" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -384,7 +376,6 @@
           <caret line="75" column="25" lean-forward="true" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -429,7 +420,6 @@
           <caret line="75" column="25" lean-forward="true" selection-start-line="75" selection-start-column="25" selection-end-line="75" selection-end-column="25" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -448,7 +438,6 @@
           <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -495,7 +484,6 @@
           <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -514,7 +502,6 @@
           <caret line="20" column="106" lean-forward="false" selection-start-line="20" selection-start-column="106" selection-end-line="20" selection-end-column="106" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -541,7 +528,6 @@
           <caret line="20" column="106" lean-forward="false" selection-start-line="20" selection-start-column="106" selection-end-line="20" selection-end-column="106" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -569,7 +555,6 @@
           <caret line="30" column="38" lean-forward="false" selection-start-line="30" selection-start-column="38" selection-end-line="30" selection-end-column="38" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -596,7 +581,6 @@
           <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -632,7 +616,6 @@
           <caret line="20" column="105" lean-forward="false" selection-start-line="20" selection-start-column="105" selection-end-line="20" selection-end-column="105" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -659,7 +642,6 @@
           <caret line="30" column="36" lean-forward="true" selection-start-line="30" selection-start-column="36" selection-end-line="30" selection-end-column="36" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
@@ -673,24 +655,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/threading.py" />
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="20" lean-forward="false" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Consumer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="17" column="56" lean-forward="false" selection-start-line="17" selection-start-column="56" selection-end-line="17" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/threading.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15470">
@@ -699,21 +663,46 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Consumer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="56" lean-forward="false" selection-start-line="17" selection-start-column="56" selection-end-line="17" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36-32/Lib/site-packages/paho/mqtt/publish.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1385">
+          <caret line="155" column="4" lean-forward="false" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="20" lean-forward="false" selection-start-line="10" selection-start-column="20" selection-end-line="10" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/chequeoOnDrugs.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1020">
-          <caret line="67" column="56" lean-forward="false" selection-start-line="67" selection-start-column="56" selection-end-line="67" selection-end-column="56" />
+        <state relative-caret-position="317">
+          <caret line="121" column="19" lean-forward="true" selection-start-line="121" selection-start-column="19" selection-end-line="121" selection-end-column="19" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-            <marker date="1511881578831" expanded="true" signature="3326:3334" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/States.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="34" column="0" lean-forward="true" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        <state relative-caret-position="314">
+          <caret line="248" column="53" lean-forward="true" selection-start-line="239" selection-start-column="12" selection-end-line="248" selection-end-column="53" />
           <folding />
         </state>
       </provider>

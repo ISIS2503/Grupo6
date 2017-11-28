@@ -113,14 +113,14 @@ print("creando objetos")
 t=time.time()
 for i in range(totalSensores):
 	micros.append(States.Sensor(init+i))
-	print(i)
-print("Objetos creados tiempo tomado: "+str(time.time()-t))
+
 chequearConexion()
 poolSize = 10
 pool=[]
 for i in range(poolSize):
-	pool[i] = AgregadorThread()
+	pool.append(AgregadorThread())
 	pool[i].start()
+print("Objetos creados en: "+str(time.time()-t)+" s")
 
 for message in consumer:
 	print(message)
@@ -132,7 +132,7 @@ for message in consumer:
 	luz=int(jsonVal['luz'])
 	tt=int(jsonVal['sensetime'])
 	assigned=False
-	while(!assigned):
+	while not assigned :
 		for i in range(poolSize):
 			if not pool[i].event.is_set():
 				pool[i].setVals(id,temperatura,gas,ruido,luz,tt)

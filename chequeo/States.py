@@ -8,6 +8,9 @@ from kafka import KafkaProducer
 producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
 ip="172.24.42.46"
 
+user = 'publisher'
+passw = 'colmines12545'
+
 class Sensor():
     def __init__(self,id):
         self.actuadorTemperatura=Actuador(id*10)
@@ -67,7 +70,7 @@ class Sensor():
         if ciclo==6:
             ciclo=0
             actuador.malFuncionamiento()
-        threading.Timer(600.0,self.cicloActuador,estado).start()
+        #threading.Timer(600.0,self.cicloActuador,estado,ciclo,actuador).start()
         return ciclo
 
     def goState(self, estado, promedio,diferenciaTiempo,tipo):
@@ -121,8 +124,9 @@ class Activado(EstadoActuador):
 class Desactivado(EstadoActuador):
     def goState(self, des,id):
         if(des is None):
+            postAlerta(id, "activado", "actuador", 0)
             return Activado()
-			postAlerta(id,"activado","actuador",0)
+
         else:
             publish(id,"malFuncionamiento","actuador",0)
             postAlerta(id,"malFuncionamiento","actuador",0)
@@ -224,6 +228,8 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
     try:
         if (tipoEntidad=="actuador"):
             payload={
+            "user": user,
+            "pw": passw,
             "tipoAlerta": tipoAlerta,
             "time": str(time.time()),
             "idMicro":id,
@@ -232,6 +238,8 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
             url="http://"+ip+":8080/alertas/actuador"
         else:
             payload = {
+                "user": user,
+                "pw": passw,
                 "idMicro" :id,
                 "time" : str(time.time()),
                 "tipoAlerta" : tipoAlerta,
