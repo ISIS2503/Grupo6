@@ -31,30 +31,51 @@ def dashboard(request):
     fueraDeLinea=0
     fueraDeRango=0
     conAlerta=0
+    nAlertasTemp = 0
+    nAlertasLuz = 0
+    nAlertasGas = 0
+    nAlertasRuido = 0
+    nAlertas = 0
     for micro in micros:
         alert=0
         if(micro.estadoGas=="fueraDeLinea"):
             fueraDeLinea+=1
             alert=1
+            nAlertasGas += 1
+            nAlertas += 1
         elif(micro.estadoGas=="fueraDeRango"):
             fueraDeRango+=1
             alert = 1
+            nAlertasGas += 1
+            nAlertas += 1
         if (micro.estadoLuz == "fueraDeLinea"):
             fueraDeLinea += 1
             alert = 1
+            nAlertasLuz += 1
+            nAlertas += 1
         elif (micro.estadoLuz == "fueraDeRango"):
             fueraDeRango += 1
             alert = 1
+            nAlertasLuz += 1
+            nAlertas += 1
         if (micro.estadoRuido == "fueraDeLinea"):
+            nAlertasRuido += 1
+            nAlertas += 1
             fueraDeLinea += 1
             alert = 1
         elif (micro.estadoRuido == "fueraDeRango"):
+            nAlertasRuido += 1
+            nAlertas += 1
             fueraDeRango += 1
             alert = 1
         if (micro.estadoTemp == "fueraDeLinea"):
+            nAlertasTemp += 1
+            nAlertas += 1
             fueraDeLinea += 1
             alert = 1
         elif (micro.estadoTemp == "fueraDeRango"):
+            nAlertasTemp += 1
+            nAlertas += 1
             fueraDeRango += 1
             alert = 1
         conAlerta+=alert
@@ -73,7 +94,12 @@ def dashboard(request):
         'num_fdl': fueraDeLinea,
         'conAlertas': conAlerta,
         'num_ineficiente': actuadorIneficiente,
-        'num_activados': actuadorActivado
+        'num_activados': actuadorActivado,
+        "nAlertasTemp": nAlertasTemp,
+        "nAlertasLuz": nAlertasLuz,
+        "nAlertasGas": nAlertasGas,
+        "nAlertasRuido": nAlertasRuido,
+        "nAlertas": nAlertas,
     }
     for g in groups:
         group = g
