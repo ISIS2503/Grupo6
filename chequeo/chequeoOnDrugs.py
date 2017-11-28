@@ -3,7 +3,7 @@ import threading
 import time
 
 
-from kafka import KafkaConsumer
+from kafka import KafkaConsumer, KafkaProducer
 
 import States
 
@@ -62,13 +62,13 @@ class AgregadorThread(threading.Thread):
 			"gas": self.gas,
 			"ruido": self.ruido,
 			"luz": self.luz,
-			"sensetime" :self.time
-			"estadoTemp" : micros[self.id].estadoTemperatura
-			"estadoGas" : micros[self.id].estadoGas
-			"estadoRuido" : micros[self.id].estadoRuido
+			"sensetime" :self.time,
+			"estadoTemp" : micros[self.id].estadoTemperatura,
+			"estadoGas" : micros[self.id].estadoGas,
+			"estadoRuido" : micros[self.id].estadoRuido,
 			"estadoLuz" : micros[self.id].estadoLuz
 			}
-			producer.send('bash.rango1',payload)
+			self.producer.send('bash.rango1',payload)
 
 
 	def setId(self,id):
@@ -117,8 +117,8 @@ for i in range(totalSensores):
 print("Objetos creados tiempo tomado: "+str(time.time()-t))
 chequearConexion()
 poolSize = 10
-pool[0] = None
-for i in range(1,poolSize):
+pool=[]
+for i in range(poolSize):
 	pool[i] = AgregadorThread()
 	pool[i].start()
 
