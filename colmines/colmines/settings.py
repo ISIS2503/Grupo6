@@ -71,7 +71,7 @@ DATABASES = {
             'ENGINE': 'django_cassandra_engine',
             'NAME': 'arquidb4',
             'TEST_NAME': 'test_db',
-            'HOST': '127.0.0.1',
+            'HOST': 'localhost',
             'PORT':'9042',
             'OPTIONS': {
                 'replication': {

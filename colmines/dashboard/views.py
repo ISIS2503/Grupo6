@@ -119,7 +119,7 @@ def reportes(request):
             nAlertas+=1
     if(nAlertas==0):
         context={
-             "nAlertasTemp":0 ,
+            "nAlertasTemp":0 ,
             "nAlertasLuz":0,
             "nAlertasGas":0,
             "nAlertasRuido":0,
@@ -136,6 +136,30 @@ def reportes(request):
             "list_mediciones":mediciones
         }
     return render(request, 'reportes.html',context)
+@login_required
+def grafica(request):
+    micro = request.data.idMicro
+    entidad = request.data.tipoEntidad
+    mediciones = Medicion.objects.all()
+    medicionesReturn = []
+
+    for med in mediciones:
+        if(med.idMicro == micro):
+            if(entitidad == 'temperatura'):
+                medicionesReturn.append(med.temperatura)
+            elif(entidad =='gas'):
+                medicionesReturn.append(med.gas)
+            elif(entidad =='sonido'):
+                medicionesReturn.append(med.sonido)
+            elif(entidad == 'luz'):
+                medicionesReturn.append(med.luz)
+    context={
+        "list_mediciones":medicionesReturn
+    }
+    #Perritos esto esta reeee mal !!! salu2 de su compañero gory
+    return render(request, 'reportes.html',context)
+
+
 
 @login_required
 def alertas(request):
