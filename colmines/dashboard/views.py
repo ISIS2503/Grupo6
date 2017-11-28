@@ -86,10 +86,56 @@ def dashboard(request):
 @login_required
 def reportes(request):
     mediciones=Medicion.objects.all()
-    context={
-        "list_mediciones":mediciones
-    }
-    return render(request, 'reportes.html')
+    micros=MicroControlador.objects.all()
+    nAlertasTemp=0
+    nAlertasLuz=0
+    nAlertasGas=0
+    nAlertasRuido=0
+    nAlertas=0
+    for micro in micros:
+        if(micro.estadoGas=="fueraDeLinea"):
+            nAlertasGas+=1
+            nAlertas+=1
+        elif(micro.estadoGas=="fueraDeRango"):
+            nAlertasGas+=1
+            nAlertas+=1
+        if (micro.estadoLuz == "fueraDeLinea"):
+            nAlertasLuz += 1
+            nAlertas+=1
+        elif (micro.estadoLuz == "fueraDeRango"):
+            nAlertasLuz += 1
+            nAlertas+=1
+        if (micro.estadoRuido == "fueraDeLinea"):
+            nAlertasRuido += 1
+            nAlertas+=1
+        elif (micro.estadoRuido == "fueraDeRango"):
+            nAlertasRuido += 1
+            nAlertas+=1
+        if (micro.estadoTemp == "fueraDeLinea"):
+            nAlertasTemp += 1
+            nAlertas+=1
+        elif (micro.estadoTemp == "fueraDeRango"):
+            nAlertasTemp += 1
+            nAlertas+=1
+    if(nAlertas==0):
+        context={
+             "nAlertasTemp":0 ,
+            "nAlertasLuz":0,
+            "nAlertasGas":0,
+            "nAlertasRuido":0,
+            "nAlertas":0,
+            "list_mediciones":mediciones
+        }
+    else:
+        context={
+             "nAlertasTemp":nAlertasTemp,
+            "nAlertasLuz":nAlertasLuz,
+            "nAlertasGas":nAlertasGas,
+            "nAlertasRuido":nAlertasRuido,
+            "nAlertas":nAlertas,
+            "list_mediciones":mediciones
+        }
+    return render(request, 'reportes.html',context)
 
 @login_required
 def alertas(request):
