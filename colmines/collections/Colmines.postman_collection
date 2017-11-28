@@ -10,7 +10,7 @@
 		{
 			"name": "Get alertas sensores",
 			"request": {
-				"url": "http://localhost:8000/rest/alertas/sensores",
+				"url": "http://localhost:8086/rest/alertas/sensores",
 				"method": "GET",
 				"header": [
 					{
@@ -30,7 +30,7 @@
 		{
 			"name": "Post alertas sensores",
 			"request": {
-				"url": "http://localhost:8000/rest/alertas/sensores",
+				"url": "http://localhost:8086/rest/alertas/sensores",
 				"method": "POST",
 				"header": [
 					{
@@ -50,7 +50,7 @@
 		{
 			"name": "Get alertas actuador",
 			"request": {
-				"url": "http://localhost:8000/rest/alertas/actuador",
+				"url": "http://localhost:8086/rest/alertas/actuador",
 				"method": "GET",
 				"header": [
 					{
@@ -70,7 +70,7 @@
 		{
 			"name": "Post alertas actuador",
 			"request": {
-				"url": "http://localhost:8000/rest/alertas/actuador",
+				"url": "http://localhost:8086/rest/alertas/actuador",
 				"method": "POST",
 				"header": [
 					{
@@ -90,7 +90,7 @@
 		{
 			"name": "Get ubicaciones",
 			"request": {
-				"url": "http://localhost:8000/rest/ubicaciones",
+				"url": "http://localhost:8086/rest/ubicaciones",
 				"method": "GET",
 				"header": [
 					{
@@ -110,7 +110,7 @@
 		{
 			"name": "Post ubicación",
 			"request": {
-				"url": "http://localhost:8000/rest/ubicaciones",
+				"url": "http://localhost:8086/rest/ubicaciones",
 				"method": "POST",
 				"header": [
 					{
