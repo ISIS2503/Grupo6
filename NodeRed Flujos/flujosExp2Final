@@ -1,0 +1,1 @@
+[{"id":"e419d35b.5a5248","type":"function","z":"8eaf471f.42d42","name":"Format Time","func":"var res = {};\n\nres.payload = (msg.payload);\nres.topic = msg.topic;\n\nreturn res;","outputs":1,"noerr":0,"x":306,"y":741,"wires":[["87ba20a1.81f7d","a9b099db.ca8f88"]]}]
