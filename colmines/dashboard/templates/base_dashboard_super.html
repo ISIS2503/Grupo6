@@ -147,19 +147,19 @@
           <div class="row tile_count">
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"> Microcontroladores </span>
-              <div class="count green">2500</div>
+              <div class="count green">{{num_micros}}</div>
             </div>
               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                 <span class="count_top"> Sensores sin alertas </span>
-              <div class="count">2200 </div>
+              <div class="count">{{num_micros-conAlertas}} </div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"> Fuera de línea </span>
-              <div class="count">123</div>
+              <div class="count">{{fdl}}</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"> Fuera de Rango</span>
-              <div class="count">21</div>
+              <div class="count">{{fdr}}</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"> Actuador Ineficiente </span>

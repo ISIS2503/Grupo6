@@ -30,14 +30,40 @@ def dashboard(request):
     micros=MicroControlador.objects.all()
     fueraDeLinea=0
     fueraDeRango=0
+    conAlerta=0
     for micro in micros:
+        alert=0
         if(micro.estadoGas=="fueraDeLinea"):
             fueraDeLinea+=1
+            alert=1
         elif(micro.estadoGas=="fueraDeRango"):
             fueraDeRango+=1
+            alert = 1
+        if (micro.estadoLuz == "fueraDeLinea"):
+            fueraDeLinea += 1
+            alert = 1
+        elif (micro.estadoLuz == "fueraDeRango"):
+            fueraDeRango += 1
+            alert = 1
+        if (micro.estadoRuido == "fueraDeLinea"):
+            fueraDeLinea += 1
+            alert = 1
+        elif (micro.estadoRuido == "fueraDeRango"):
+            fueraDeRango += 1
+            alert = 1
+        if (micro.estadoTemp == "fueraDeLinea"):
+            fueraDeLinea += 1
+            alert = 1
+        elif (micro.estadoTemp == "fueraDeRango"):
+            fueraDeRango += 1
+            alert = 1
+        conAlerta+=alert
 
     context={
-        'num_micros':len(micros)
+        'num_micros':len(micros),
+        'num_fdr':fueraDeRango,
+        'num_fdl': fueraDeLinea,
+        'conAlertas': conAlerta
     }
     for g in groups:
         group = g

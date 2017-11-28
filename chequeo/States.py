@@ -185,27 +185,19 @@ class FueraDeRango(EstadoSensor):
             return FueraDeLinea()
         if (tipo=="temperatura"):
             if promedio<21.5 or promedio>27.0:
-                #publish(id,"fueraDeRango",tipo, promedio)
-                #postAlerta(id,"fueraDeRango",tipo, promedio)
-                #putEstado(id,FueraDeRango(),tipo)
+             
                 return FueraDeRango()
         elif (tipo=="luz"):
             if promedio<100 or promedio>2000:
-                #publish(id,"fueraDeRango",tipo, promedio)
-                #postAlerta(id,"fueraDeRango",tipo, promedio)
-                #putEstado(id,FueraDeRango(),tipo)
+               
                 return FueraDeRango()
         elif (tipo=="gas"):
             if promedio<0 or promedio>100:
-                #publish(id,"fueraDeRango",tipo, promedio)
-                #postAlerta(id,"fueraDeRango",tipo, promedio, promedio)
-                #putEstado(id,FueraDeRango(),tipo)
+                
                 return FueraDeRango()
         elif(tipo=="ruido"):
             if promedio<0 or promedio>85:
-                #publish(id,"fueraDeRango",tipo,promedio)
-                #postAlerta(id,"fueraDeRango",tipo,promedio)
-                #putEstado(id,FueraDeRango(),tipo)
+                
                 return FueraDeRango()
         putEstado(id,Normal(),tipo)
         return Normal()
