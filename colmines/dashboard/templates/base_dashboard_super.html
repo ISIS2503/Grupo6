@@ -150,24 +150,24 @@
               <div class="count green">{{num_micros}}</div>
             </div>
               <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-                <span class="count_top"> Sensores sin alertas </span>
-              <div class="count">{{num_micros-conAlertas}} </div>
+                <span class="count_top"> Sensores con alertas </span>
+              <div class="count">{{conAlertas}} </div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"> Fuera de línea </span>
-              <div class="count">{{fdl}}</div>
+              <div class="count">{{num_fdl}}</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"> Fuera de Rango</span>
-              <div class="count">{{fdr}}</div>
+              <div class="count">{{num_fdr}}</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Actuador Ineficiente </span>
-              <div class="count">9</div>
+              <span class="count_top"> Actuadores Ineficientes </span>
+              <div class="count">{{num_ineficiente}}</div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
-              <span class="count_top"> Alertas </span>
-              <div class="count"> 153  </div>
+              <span class="count_top"> Actuadores Activos </span>
+              <div class="count"> {{num_activados}} </div>
             </div>
           </div>
           <!-- /top tiles -->

@@ -7,7 +7,6 @@ import time
 
 class Ubicacion(DjangoCassandraModel):
     idUbicacion = columns.Integer(primary_key = True)
-    zona = columns.Integer(required = True)
     area = columns.Integer(required = True)
     nivel = columns.Integer(required = True)
 
@@ -24,9 +23,8 @@ class AlertaActuador(DjangoCassandraModel):
     idAlerta = columns.Integer(primary_key = True)
     tipoAlerta = columns.Text(required = False)
     time = columns.Text(required = True)
-    idActuador = columns.Integer()
+    idMicro = columns.Integer()
     tipoEntidad = columns.Text(required = True)
-
 
 class Tipo(DjangoCassandraModel):
     idTipo = columns.UUID(primary_key = True)
@@ -39,7 +37,7 @@ class Rango(DjangoCassandraModel):
 
 class MicroControlador(DjangoCassandraModel):
     id =columns.Integer(primary_key = True)
-    ubicacion = columns.UUID()
+    ubicacion = columns.Integer()
     estadoTemp = columns.Text(required = True)
     estadoGas = columns.Text(required = True)
     estadoRuido = columns.Text(required = True)

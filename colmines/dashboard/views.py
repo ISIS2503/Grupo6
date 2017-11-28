@@ -58,12 +58,22 @@ def dashboard(request):
             fueraDeRango += 1
             alert = 1
         conAlerta+=alert
+    alertasAct = AlertaActuador.objects.all()
+    actuadorIneficiente=0
+    actuadorActivado=0
+    for actuador in alertasAct:
+        if (actuador.tipoAlerta == "malFuncionamiento"):
+            actuadorIneficiente += 1
+        elif (actuador.tipoAlerta == "activado"):
+            actuadorActivado += 1
 
     context={
         'num_micros':len(micros),
         'num_fdr':fueraDeRango,
         'num_fdl': fueraDeLinea,
-        'conAlertas': conAlerta
+        'conAlertas': conAlerta,
+        'num_ineficiente': actuadorIneficiente,
+        'num_activados': actuadorActivado
     }
     for g in groups:
         group = g
