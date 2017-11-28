@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 #clase de objeto de los que heredan sensor y actuador
 
 producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'], value_serializer=lambda m: json.dumps(m).encode('ascii'))
-ip="172.24.42.40"
+ip="172.24.42.46"
 
 class Sensor():
     def __init__(self,id):
@@ -223,11 +223,12 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
     try:
         if (tipoEntidad=="actuador"):
             payload={
-             "idActuador":id,
-             "time" : str(time.time()),
-             "tipoAlerta" : tipoAlerta
+            "tipoAlerta": tipoAlerta,
+            "time": str(time.time()),
+            "idMicro":id,
+             "tipoEntidad":tipoEntidad
             }
-            url="http://"+ip+":8000/alertas/actuador"
+            url="http://"+ip+":8080/alertas/actuador"
         else:
             payload = {
                 "idMicro" :id,
@@ -236,7 +237,7 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
                 "promedio" : promedio,
                 "tipoEntidad": tipoEntidad
             }
-            url="http://"+ip+":8000/alertas/sensores"
+            url="http://"+ip+":8080/alertas/sensores"
 
         response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
         print(str(id) + " Tipo Alerta: "+tipoAlerta+ " Response Status code: " + str(response.status_code))
@@ -272,7 +273,7 @@ def putEstado(id,estado,tipo):
      "estadoRuido" : est
     }
 
-    url="http://"+ip+":8000/micro/"+str(id)
+    url="http://"+ip+":8080/micro/"+str(id)
 
     response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
     print(" Response Status code: " + str(response.status_code))
