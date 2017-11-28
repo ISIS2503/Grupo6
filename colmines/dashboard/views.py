@@ -37,7 +37,7 @@ def dashboard(request):
             fueraDeRango+=1
 
     context={
-        'num_micros':length(micros)
+        'num_micros':len(micros)
     }
     for g in groups:
         group = g
