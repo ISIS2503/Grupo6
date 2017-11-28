@@ -219,7 +219,7 @@ def publish(id, tipoAlerta, tipoEntidad, promedio):
                              value_serializer=lambda m: json.dumps(m).encode('ascii'))
     print("publicacion "+tipoAlerta)
     payload = {
-        "idSensor" : id,
+        "idMicro" : id,
         "tipoEntidad": tipoEntidad,
         "promedio"  : promedio
     }
@@ -238,10 +238,11 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
             url="http://"+ip+":8000/alertas/actuador"
         else:
             payload = {
-                "idSensor" :id,
+                "idMicro" :id,
                 "time" : str(time.time()),
                 "tipoAlerta" : tipoAlerta,
-                "promedio" : promedio
+                "promedio" : promedio,
+                "tipoEntidad": tipoEntidad
             }
             url="http://"+ip+":8000/alertas/sensores"
 
@@ -281,5 +282,5 @@ def putEstado(id,estado,tipo):
 
     url="http://"+ip+":8000/micro/"+str(id)
 
-   # response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
-   # print(" Response Status code: " + str(response.status_code))
+    response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
+    print(" Response Status code: " + str(response.status_code))
