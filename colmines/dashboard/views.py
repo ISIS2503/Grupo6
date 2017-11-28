@@ -75,6 +75,10 @@ def dashboard(request):
 
 @login_required
 def reportes(request):
+    mediciones=Medicion.objects.all()
+    context={
+        "list_mediciones":mediciones
+    }
     return render(request, 'reportes.html')
 
 @login_required
