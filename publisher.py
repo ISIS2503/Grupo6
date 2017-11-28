@@ -13,7 +13,7 @@ t=time.time()
 print("**Starting publisher")
 consumer = KafkaConsumer('bash.'+'rango1',
                          group_id='my-group',
-                         bootstrap_servers=['172.24.42.46:8090'])
+                         bootstrap_servers=['172.24.42.23:8090'])
 
 i=0
 promedio=0
@@ -26,7 +26,7 @@ class AgregadorThread(threading.Thread):
 	def run(self):
 		global promedio
 		global i
-   		 url = "http://172.24.42.40:8000/mediciones/"
+   		 url = "http://172.24.42.46:8080/mediciones/"
 		response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
 		sem.acquire()
 		promedio= (self.time-time.time()+promedio*i)/(i+1)
