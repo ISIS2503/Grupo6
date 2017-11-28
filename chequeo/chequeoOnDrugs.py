@@ -131,11 +131,14 @@ for message in consumer:
 	ruido=int(jsonVal['ruido'])
 	luz=int(jsonVal['luz'])
 	tt=int(jsonVal['sensetime'])
-	for i in range(1,poolSize):
-		if not pool[i].event.is_set():
-			pool[i].setVals(id,temperatura,gas,ruido,luz,tt)
-			pool[i].event.set()
-			break
+	assigned=False
+	while(!assigned):
+		for i in range(poolSize):
+			if not pool[i].event.is_set():
+				pool[i].setVals(id,temperatura,gas,ruido,luz,tt)
+				pool[i].event.set()
+				assigned=True
+				break
 
 	
 
