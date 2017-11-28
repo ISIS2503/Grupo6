@@ -7,23 +7,26 @@ import time
 
 class Ubicacion(DjangoCassandraModel):
     idUbicacion = columns.Integer(primary_key = True)
-    zona = columns.Integer(required = False)
-    area = columns.Integer(required = False)
-    nivel = columns.Integer(required = False)
+    zona = columns.Integer(required = True)
+    area = columns.Integer(required = True)
+    nivel = columns.Integer(required = True)
 
 
 class Alerta(DjangoCassandraModel):
     idAlerta = columns.Integer(primary_key = True)
-    tipoAlerta = columns.Text(required = False)
+    tipoAlerta = columns.Text(required = True)
     time = columns.Text(required = True)
-    idMicro = columns.Integer()
-    promedio = columns.Integer()
+    idMicro = columns.Integer(required = True)
+    promedio = columns.Double(required = True)
+    tipoEntidad = columns.Text(required = True)
 
 class AlertaActuador(DjangoCassandraModel):
     idAlerta = columns.Integer(primary_key = True)
     tipoAlerta = columns.Text(required = False)
     time = columns.Text(required = True)
     idActuador = columns.Integer()
+    tipoEntidad = columns.Text(required = True)
+
 
 class Tipo(DjangoCassandraModel):
     idTipo = columns.UUID(primary_key = True)

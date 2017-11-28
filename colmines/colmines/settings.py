@@ -69,7 +69,7 @@ DATABASES = {
              },
         'app': {
             'ENGINE': 'django_cassandra_engine',
-            'NAME': 'arquidb',
+            'NAME': 'arquidb1',
             'TEST_NAME': 'test_db',
             'HOST': '127.0.0.1',
             'PORT':'9042',

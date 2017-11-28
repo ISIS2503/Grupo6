@@ -27,12 +27,24 @@ def custom_login(request):
 def dashboard(request):
     groups = request.user.groups.values_list('name', flat=True)
     group = None
+    micros=MicroControlador.objects.all()
+    fueraDeLinea=0
+    fueraDeRango=0
+    for micro in micros:
+        if(micro.estadoGas=="fueraDeLinea"):
+            fueraDeLinea+=1
+        elif(micro.estadoGas=="fueraDeRango"):
+            fueraDeRango+=1
+
+    context={
+        'num_micros':length(micros)
+    }
     for g in groups:
         group = g
     if group == 'syso':
-        return render(request, 'syso_home.html')
+        return render(request, 'syso_home.html',context)
     elif group == 'administrador':
-        return render(request, 'supervisor_home.html')
+        return render(request, 'supervisor_home.html',context)
     else: return render(request, 'base.html')
 
 @login_required
