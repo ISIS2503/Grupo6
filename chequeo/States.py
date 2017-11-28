@@ -122,6 +122,7 @@ class Desactivado(EstadoActuador):
     def goState(self, des,id):
         if(des is None):
             return Activado()
+			postAlerta(id,"activado","actuador",0)
         else:
             publish(id,"malFuncionamiento","actuador",0)
             postAlerta(id,"malFuncionamiento","actuador",0)
