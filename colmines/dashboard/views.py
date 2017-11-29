@@ -29,24 +29,37 @@ def custom_login(request):
 def dashboard(request):
     groups = request.user.groups.values_list('name', flat=True)
     group = None
-    micros=MicroControlador.objects.all()
-    fueraDeLinea=0
-    fueraDeRango=0
-    conAlerta=0
+
+    datos = estadisticas()
+    context=datos
+
+    for g in groups:
+        group = g
+    if group == 'syso':
+        return render(request, 'syso_home.html',context)
+    elif group == 'administrador':
+        return render(request, 'supervisor_home.html',context)
+    else: return render(request, 'base.html')
+
+def estadisticas():
+    micros = MicroControlador.objects.all()
+    fueraDeLinea = 0
+    fueraDeRango = 0
+    conAlerta = 0
     nAlertasTemp = 0
     nAlertasLuz = 0
     nAlertasGas = 0
     nAlertasRuido = 0
     nAlertas = 0
     for micro in micros:
-        alert=0
-        if(micro.estadoGas=="FueraDeLinea"):
-            fueraDeLinea+=1
-            alert=1
+        alert = 0
+        if (micro.estadoGas == "FueraDeLinea"):
+            fueraDeLinea += 1
+            alert = 1
             nAlertasGas += 1
             nAlertas += 1
-        elif(micro.estadoGas=="FueraDeRango"):
-            fueraDeRango+=1
+        elif (micro.estadoGas == "FueraDeRango"):
+            fueraDeRango += 1
             alert = 1
             nAlertasGas += 1
             nAlertas += 1
@@ -80,36 +93,28 @@ def dashboard(request):
             nAlertas += 1
             fueraDeRango += 1
             alert = 1
-        conAlerta+=alert
+        conAlerta += alert
     alertasAct = AlertaActuador.objects.all()
-    actuadorIneficiente=0
-    actuadorActivado=0
+    actuadorIneficiente = 0
+    actuadorActivado = 0
     for actuador in alertasAct:
         if (actuador.tipoAlerta == "malFuncionamiento"):
             actuadorIneficiente += 1
         elif (actuador.tipoAlerta == "activado"):
             actuadorActivado += 1
-
-    context={
+    return {
         'num_micros':len(micros),
-        'num_fdr':fueraDeRango,
+        'num_fdr': fueraDeRango,
         'num_fdl': fueraDeLinea,
         'conAlertas': conAlerta,
         'num_ineficiente': actuadorIneficiente,
         'num_activados': actuadorActivado,
-        "nAlertasTemp": nAlertasTemp,
-        "nAlertasLuz": nAlertasLuz,
-        "nAlertasGas": nAlertasGas,
-        "nAlertasRuido": nAlertasRuido,
-        "nAlertas": nAlertas,
+        'nAlertasTemp': nAlertasTemp,
+        'nAlertasLuz': nAlertasLuz,
+        'nAlertasGas': nAlertasGas,
+        'nAlertasRuido': nAlertasRuido,
+        'nAlertas': nAlertas
     }
-    for g in groups:
-        group = g
-    if group == 'syso':
-        return render(request, 'syso_home.html',context)
-    elif group == 'administrador':
-        return render(request, 'supervisor_home.html',context)
-    else: return render(request, 'base.html')
 
 @login_required
 def reportes(request):
@@ -163,6 +168,8 @@ def reportes(request):
             "nAlertas":nAlertas,
             "list_mediciones":mediciones
         }
+    datos = estadisticas()
+    context={**context, **datos}
     return render(request, 'reportes.html',context)
 
 #retorna todos los microcontroladores y sus valores
@@ -264,6 +271,8 @@ def alertas(request):
     context={
         'lista_alertas':alertas
     }
+    datos = estadisticas()
+    context={**context, **datos}
     return render(request, 'alertas.html', context)
 
 
@@ -284,6 +293,8 @@ def actuador(request):
     context={
         'lista_alertas':alertas
     }
+    datos = estadisticas()
+    context={**context, **datos}
     return render(request, 'alertas_actuador.html', context)
 
 @api_view(['GET','POST'])
