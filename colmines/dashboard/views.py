@@ -38,42 +38,42 @@ def dashboard(request):
     nAlertas = 0
     for micro in micros:
         alert=0
-        if(micro.estadoGas=="fueraDeLinea"):
+        if(micro.estadoGas=="FueraDeLinea"):
             fueraDeLinea+=1
             alert=1
             nAlertasGas += 1
             nAlertas += 1
-        elif(micro.estadoGas=="fueraDeRango"):
+        elif(micro.estadoGas=="FueraDeRango"):
             fueraDeRango+=1
             alert = 1
             nAlertasGas += 1
             nAlertas += 1
-        if (micro.estadoLuz == "fueraDeLinea"):
+        if (micro.estadoLuz == "FueraDeLinea"):
             fueraDeLinea += 1
             alert = 1
             nAlertasLuz += 1
             nAlertas += 1
-        elif (micro.estadoLuz == "fueraDeRango"):
+        elif (micro.estadoLuz == "FueraDeRango"):
             fueraDeRango += 1
             alert = 1
             nAlertasLuz += 1
             nAlertas += 1
-        if (micro.estadoRuido == "fueraDeLinea"):
+        if (micro.estadoRuido == "FueraDeLinea"):
             nAlertasRuido += 1
             nAlertas += 1
             fueraDeLinea += 1
             alert = 1
-        elif (micro.estadoRuido == "fueraDeRango"):
+        elif (micro.estadoRuido == "FueraDeRango"):
             nAlertasRuido += 1
             nAlertas += 1
             fueraDeRango += 1
             alert = 1
-        if (micro.estadoTemp == "fueraDeLinea"):
+        if (micro.estadoTemp == "FueraDeLinea"):
             nAlertasTemp += 1
             nAlertas += 1
             fueraDeLinea += 1
             alert = 1
-        elif (micro.estadoTemp == "fueraDeRango"):
+        elif (micro.estadoTemp == "FueraDeRango"):
             nAlertasTemp += 1
             nAlertas += 1
             fueraDeRango += 1
@@ -119,28 +119,28 @@ def reportes(request):
     nAlertasRuido=0
     nAlertas=0
     for micro in micros:
-        if(micro.estadoGas=="fueraDeLinea"):
+        if(micro.estadoGas=="FueraDeLinea"):
             nAlertasGas+=1
             nAlertas+=1
-        elif(micro.estadoGas=="fueraDeRango"):
+        elif(micro.estadoGas=="FueraDeRango"):
             nAlertasGas+=1
             nAlertas+=1
-        if (micro.estadoLuz == "fueraDeLinea"):
+        if (micro.estadoLuz == "FueraDeLinea"):
             nAlertasLuz += 1
             nAlertas+=1
-        elif (micro.estadoLuz == "fueraDeRango"):
+        elif (micro.estadoLuz == "FueraDeRango"):
             nAlertasLuz += 1
             nAlertas+=1
-        if (micro.estadoRuido == "fueraDeLinea"):
+        if (micro.estadoRuido == "FueraDeLinea"):
             nAlertasRuido += 1
             nAlertas+=1
-        elif (micro.estadoRuido == "fueraDeRango"):
+        elif (micro.estadoRuido == "FueraDeRango"):
             nAlertasRuido += 1
             nAlertas+=1
-        if (micro.estadoTemp == "fueraDeLinea"):
+        if (micro.estadoTemp == "FueraDeLinea"):
             nAlertasTemp += 1
             nAlertas+=1
-        elif (micro.estadoTemp == "fueraDeRango"):
+        elif (micro.estadoTemp == "FueraDeRango"):
             nAlertasTemp += 1
             nAlertas+=1
     if(nAlertas==0):
