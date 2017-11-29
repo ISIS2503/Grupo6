@@ -232,7 +232,7 @@ def publish(id, tipoAlerta, tipoEntidad, promedio):
     }
     res = producer.send('alta.' + tipoAlerta, payload)
     print("enviando alerta: " + 'alta.', tipoAlerta + " " + tipoEntidad + "...")
-    print(res)
+    #print(res)
 
 
 def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
@@ -259,7 +259,7 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
 
         response = requests.post(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
         print(str(id) + " Tipo Alerta: " + tipoAlerta + " Response Status code: " + str(response.status_code))
-        print(json.dumps(payload))
+        #print(json.dumps(payload))
     except requests.exceptions.ConnectionError:
         print("Exception at posting")
 
@@ -301,5 +301,5 @@ def putEstado(id, estado, tipo):
 
     response = requests.put(url, data=json.dumps(payload), headers={'Content-type': 'application/json'})
     print("PUT Response Status code: " + str(response.status_code))
-    print(url)
-    print(json.dumps(payload))
+    #print(url)
+    #print(json.dumps(payload))

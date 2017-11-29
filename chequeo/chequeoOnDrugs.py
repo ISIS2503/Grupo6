@@ -116,7 +116,7 @@ for i in range(totalSensores):
     micros.append(States.Sensor(init + i))
 
 chequearConexion()
-poolSize = 20
+poolSize = 40
 pool = []
 for i in range(poolSize):
     pool.append(PoolWrapper())
