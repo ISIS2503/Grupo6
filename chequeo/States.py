@@ -242,7 +242,7 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
 
                 "tipoAlerta": tipoAlerta,
                 "time": str(time.time()),
-                "idMicro": id,
+                "idActuador": id,
                 "tipoEntidad": tipoEntidad
             }
             url = "http://" + ip + ":8080/rest/alertas/actuador"
@@ -252,7 +252,7 @@ def postAlerta(id, tipoAlerta, tipoEntidad, promedio):
                 "idMicro": id,
                 "time": str(time.time()),
                 "tipoAlerta": tipoAlerta,
-                "promedio": promedio,
+                "promedio": int(promedio), ##por ahora
                 "tipoEntidad": tipoEntidad
             }
             url = "http://" + ip + ":8080/rest/alertas/sensores"
