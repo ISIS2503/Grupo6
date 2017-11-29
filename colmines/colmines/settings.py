@@ -71,7 +71,7 @@ DATABASES = {
             'ENGINE': 'django_cassandra_engine',
             'NAME': 'dbPrueba',
             'TEST_NAME': 'test_db',
-            'HOST': 'localhost',
+            'HOST': '172.24.42.24',
             'PORT':'9042',
             'OPTIONS': {
                 'replication': {
