@@ -26,7 +26,7 @@
                                   <div class="block_content">
                                     <h2 class="title">
                                       {% if 'fdr' in alerta.tipoAlerta %}
-                                        <a><strong>Fuera de Rango</strong></a>
+                                        <a href="/micros/{{alerta.idMicro}}/{{alerta.tipoEntidad}}"><strong>Fuera de Rango</strong></a>
                                       {% elif 'fdl' in alerta.tipoAlerta %}
                                         <a><strong>Fuera de Línea</strong></a>
                                       {% endif %}
@@ -35,6 +35,7 @@
                                     <div class="byline">
                                       <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
                                     </div>
+                                    <p><strong>Variable:</strong> {{alerta.tipoEntidad}} </p>
                                     <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
                                     <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p>
                                   </div>
