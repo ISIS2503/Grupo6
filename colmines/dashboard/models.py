@@ -23,7 +23,7 @@ class AlertaActuador(DjangoCassandraModel):
     idAlerta = columns.Integer(primary_key = True)
     tipoAlerta = columns.Text(required = False)
     time = columns.Text(required = True)
-    idMicro = columns.Integer()
+    idActuador = columns.Integer()
     tipoEntidad = columns.Text(required = True)
 
 class Tipo(DjangoCassandraModel):
