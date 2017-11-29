@@ -109,7 +109,7 @@ for i in range(poolSize):
 print("Objetos creados en: " + str(time.time() - t) + " s")
 
 for message in consumer:
-    # print(message)
+    print(message)
     try:
         jsonVal = json.loads(message.value)
         if (jsonVal != None and jsonVal['data'] != None):
@@ -119,10 +119,10 @@ for message in consumer:
                 "user": username,
                 "pw": password,
                 "idMicro": jsonVal['id'],
-                "temperatura": jsonVal['temperatura'],
-                "sonido": jsonVal['sonido'],
-                "gas": jsonVal['gas'],
-                "luz": jsonVal['luz'],
+                "temperatura": int(jsonVal['temperatura']),
+                "sonido": int(jsonVal['ruido']),
+                "gas": int(jsonVal['gas']),
+                "luz": int(jsonVal['luz']),
                 "time": jsonVal['senseTime']
             }
 

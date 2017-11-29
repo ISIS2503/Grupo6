@@ -10,7 +10,9 @@ from django.contrib.auth.views import login
 from django.contrib.auth import authenticate
 from django.shortcuts import render
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.dates import DateFormatter
 import time
 
 
@@ -38,42 +40,42 @@ def dashboard(request):
     nAlertas = 0
     for micro in micros:
         alert=0
-        if(micro.estadoGas=="fueraDeLinea"):
+        if(micro.estadoGas=="FueraDeLinea"):
             fueraDeLinea+=1
             alert=1
             nAlertasGas += 1
             nAlertas += 1
-        elif(micro.estadoGas=="fueraDeRango"):
+        elif(micro.estadoGas=="FueraDeRango"):
             fueraDeRango+=1
             alert = 1
             nAlertasGas += 1
             nAlertas += 1
-        if (micro.estadoLuz == "fueraDeLinea"):
+        if (micro.estadoLuz == "FueraDeLinea"):
             fueraDeLinea += 1
             alert = 1
             nAlertasLuz += 1
             nAlertas += 1
-        elif (micro.estadoLuz == "fueraDeRango"):
+        elif (micro.estadoLuz == "FueraDeRango"):
             fueraDeRango += 1
             alert = 1
             nAlertasLuz += 1
             nAlertas += 1
-        if (micro.estadoRuido == "fueraDeLinea"):
+        if (micro.estadoRuido == "FueraDeLinea"):
             nAlertasRuido += 1
             nAlertas += 1
             fueraDeLinea += 1
             alert = 1
-        elif (micro.estadoRuido == "fueraDeRango"):
+        elif (micro.estadoRuido == "FueraDeRango"):
             nAlertasRuido += 1
             nAlertas += 1
             fueraDeRango += 1
             alert = 1
-        if (micro.estadoTemp == "fueraDeLinea"):
+        if (micro.estadoTemp == "FueraDeLinea"):
             nAlertasTemp += 1
             nAlertas += 1
             fueraDeLinea += 1
             alert = 1
-        elif (micro.estadoTemp == "fueraDeRango"):
+        elif (micro.estadoTemp == "FueraDeRango"):
             nAlertasTemp += 1
             nAlertas += 1
             fueraDeRango += 1
@@ -119,28 +121,28 @@ def reportes(request):
     nAlertasRuido=0
     nAlertas=0
     for micro in micros:
-        if(micro.estadoGas=="fueraDeLinea"):
+        if(micro.estadoGas=="FueraDeLinea"):
             nAlertasGas+=1
             nAlertas+=1
-        elif(micro.estadoGas=="fueraDeRango"):
+        elif(micro.estadoGas=="FueraDeRango"):
             nAlertasGas+=1
             nAlertas+=1
-        if (micro.estadoLuz == "fueraDeLinea"):
+        if (micro.estadoLuz == "FueraDeLinea"):
             nAlertasLuz += 1
             nAlertas+=1
-        elif (micro.estadoLuz == "fueraDeRango"):
+        elif (micro.estadoLuz == "FueraDeRango"):
             nAlertasLuz += 1
             nAlertas+=1
-        if (micro.estadoRuido == "fueraDeLinea"):
+        if (micro.estadoRuido == "FueraDeLinea"):
             nAlertasRuido += 1
             nAlertas+=1
-        elif (micro.estadoRuido == "fueraDeRango"):
+        elif (micro.estadoRuido == "FueraDeRango"):
             nAlertasRuido += 1
             nAlertas+=1
-        if (micro.estadoTemp == "fueraDeLinea"):
+        if (micro.estadoTemp == "FueraDeLinea"):
             nAlertasTemp += 1
             nAlertas+=1
-        elif (micro.estadoTemp == "fueraDeRango"):
+        elif (micro.estadoTemp == "FueraDeRango"):
             nAlertasTemp += 1
             nAlertas+=1
     if(nAlertas==0):
@@ -194,28 +196,52 @@ def actuales(request):
     return render(request,'actuales.html',context)
 
 
-@login_required
-def grafica(request):
-    micro = request.data.idMicro
-    entidad = request.data.tipoEntidad
+def grafica(request, id, tipo):
+
+    context={
+        "id":id,
+        "tipo":tipo
+    }
+    return render(request, 'microDetail.html',context)
+
+
+def make_plot(request, id, tipo):
     mediciones = Medicion.objects.all()
     medicionesReturn = []
-
+    tiempos = []
+    print(mediciones)
     for med in mediciones:
-        if(med.idMicro == micro):
-            if(entitidad == 'temperatura'):
+        if (med.idMicro == id):
+            print(med.idMicro)
+            print(id)
+            tiempos.append(med.time)
+            if (tipo == 'temperatura'):
                 medicionesReturn.append(med.temperatura)
-            elif(entidad =='gas'):
+            elif (tipo == 'gas'):
                 medicionesReturn.append(med.gas)
-            elif(entidad =='sonido'):
+            elif (tipo == 'sonido'):
                 medicionesReturn.append(med.sonido)
-            elif(entidad == 'luz'):
+            elif (tipo == "luz"):
                 medicionesReturn.append(med.luz)
-    context={
-        "list_mediciones":medicionesReturn
-    }
-    #Perritos esto esta reeee mal !!! salu2 de su compañero gory
-    return render(request, 'reportes.html',context)
+
+    #axis.set_xlabel('Time', fontsize=14)
+    #axis.set_ylabel('Measurement', fontsize=14)
+
+    #axis.bar(xs, ys)
+
+    fig = Figure()
+    ax = fig.add_subplot(111)
+    x = tiempos
+    y = medicionesReturn
+    ax.plot_date(x, y, '-')
+    ax.xaxis.set_major_formatter(DateFormatter('%H-%M-%S'))
+    fig.autofmt_xdate()
+    canvas = FigureCanvas(fig)
+    response = HttpResponse(content_type='image/png')
+    canvas.print_png(response)
+    return response
+
+
 
 
 

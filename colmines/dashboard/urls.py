@@ -13,6 +13,8 @@ urlpatterns = [
     url(r'^alertas', views.alertas, name='alertas'),
     url(r'^actuadores', views.actuador, name='actuadores'),
     url(r'^actuales', views.actuales, name='actuales'),
+    url(r'^micros/(?P<id>[0-9]+)/(?P<tipo>[a-z]+)$', views.grafica),
+    url(r'^make_plot/(?P<id>[0-9]+)/(?P<tipo>[a-z]+)$', views.make_plot),
 
     url(r'^rest/ubicaciones$', views.ubicacion_list),
     url(r'^rest/ubicaciones/(?P<pk>[0-9]+)$', views.ubicacion_detail),

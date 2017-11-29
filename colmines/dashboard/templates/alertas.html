@@ -24,19 +24,27 @@
                               <li>
                                 <div class="block">
                                   <div class="block_content">
-                                    <h2 class="title">
+
                                       {% if 'fdr' in alerta.tipoAlerta %}
-                                        <a><strong>Fuera de Rango</strong></a>
+                                        <a href="/micros/{{alerta.idMicro}}/{{alerta.tipoEntidad}}"><h2 class="title"><strong>Fuera de Rango</strong></h2>
+                                        <div class="byline">
+                                          <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
+                                        </div>
+                                        <p><strong>Variable:</strong> {{alerta.tipoEntidad}} </p>
+                                        <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
+                                        <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p></a>
                                       {% elif 'fdl' in alerta.tipoAlerta %}
-                                        <a><strong>Fuera de Línea</strong></a>
+                                        <a href="/micros/{{alerta.idMicro}}/{{alerta.tipoEntidad}}"><h2 class="title"><a><strong>Fuera de Línea</strong></h2>
+                                        <div class="byline">
+                                          <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
+                                        </div>
+                                        <p><strong>Variable:</strong> {{alerta.tipoEntidad}} </p>
+                                        <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
+                                        <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p></a>
                                       {% endif %}
 
-                                    </h2>
-                                    <div class="byline">
-                                      <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
-                                    </div>
-                                    <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
-                                    <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p>
+
+
                                   </div>
                                 </div>
                               </li>
