@@ -162,6 +162,34 @@ def reportes(request):
             "list_mediciones":mediciones
         }
     return render(request, 'reportes.html',context)
+
+#retorna todos los microcontroladores y sus valores
+def actuales(request):
+    mediciones = Medicion.objects.all()
+    micros = MicroControlador.objects.all()
+    paginatorMed = Paginator(mediciones, 5)
+    paginatorMic = Paginator(micros, 5)
+    page = request.GET.get('page')
+    try:
+        micros = paginatorMic.page(page)
+        mediciones=paginatorMed.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        micros = paginatorMic.page(1)
+        mediciones=paginatorMed.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        micros = paginatorMic.page(paginatorMic.num_pages)
+        mediciones = paginatorMed.page(paginatorMed.num_pages)
+    lista_completa=[]
+    for (a,b) in zip(micros,mediciones):
+        lista_completa.append({a,b})
+    context={
+        "lista_completa":lista_completa,
+    }
+    return render(request,'actuales.html',context)
+
+
 @login_required
 def grafica(request):
     micro = request.data.idMicro

@@ -1,0 +1,74 @@
+{% extends 'base_dashboard_super.html' %}
+
+
+{% block content %}
+
+<div class="row">
+  <div class="col-md-12">
+              <div class="x_panel">
+                <div class="x_title">
+                  <h2>Valores actuales de los microcontroladores</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                  <div class="dashboard-widget-content">
+
+                    <ul class="list-unstyled timeline widget">
+                      {% if lista_completa %}
+
+                          {% for micro in lista_completa %}
+                              <li>
+                                <div class="block">
+                                  <div class="block_content">
+                                    <h2 class="title">
+                                        <a>Id:<strong>{{micro.id}}</strong></a>
+                                    </h2>
+                                    <div class="byline">
+                                      <p><strong></strong> {{}} </p>
+                                    </div>
+                                    <p><strong>Temperatura:</strong> {{micro.temperatura}} </p>
+                                    <p><strong>Estado:</strong> {{micro.estadoTemp}} </p>
+                                      <p><strong>Luz:</strong> {{micro.luz}} </p>
+                                    <p><strong>Estado:</strong> {{micro.estadoLuz}} </p>
+                                      <p><strong>Sonido:</strong> {{micro.sonido}} </p>
+                                    <p><strong>Estado:</strong> {{micro.estadoRuido}} </p>
+                                      <p><strong>Gases:</strong> {{micro.gas}} </p>
+                                    <p><strong>Estado:</strong> {{micro.estadoGas}} </p>
+
+                                  </div>
+                                </div>
+                              </li>
+                          {% endfor %}
+                      {% else %}
+                          <p>No hay alertas.</p>
+                      {% endif %}
+                    </ul>
+
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if lista_alertas.has_previous %}
+                                <a href="?page={{ lista_alertas.previous_page_number }}">Previous</a>
+                            {% endif %}
+
+                            <span class="current">
+                                Page {{ lista_alertas.number }} of {{ lista_alertas.paginator.num_pages }}.
+                            </span>
+
+                            {% if lista_alertas.has_next %}
+                                <a href="?page={{ lista_alertas.next_page_number }}">Next</a>
+                            {% endif %}
+                        </span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+</div>
+
+
+{% endblock %}
