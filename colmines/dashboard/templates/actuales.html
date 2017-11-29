@@ -30,14 +30,14 @@
                                     <div class="byline">
                                       <p><strong></strong>  </p>
                                     </div>
-                                    <p><strong>Temperatura:</strong> {{micro.temperatura}} </p>
-                                    <p><strong>Estado:</strong> {{micro.estadoTemp}} </p>
-                                      <p><strong>Luz:</strong> {{micro.luz}} </p>
-                                    <p><strong>Estado:</strong> {{micro.estadoLuz}} </p>
-                                      <p><strong>Sonido:</strong> {{micro.sonido}} </p>
-                                    <p><strong>Estado:</strong> {{micro.estadoRuido}} </p>
-                                      <p><strong>Gases:</strong> {{micro.gas}} </p>
-                                    <p><strong>Estado:</strong> {{micro.estadoGas}} </p>
+                                    <p><strong>Temperatura:</strong> {{micro[1]['temperatura']}} </p>
+                                    <p><strong>Estado:</strong> {{micro[0]['estadoTemp']}} </p>
+                                      <p><strong>Luz:</strong> {{micro[1]['luz']}} </p>
+                                    <p><strong>Estado:</strong> {{micro[0]['estadoLuz']}} </p>
+                                      <p><strong>Sonido:</strong> {{micro[1]['sonido']}} </p>
+                                    <p><strong>Estado:</strong> {{micro[0]['estadoRuido']}} </p>
+                                      <p><strong>Gases:</strong> {{micro[1]['gas']}} </p>
+                                    <p><strong>Estado:</strong> {{micro[0]['estadoGas']}} </p>
 
                                   </div>
                                 </div>
@@ -50,16 +50,16 @@
 
                     <div class="pagination">
                         <span class="step-links">
-                            {% if lista_alertas.has_previous %}
-                                <a href="?page={{ lista_alertas.previous_page_number }}">Previous</a>
+                            {% if lista_completa.has_previous %}
+                                <a href="?page={{ lista_completa.previous_page_number }}">Previous</a>
                             {% endif %}
 
                             <span class="current">
-                                Page {{ lista_alertas.number }} of {{ lista_alertas.paginator.num_pages }}.
+                                Page {{ lista_completa.number }} of {{ lista_completa.paginator.num_pages }}.
                             </span>
 
-                            {% if lista_alertas.has_next %}
-                                <a href="?page={{ lista_alertas.next_page_number }}">Next</a>
+                            {% if lista_completa.has_next %}
+                                <a href="?page={{ lista_completa.next_page_number }}">Next</a>
                             {% endif %}
                         </span>
                     </div>
