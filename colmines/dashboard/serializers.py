@@ -3,7 +3,6 @@ from dashboard.models import Ubicacion, Tipo, MicroControlador,Alerta,Medicion,A
 
 class UbicacionSerializer(serializers.Serializer):
     idUbicacion = serializers.IntegerField()
-    zona = serializers.IntegerField(required = False)
     area = serializers.IntegerField(required = False)
     nivel = serializers.IntegerField(required = False)
     def create(self, validated_data):
@@ -26,7 +25,7 @@ class MicroControladorSerializer(serializers.Serializer):
     ubicacion = serializers.UUIDField()
     estadoTemp = serializers.CharField()
     estadoGas = serializers.CharField()
-    estadoSoni = serializers.CharField()
+    estadoRuido = serializers.CharField()
     estadoLuz = serializers.CharField()
     def create(self, validated_data):
         """
@@ -52,6 +51,7 @@ class AlertaSerializer(serializers.Serializer):
     time = serializers.CharField()
     idMicro = serializers.IntegerField()
     promedio = serializers.IntegerField()
+    tipoEntidad = serializers.CharField()
     def create(self, validated_data):
         """
         Create and return a new `PersonaModel` instance, given the validated data.
@@ -62,5 +62,6 @@ class AlertaActuadorSerializer(serializers.Serializer):
     tipoAlerta = serializers.CharField(required = False, max_length = 100)
     time = serializers.CharField()
     idActuador = serializers.IntegerField()
+    tipoEntidad = serializers.CharField()
     def create(self,validated_data):
         return AlertaActuador.objects.create(**validated_data)
