@@ -168,28 +168,30 @@ def reportes(request):
 #retorna todos los microcontroladores y sus valores
 def actuales(request):
     micros = MicroControlador.objects.all()
-    paginatorMed = Paginator(mediciones, 5)
+
     paginatorMic = Paginator(micros, 5)
     page = request.GET.get('page')
     try:
         micros = paginatorMic.page(page)
-        mediciones=paginatorMed.page(page)
+
     except PageNotAnInteger:
         # If page is not an integer, deliver first page.
         micros = paginatorMic.page(1)
-        mediciones=paginatorMed.page(1)
+
     except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
         micros = paginatorMic.page(paginatorMic.num_pages)
-        mediciones = paginatorMed.page(paginatorMed.num_pages)
+
     lista_completa=[]
     for i in range(len(micros)):
-        list=Medicon.objets.get(idMicro=micros[i].id)
+        list=Medicion.objects.get(pk=79638192)#'idMicro'=micros[i].id)
         if(len(list)>0):
-            b=list[0]
+            #b=list[0]
+            b=list
         else:
             b={}
         lista_completa.append({micros[i],b})
+    print(lista_completa)
     context={
         "lista_completa":lista_completa
     }
