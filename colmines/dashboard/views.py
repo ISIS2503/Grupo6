@@ -214,7 +214,7 @@ def actuales(request,nivel,area):
             if med.idMicro==micro.id:
                 ubicacion=Ubicacion.objects.get(pk=micro.ubicacion)
 
-                if( ((ubicacion.area==area)and (nivel==0  or ubicacion.nivel==nivel)) or ((area==0  or ubicacion.area==area) and ubicacion.nivel==nivel) :
+                if ((ubicacion.area==area)and (nivel==0  or ubicacion.nivel==nivel)) or ((area==0  or ubicacion.area==area) and ubicacion.nivel==nivel) :
                     payload={
                         "id":micro.id,
                         "ubicacion":micro.ubicacion,
