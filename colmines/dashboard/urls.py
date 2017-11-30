@@ -12,7 +12,9 @@ urlpatterns = [
     url(r'^reportes', views.reportes, name='reportes'),
     url(r'^alertas', views.alertas, name='alertas'),
     url(r'^actuadores', views.actuador, name='actuadores'),
-    url(r'^actuales/(?P<nivel>[0-9]+)/(?P<area>[0-9]*)', views.actuales, name='actuales'),
+    url(r'^actuales/(?P<nivel>[0-9]+)$', views.actuales),
+    url(r'^actuales/(?P<nivel>[0-9]+)/(?P<area>[0-9]+)$', views.actuales),
+
     url(r'^micros/(?P<id>[0-9]+)/(?P<tipo>[a-z]+)$', views.grafica),
     url(r'^make_plot/(?P<id>[0-9]+)/(?P<tipo>[a-z]+)$', views.make_plot),
 

@@ -236,6 +236,8 @@ def actuales(request,nivel,area):
     context={
         "lista_completa":lista_completa
     }
+    datos = estadisticas()
+    context={**context, **datos}
     return render(request,'actuales.html',context)
 
 

@@ -69,32 +69,29 @@
                       <li><a href="{% url 'actuadores' %}">Alertas Actuadores</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-bar-chart-o"></i> Valores Actuales <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="/actuales/0/0">Variables</a></li>
-                    </ul>
+                  <li><a href="/actuales/0/0"><i class="fa fa-bar-chart-o"></i> Valores Actuales </a>
                   </li>
                 </ul>
               </div>
               <div class="menu_section">
                 <h3>Filtrar</h3>
                 <ul class="nav side-menu">
-                  <li><a><i class="fa fa-area-chart"></i> Áreas <span class="fa fa-chevron-down"></span> </a>
+                  <li><a><i class="fa fa-area-chart"></i> Niveles <span class="fa fa-chevron-down"></span> </a>
                   <ul class="nav child_menu">
-                    {%for ar in areas%}
-                      <li><a href="actuales/{{ar}}"> Área {{ar}}</a></li>
+                    {%for ni in niveles%}
+                    <li><a> Nivel {{ni}}<span class="fa fa-chevron-down"></span></a>
+                      <ul class="nav child_menu">
+                        <li><a href="/actuales/{{ni}}/0"> Todas las áreas </a></li>
+                        {%for ar in areas%}
+                        <li><a href="/actuales/{{ni}}/{{ar}}"> Área {{ar}}</a></li>
+                        {% endfor%}
+                      </ul>
+                    </li>
 
                     {% endfor%}
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-sort-amount-asc"></i> Niveles <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      {%for ar in niveles%}
-                      <li><a href="actuales/1/{{ar}}"> Nivel {{ar}}</a></li>
 
-                    {% endfor%}
-                    </ul>
-                  </li>
                   <li><a><i class="fa fa-tasks"></i> Variables <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li><a href="{% url 'reportes' %}"> Temperatura </a></li>
