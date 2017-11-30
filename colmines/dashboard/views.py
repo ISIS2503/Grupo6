@@ -121,9 +121,13 @@ def estadisticas():
         'num_ineficiente': actuadorIneficiente,
         'num_activados': actuadorActivado,
         'nAlertasTemp': nAlertasTemp,
+        'porAlertasTemp': nAlertasTemp/2500*100,
         'nAlertasLuz': nAlertasLuz,
+        'porAlertasLuz': nAlertasLuz/2500*100,
         'nAlertasGas': nAlertasGas,
+        'porAlertasGas': nAlertasGas/2500*100,
         'nAlertasRuido': nAlertasRuido,
+        'porAlertasRuido': nAlertasRuido/2500*100,
         'nAlertas': nAlertas,
         'areas':areas,
         'niveles':niveles
@@ -186,6 +190,7 @@ def reportes(request):
     return render(request, 'reportes.html',context)
 
 #retorna todos los microcontroladores y sus valores
+@login_required
 def actuales(request,nivel,area):
     nivel=int(nivel)
     area=int(area)
@@ -241,7 +246,7 @@ def actuales(request,nivel,area):
     context={**context, **datos}
     return render(request,'actuales.html',context)
 
-
+@login_required
 def grafica(request, id, tipo):
 
     context={
