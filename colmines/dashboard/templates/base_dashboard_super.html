@@ -71,7 +71,7 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Valores Actuales <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url 'actuales/0/0' %}">Variables</a></li>
+                      <li><a href="/actuales">Variables</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -82,7 +82,7 @@
                   <li><a><i class="fa fa-area-chart"></i> Áreas <span class="fa fa-chevron-down"></span> </a>
                   <ul class="nav child_menu">
                     {%for ar in areas%}
-                      <li><a href="{% url 'actuales/{{ar}}' %}"> Área {{ar}}</a></li>
+                      <li><a href="actuales/{{ar}}"> Área {{ar}}</a></li>
 
                     {% endfor%}
                     </ul>
@@ -90,7 +90,7 @@
                   <li><a><i class="fa fa-sort-amount-asc"></i> Niveles <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       {%for ar in niveles%}
-                      <li><a href="{% url 'actuales/1/{{ar}}' %}"> Nivel {{ar}}</a></li>
+                      <li><a href="actuales/1/{{ar}}"> Nivel {{ar}}</a></li>
 
                     {% endfor%}
                     </ul>
