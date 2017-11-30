@@ -180,18 +180,18 @@ def actuales(request):
     for med in req_mediciones:
         mediciones.append(med)
     mediciones.sort(key=lambda x: x.time, reverse=True)
-    paginatorMic = Paginator(micros, 5)
-    page = request.GET.get('page')
-    try:
-        micros = paginatorMic.page(page)
+#    paginatorMic = Paginator(micros, 5)
+#    page = request.GET.get('page')
+ #   try:
+  #      micros = paginatorMic.page(page)
 
-    except PageNotAnInteger:
+#    except PageNotAnInteger:
         # If page is not an integer, deliver first page.
-        micros = paginatorMic.page(1)
+ #       micros = paginatorMic.page(1)
 
-    except EmptyPage:
+  #  except EmptyPage:
         # If page is out of range (e.g. 9999), deliver last page of results.
-        micros = paginatorMic.page(paginatorMic.num_pages)
+   #     micros = paginatorMic.page(paginatorMic.num_pages)
 
     lista_completa=[]
     for micro in micros:
