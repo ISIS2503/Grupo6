@@ -196,18 +196,8 @@ def actuales(request,nivel,area):
     for med in req_mediciones:
         mediciones.append(med)
     mediciones.sort(key=lambda x: x.time, reverse=True)
-#    paginatorMic = Paginator(micros, 5)
-#    page = request.GET.get('page')
- #   try:
-  #      micros = paginatorMic.page(page)
 
-#    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
- #       micros = paginatorMic.page(1)
 
-  #  except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-   #     micros = paginatorMic.page(paginatorMic.num_pages)
 
     lista_completa=[]
     for micro in micros:
@@ -232,7 +222,18 @@ def actuales(request,nivel,area):
                     }
                     lista_completa.append(payload)
                 break
-    print(lista_completa)
+    paginatorMic = Paginator(lista_completa, 5)
+    page = request.GET.get('page')
+    try:
+        lista_completa = paginatorMic.page(page)
+
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        lista_completa = paginatorMic.page(1)
+
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        lista_completa = paginatorMic.page(paginatorMic.num_pages)
     context={
         "lista_completa":lista_completa
     }
