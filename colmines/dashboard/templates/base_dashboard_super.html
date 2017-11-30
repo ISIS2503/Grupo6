@@ -83,16 +83,18 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-area-chart"></i> Áreas <span class="fa fa-chevron-down"></span> </a>
                   <ul class="nav child_menu">
-                      <li><a href="{% url 'reportes' %}"> Área 1</a></li>
-                      <li><a href="{% url 'reportes' %}"> Área 2</a></li>
-                      <li><a href="{% url 'reportes' %}"> Área 3</a></li>
+                    {%for ar in areas%}
+                      <li><a href="{% url 'actuales/{{ar}}' %}"> Área {{ar}}</a></li>
+
+                    {% end for%}
                     </ul>
                   </li>
                   <li><a><i class="fa fa-sort-amount-asc"></i> Niveles <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="{% url 'reportes' %}"> Nivel 1 </a></li>
-                      <li><a href="{% url 'reportes' %}"> Nivel 1 </a></li>
-                      <li><a href="{% url 'reportes' %}"> Nivel 1 </a></li>
+                      {%for ar in niveles%}
+                      <li><a href="{% url 'actuales/1/{{ar}}' %}"> Nivel {{ar}}</a></li>
+
+                    {% end for%}
                     </ul>
                   </li>
                   <li><a><i class="fa fa-tasks"></i> Variables <span class="fa fa-chevron-down"></span></a>

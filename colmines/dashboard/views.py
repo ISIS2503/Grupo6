@@ -42,6 +42,16 @@ def dashboard(request):
     else: return render(request, 'base.html')
 
 def estadisticas():
+    ubicaciones=Ubicacion.objects.all()
+    areas=[]
+    niveles=[]
+    for ub in ubicaciones:
+        if(ub.area not in areas):
+            areas.append(ub.area)
+        if(ub.nivel not in niveles):
+            niveles.append(ub.nivel)
+    areas.sort()
+    niveles.sort()
     micros = MicroControlador.objects.all()
     fueraDeLinea = 0
     fueraDeRango = 0
@@ -113,7 +123,9 @@ def estadisticas():
         'nAlertasLuz': nAlertasLuz,
         'nAlertasGas': nAlertasGas,
         'nAlertasRuido': nAlertasRuido,
-        'nAlertas': nAlertas
+        'nAlertas': nAlertas,
+        'areas':areas,
+        'niveles':niveles
     }
 
 @login_required
@@ -197,9 +209,12 @@ def actuales(request):
     for micro in micros:
         for med in mediciones:
             if med.idMicro==micro.id:
+                ubicacion = Ubicacion.objects.get(pk=micro.ubicacion)
                 payload={
                     "id":micro.id,
                     "ubicacion":micro.ubicacion,
+                    "nivel": ubicacion.nivel,
+                    "area": ubicaion.area,
                     "estadoTemp": micro.estadoTemp,
                     "estadoLuz": micro.estadoLuz,
                     "estadoRuido": micro.estadoRuido,
@@ -209,6 +224,55 @@ def actuales(request):
                     "luz": med.luz,
                     "ruido": med.sonido
                 }
+                lista_completa.append(payload)
+                break
+    print(lista_completa)
+    context={
+        "lista_completa":lista_completa
+    }
+    return render(request,'actuales.html',context)
+
+#retorna todos los microcontroladores y sus valores
+def actuales(request,nivel,area):
+    micros = MicroControlador.objects.all()
+    req_mediciones = Medicion.objects.all()
+    mediciones=[]
+    for med in req_mediciones:
+        mediciones.append(med)
+    mediciones.sort(key=lambda x: x.time, reverse=True)
+#    paginatorMic = Paginator(micros, 5)
+#    page = request.GET.get('page')
+ #   try:
+  #      micros = paginatorMic.page(page)
+
+#    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+ #       micros = paginatorMic.page(1)
+
+  #  except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+   #     micros = paginatorMic.page(paginatorMic.num_pages)
+
+    lista_completa=[]
+    for micro in micros:
+        for med in mediciones:
+            if med.idMicro==micro.id:
+                ubicacion=Ubicacion.objects.get(pk=micro.ubicacion)
+                if(ubicacion.area==area and ubicacion.nivel==nivel):
+                    payload={
+                        "id":micro.id,
+                        "ubicacion":micro.ubicacion,
+                        "nivel":ubicacion.nivel,
+                        "area":ubicaion.area,
+                        "estadoTemp": micro.estadoTemp,
+                        "estadoLuz": micro.estadoLuz,
+                        "estadoRuido": micro.estadoRuido,
+                        "estadoGas":micro.estadoGas,
+                        "temperatura": med.temperatura,
+                        "gas":med.gas,
+                        "luz": med.luz,
+                        "ruido": med.sonido
+                    }
                 lista_completa.append(payload)
                 break
     print(lista_completa)
