@@ -25,7 +25,7 @@
                                 <div class="block">
                                   <div class="block_content">
 
-                                      {% if 'fdr' in alerta.tipoAlerta or 'FueraDeRango' in alerta.tipoAlerta%}
+                                      {% if 'fdr' in alerta.tipoAlerta %}
                                         <a href="/micros/{{alerta.idMicro}}/{{alerta.tipoEntidad}}"><h2 class="title"><strong>Fuera de Rango</strong></h2>
                                         <div class="byline">
                                           <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
@@ -33,7 +33,7 @@
                                         <p><strong>Variable:</strong> {{alerta.tipoEntidad}} </p>
                                         <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
                                         <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p></a>
-                                      {% elif 'fdl' in alerta.tipoAlerta or 'FueraDeLinea' in alerta.tipoAlerta% %}
+                                      {% elif 'fdl' in alerta.tipoAlerta  %}
                                         <a href="/micros/{{alerta.idMicro}}/{{alerta.tipoEntidad}}"><h2 class="title"><a><strong>Fuera de Línea</strong></h2>
                                         <div class="byline">
                                           <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
@@ -50,7 +50,7 @@
                                         <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
                                         <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p></a>
                                         <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p></a>
-                                      {% elif  'FueraDeLinea' in alerta.tipoAlerta% %}
+                                      {% elif  'FueraDeLinea' in alerta.tipoAlerta %}
                                         <a href="/micros/{{alerta.idMicro}}/{{alerta.tipoEntidad}}"><h2 class="title"><a><strong>Fuera de Línea</strong></h2>
                                         <div class="byline">
                                           <p><strong>Id:</strong> {{alerta.idAlerta}} </p>
@@ -58,7 +58,7 @@
                                         <p><strong>Variable:</strong> {{alerta.tipoEntidad}} </p>
                                         <p><strong>Promedio:</strong> {{alerta.promedio}} </p>
                                         <p><strong>Id microcontrolador:</strong> {{alerta.idMicro}} </p></a>
-                                      
+
 
                                       {% endif %}
 
