@@ -32,14 +32,38 @@
                                         <p><strong>Nivel </strong>{{obj.nivel}}  </p>
                                         <p><strong>Área </strong>{{obj.area}}  </p>
                                     </div>
-                                    <p><strong>Temperatura:</strong> {{obj.temperatura}} </p>
-                                    <p><strong>Estado:</strong> {{obj.estadoTemp}} </p>
-                                      <p><strong>Luz:</strong> {{obj.luz}} </p>
-                                    <p><strong>Estado:</strong> {{obj.estadoLuz}} </p>
-                                      <p><strong>Sonido:</strong> {{obj.sonido}} </p>
-                                    <p><strong>Estado:</strong> {{obj.estadoRuido}} </p>
-                                      <p><strong>Gases:</strong> {{obj.gas}} </p>
-                                    <p><strong>Estado:</strong> {{obj.estadoGas}} </p>
+
+
+                                      <table class="table table-striped table-hover ">
+                                          <tr>
+                                              <td>
+                                                  <p><strong>Temperatura:</strong> {{obj.temperatura}} </p>
+                                              </td>
+                                              <td style="border-left: 1px solid">
+                                                  <p><strong>Luz:</strong> {{obj.luz}} </p>
+                                              </td>
+                                              <td style="border-left: 1px solid">
+                                                  <p><strong>Sonido:</strong> {{obj.ruido}} </p>
+                                              </td>
+                                              <td style="border-left: 1px solid">
+                                                  <p><strong>Gases:</strong> {{obj.gas}} </p>
+                                              </td>
+                                          </tr>
+                                          <tr>
+                                              <td>
+                                                  <p><strong>Estado:</strong> {{obj.estadoTemp}} </p>
+                                              </td>
+                                              <td style="border-left: 1px solid">
+                                                  <p><strong>Estado:</strong> {{obj.estadoLuz}} </p>
+                                              </td>
+                                              <td style="border-left: 1px solid">
+                                                  <p><strong>Estado:</strong> {{obj.estadoRuido}} </p>
+                                              </td>
+                                              <td style="border-left: 1px solid">
+                                                  <p><strong>Estado:</strong> {{obj.estadoGas}} </p>
+                                              </td>
+                                          </tr>
+                                      </table>
 
                                   </div>
                                 </div>
