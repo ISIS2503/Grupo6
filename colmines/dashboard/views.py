@@ -53,42 +53,42 @@ def estadisticas():
     nAlertas = 0
     for micro in micros:
         alert = 0
-        if (micro.estadoGas == "FueraDeLinea"):
+        if (micro.estadoGas == "FueraDeLinea" or micro.estadoGas=="fdl"):
             fueraDeLinea += 1
             alert = 1
             nAlertasGas += 1
             nAlertas += 1
-        elif (micro.estadoGas == "FueraDeRango"):
+        elif (micro.estadoGas == "FueraDeRango" or micro.estadoGas=="fdr"):
             fueraDeRango += 1
             alert = 1
             nAlertasGas += 1
             nAlertas += 1
-        if (micro.estadoLuz == "FueraDeLinea"):
+        if (micro.estadoLuz == "FueraDeLinea" or micro.estadoLuz=="fdl"):
             fueraDeLinea += 1
             alert = 1
             nAlertasLuz += 1
             nAlertas += 1
-        elif (micro.estadoLuz == "FueraDeRango"):
+        elif (micro.estadoLuz == "FueraDeRango" or micro.estadoLuz=="fdr"):
             fueraDeRango += 1
             alert = 1
             nAlertasLuz += 1
             nAlertas += 1
-        if (micro.estadoRuido == "FueraDeLinea"):
+        if (micro.estadoRuido == "FueraDeLinea" or micro.estadoRuido=="fdl"):
             nAlertasRuido += 1
             nAlertas += 1
             fueraDeLinea += 1
             alert = 1
-        elif (micro.estadoRuido == "FueraDeRango"):
+        elif (micro.estadoRuido == "FueraDeRango" or micro.estadoRuido=="fdr"):
             nAlertasRuido += 1
             nAlertas += 1
             fueraDeRango += 1
             alert = 1
-        if (micro.estadoTemp == "FueraDeLinea"):
+        if (micro.estadoTemp == "FueraDeLinea"or micro.estadoTemp=="fdl"):
             nAlertasTemp += 1
             nAlertas += 1
             fueraDeLinea += 1
             alert = 1
-        elif (micro.estadoTemp == "FueraDeRango"):
+        elif (micro.estadoTemp == "FueraDeRango"or micro.estadoTemp=="fdr"):
             nAlertasTemp += 1
             nAlertas += 1
             fueraDeRango += 1
