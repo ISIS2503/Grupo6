@@ -264,8 +264,8 @@ def make_plot(request, id, tipo):
             if int(med.time)<1500000000:
                 continue
             tiempo = datetime.fromtimestamp(int(med.time))
-            print(tiempo)
-            tiempos.append(med.time)
+
+            tiempos.append(tiempo)
 
             if (tipo == 'temperatura'):
                 medicionesReturn.append(med.temperatura)
@@ -286,7 +286,7 @@ def make_plot(request, id, tipo):
         ejeY = "Ruido (dB)"
     elif tipo == "temperatura":
         ejeY = "Temperatura (°C)"
-    fig = Figure()
+    fig = Figure(figsize=(9, 6.5))
     ax = fig.add_subplot(111)
     print(medicionesReturn)
     print("a")
