@@ -219,7 +219,7 @@ def actuales(request,nivel,area):
                         "id":micro.id,
                         "ubicacion":micro.ubicacion,
                         "nivel":ubicacion.nivel,
-                        "area":ubicaion.area,
+                        "area":ubicacion.area,
                         "estadoTemp": micro.estadoTemp,
                         "estadoLuz": micro.estadoLuz,
                         "estadoRuido": micro.estadoRuido,
