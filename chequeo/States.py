@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 
 # clase de objeto de los que heredan sensor y actuador
 
-producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'],
+producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090'],
                          value_serializer=lambda m: json.dumps(m).encode('ascii'))
 ip = "172.24.42.46"
 
@@ -222,7 +222,7 @@ class FueraDeRango(EstadoSensor):
 
 def publish(id, tipoAlerta, tipoEntidad, promedio):
     # global producer
-    producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090'],
+    producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090'],
                              value_serializer=lambda m: json.dumps(m).encode('ascii'))
     print("publicacion " + tipoAlerta)
     payload = {
