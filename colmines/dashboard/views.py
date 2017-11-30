@@ -185,55 +185,8 @@ def reportes(request):
     return render(request, 'reportes.html',context)
 
 #retorna todos los microcontroladores y sus valores
-def actuales(request):
-    micros = MicroControlador.objects.all()
-    req_mediciones = Medicion.objects.all()
-    mediciones=[]
-    for med in req_mediciones:
-        mediciones.append(med)
-    mediciones.sort(key=lambda x: x.time, reverse=True)
-#    paginatorMic = Paginator(micros, 5)
-#    page = request.GET.get('page')
- #   try:
-  #      micros = paginatorMic.page(page)
-
-#    except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
- #       micros = paginatorMic.page(1)
-
-  #  except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
-   #     micros = paginatorMic.page(paginatorMic.num_pages)
-
-    lista_completa=[]
-    for micro in micros:
-        for med in mediciones:
-            if med.idMicro==micro.id:
-                ubicacion = Ubicacion.objects.get(pk=micro.ubicacion)
-                payload={
-                    "id":micro.id,
-                    "ubicacion":micro.ubicacion,
-                    "nivel": ubicacion.nivel,
-                    "area": ubicaion.area,
-                    "estadoTemp": micro.estadoTemp,
-                    "estadoLuz": micro.estadoLuz,
-                    "estadoRuido": micro.estadoRuido,
-                    "estadoGas":micro.estadoGas,
-                    "temperatura": med.temperatura,
-                    "gas":med.gas,
-                    "luz": med.luz,
-                    "ruido": med.sonido
-                }
-                lista_completa.append(payload)
-                break
-    print(lista_completa)
-    context={
-        "lista_completa":lista_completa
-    }
-    return render(request,'actuales.html',context)
-
-#retorna todos los microcontroladores y sus valores
 def actuales(request,nivel,area):
+
     micros = MicroControlador.objects.all()
     req_mediciones = Medicion.objects.all()
     mediciones=[]
@@ -258,7 +211,7 @@ def actuales(request,nivel,area):
         for med in mediciones:
             if med.idMicro==micro.id:
                 ubicacion=Ubicacion.objects.get(pk=micro.ubicacion)
-                if(ubicacion.area==area and ubicacion.nivel==nivel):
+                if(ubicacion.area==area and ubicacion.nivel==nivel or nivel==-1 or area==-1):
                     payload={
                         "id":micro.id,
                         "ubicacion":micro.ubicacion,
