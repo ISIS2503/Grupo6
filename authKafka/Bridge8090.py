@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import json
 from kafka import KafkaProducer
 
-producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090'])
+producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090','172.24.42.24:8090'])
 
 
 # The callback for when the client receives a CONNACK response from the server.

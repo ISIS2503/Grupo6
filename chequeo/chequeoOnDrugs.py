@@ -15,7 +15,7 @@ micros = []
 rango = 1
 
 # To consume latest messages and auto-commit offsets
-consumer = KafkaConsumer('normal.' + 'rango' + str(rango), group_id='my-group', bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090'])
+consumer = KafkaConsumer('normal.' + 'rango' + str(rango), group_id='my-group', bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090','172.24.42.24:8090'])
 # evt= threading.event()
 promedio = 1
 valorPrueba = 1500
@@ -25,7 +25,7 @@ i = 0
 class AgregadorThread(threading.Thread):
     def __init__(self):
         threading.Thread.__init__(self)
-        self.producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090'],
+        self.producer = KafkaProducer(bootstrap_servers=['172.24.42.23:8090','172.24.42.63:8090','172.24.42.24:8090'],
                                       value_serializer=lambda m: json.dumps(m).encode('ascii'))
         self.id = 0
         self.temperatura = 0
