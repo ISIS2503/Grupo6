@@ -175,7 +175,10 @@ def reportes(request):
 #retorna todos los microcontroladores y sus valores
 def actuales(request):
     micros = MicroControlador.objects.all()
-    mediciones = Medicion.objects.all()
+    req_mediciones = Medicion.objects.all()
+    mediciones=[]
+    for med in req_mediciones:
+        mediciones.append(med)
     mediciones.sort(key=lambda x: x.time, reverse=True)
     paginatorMic = Paginator(micros, 5)
     page = request.GET.get('page')
