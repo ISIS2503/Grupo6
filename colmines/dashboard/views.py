@@ -175,7 +175,8 @@ def reportes(request):
 #retorna todos los microcontroladores y sus valores
 def actuales(request):
     micros = MicroControlador.objects.all()
-
+    mediciones = Medicion.objects.all()
+    mediciones.sort(key=lambda x: x.time, reverse=True)
     paginatorMic = Paginator(micros, 5)
     page = request.GET.get('page')
     try:
@@ -190,14 +191,23 @@ def actuales(request):
         micros = paginatorMic.page(paginatorMic.num_pages)
 
     lista_completa=[]
-    for i in range(len(micros)):
-        list=Medicion.objects.get(pk=79638192)#'idMicro'=micros[i].id)
-        if(len(list)>0):
-            #b=list[0]
-            b=list
-        else:
-            b={}
-        lista_completa.append({micros[i],b})
+    for micro in micros:
+        for med in mediciones:
+            if med.idMicro==micro.id:
+                payload={
+                    "id":micro.id,
+                    "ubicacion":micro.ubicacion,
+                    "estadoTemp": micro.estadoTemp,
+                    "estadoLuz": micro.estadoLuz,
+                    "estadoRuido": micro.estadoRuido,
+                    "estadoGas":micro.estadoGas,
+                    "temperatura": med.temperatura,
+                    "gas":med.gas,
+                    "luz": med.luz,
+                    "ruido": med.sonido
+                }
+                lista_completa.append(payload)
+                break
     print(lista_completa)
     context={
         "lista_completa":lista_completa
