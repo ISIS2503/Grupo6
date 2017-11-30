@@ -211,7 +211,7 @@ def actuales(request,nivel,area):
         for med in mediciones:
             if med.idMicro==micro.id:
                 ubicacion=Ubicacion.objects.get(pk=micro.ubicacion)
-                if(ubicacion.area==area and ubicacion.nivel==nivel or nivel==-1 or area==-1):
+                if(ubicacion.area==area and ubicacion.nivel==nivel or nivel==0 or area==0):
                     payload={
                         "id":micro.id,
                         "ubicacion":micro.ubicacion,
