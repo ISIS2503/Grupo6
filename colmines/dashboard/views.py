@@ -14,6 +14,7 @@ from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.dates import DateFormatter
 import time
+from datetime import datetime
 
 
 def index(request):
@@ -259,8 +260,8 @@ def make_plot(request, id, tipo):
     listaMediciones.sort(key=lambda x: x.time, reverse=False)
     print(mediciones)
     for med in listaMediciones:
-        if (med.idMicro == int(id)):
-            if (int(med.time<1500000000)):
+        if med.idMicro == int(id):
+            if int(med.time)<1500000000:
                 continue
             tiempo = datetime.fromtimestamp(int(med.time))
             print(tiempo)
