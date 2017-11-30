@@ -211,18 +211,23 @@ def grafica(request, id, tipo):
         "id":id,
         "tipo":tipo
     }
+    datos = estadisticas()
+    context={**context, **datos}
     return render(request, 'microDetail.html',context)
 
 
 def make_plot(request, id, tipo):
     mediciones = Medicion.objects.all()
+    listaMediciones = []
+    for med in mediciones:
+        listaMediciones.append(med)
     medicionesReturn = []
     tiempos = []
+    listaMediciones.sort(key=lambda x: x.time, reverse=False)
     print(mediciones)
-    for med in mediciones:
-        if (med.idMicro == id):
-            print(med.idMicro)
-            print(id)
+    for med in listaMediciones:
+        if (med.idMicro == int(id)):
+            print(med.gas)
             tiempos.append(med.time)
             if (tipo == 'temperatura'):
                 medicionesReturn.append(med.temperatura)
@@ -233,26 +238,31 @@ def make_plot(request, id, tipo):
             elif (tipo == "luz"):
                 medicionesReturn.append(med.luz)
 
-    #axis.set_xlabel('Time', fontsize=14)
-    #axis.set_ylabel('Measurement', fontsize=14)
-
     #axis.bar(xs, ys)
-
+    ejeY = None
+    if tipo == "gas":
+        ejeY = "Gases (ppm)"
+    elif tipo == "luz":
+        ejeY = "Iluminación (lux)"
+    elif tipo == "ruido":
+        ejeY = "Ruido (dB)"
+    elif tipo == "temperatura":
+        ejeY = "Temperatura (°C)"
     fig = Figure()
     ax = fig.add_subplot(111)
+    print(medicionesReturn)
+    print("a")
+    print(tiempos)
     x = tiempos
+    ax.set_xlabel('Time (HH-MM-SS)', fontsize=14)
     y = medicionesReturn
-    ax.plot_date(x, y, '-')
-    ax.xaxis.set_major_formatter(DateFormatter('%H-%M-%S'))
-    fig.autofmt_xdate()
+    ax.set_ylabel(ejeY, fontsize=14)
+    ax.plot(x, y)
+
     canvas = FigureCanvas(fig)
     response = HttpResponse(content_type='image/png')
     canvas.print_png(response)
     return response
-
-
-
-
 
 @login_required
 def alertas(request):
