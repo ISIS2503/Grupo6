@@ -20,24 +20,24 @@
                     <ul class="list-unstyled timeline widget">
                       {% if lista_completa %}
 
-                          {% for micro in lista_completa %}
+                          {% for obj in lista_completa %}
                               <li>
                                 <div class="block">
                                   <div class="block_content">
                                     <h2 class="title">
-                                        <a>Id:<strong>{{micro.id}}</strong></a>
+                                        <a>Id:<strong>{{obj.MicroControlador.id}}</strong></a>
                                     </h2>
                                     <div class="byline">
                                       <p><strong></strong>  </p>
                                     </div>
-                                    <p><strong>Temperatura:</strong> {{micro[1]['temperatura']}} </p>
-                                    <p><strong>Estado:</strong> {{micro[0]['estadoTemp']}} </p>
-                                      <p><strong>Luz:</strong> {{micro[1]['luz']}} </p>
-                                    <p><strong>Estado:</strong> {{micro[0]['estadoLuz']}} </p>
-                                      <p><strong>Sonido:</strong> {{micro[1]['sonido']}} </p>
-                                    <p><strong>Estado:</strong> {{micro[0]['estadoRuido']}} </p>
-                                      <p><strong>Gases:</strong> {{micro[1]['gas']}} </p>
-                                    <p><strong>Estado:</strong> {{micro[0]['estadoGas']}} </p>
+                                    <p><strong>Temperatura:</strong> {{obj.Medicion.temperatura}} </p>
+                                    <p><strong>Estado:</strong> {{obj.MicroControlador.estadoTemp}} </p>
+                                      <p><strong>Luz:</strong> {{obj.Medicion.luz}} </p>
+                                    <p><strong>Estado:</strong> {{obj.MicroControlador.estadoLuz}} </p>
+                                      <p><strong>Sonido:</strong> {{objMedicion.sonido}} </p>
+                                    <p><strong>Estado:</strong> {{obj.MicroControlador.estadoRuido}} </p>
+                                      <p><strong>Gases:</strong> {{obj.Medicion.gas}} </p>
+                                    <p><strong>Estado:</strong> {{obj.MicroControlador.estadoGas}} </p>
 
                                   </div>
                                 </div>
