@@ -186,6 +186,8 @@ def reportes(request):
 
 #retorna todos los microcontroladores y sus valores
 def actuales(request,nivel,area):
+    nivel=int(nivel)
+    area=int(area)
 
     micros = MicroControlador.objects.all()
     req_mediciones = Medicion.objects.all()
@@ -212,7 +214,7 @@ def actuales(request,nivel,area):
             if med.idMicro==micro.id:
                 ubicacion=Ubicacion.objects.get(pk=micro.ubicacion)
 
-                if(ubicacion is not None and ubicacion.area==area and ubicacion.nivel==nivel or nivel==0 or area==0):
+                if(nivel==0 or area==0 or ubicacion is not None and ubicacion.area==area and ubicacion.nivel==nivel):
                     payload={
                         "id":micro.id,
                         "ubicacion":micro.ubicacion,
