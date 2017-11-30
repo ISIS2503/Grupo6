@@ -227,7 +227,7 @@ def actuales(request,nivel,area):
                         "luz": med.luz,
                         "ruido": med.sonido
                     }
-                lista_completa.append(payload)
+                    lista_completa.append(payload)
                 break
     print(lista_completa)
     context={
